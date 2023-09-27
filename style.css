@@ -1,0 +1,41 @@
+body {
+    background-color: #efc998;
+}
+
+.nav-color {
+    background-image: linear-gradient(to right, #663322, #885544, #aa7766)!important;
+}
+
+.border-card {
+    border: 1px solid #efc998!important;
+}
+
+.border-custom {
+    border-bottom: 1px solid #efc998!important;
+}
+
+.termek-cim {
+    color: darkblue!important;
+}
+
+.name-color {
+    color: #121212!important;
+}
+
+.text-color, body {
+    color: #343434!important;
+}
+
+.modal-custom {
+    background-color: #885544!important;
+}
+
+.modal-text-custom {
+    color: #dedede!important;
+}
+
+input:focus {
+    border-color: #121212!important;
+    box-shadow: 1px 1px 1px #121212 inset, 0 0 8px #343434!important;
+    outline: 0 none!important;
+}
