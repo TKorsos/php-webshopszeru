@@ -5,12 +5,7 @@ session_start();
 // az első gomb nyomás után nem jelenik meg a kiválasztott termék, a másodiknál a másodikként kiválasztott termék megjelenik és a többi is
 // az elsőre kiválasztott termék csak akkor jelenik meg ha újra megnyomom a gombját
 // **************
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-  (!isset($_SESSION["kosar"])) ? $_SESSION["kosar"] = [] : $_SESSION["kosar"][] = $_POST["data"];
 
-  // header('location: ' . $_SERVER['HTTP_REFERER']);
-  header('location: ' . $_SERVER['PHP_SELF']);
-}
 
 /*
 if (isset($_SESSION["user"]) == false) {
@@ -70,7 +65,8 @@ if (isset($_SESSION["user"]) == false) {
     </section>
 
     <!-- teszt -->
-    <form method="post">
+    <!-- post helyett get -->
+    <form method="get">
 
       <section class="row row-cols-3 gy-3 py-3">
         <?php
@@ -96,9 +92,7 @@ if (isset($_SESSION["user"]) == false) {
             <hr class="border-custom">
           </div>
           <div class="card-footer border-0 d-grid justify-content-center">';
-          //echo '<form method="post">';
-          echo '<button type="submit" class="btn btn-dark" name="data" value="' . $termek["customerNumber"] . '">Kosárba tesz</button>';
-          //echo '</form>';
+          echo '<a href="termek.php?id=' . $termek["customerNumber"] . '" target="_blank" class="btn btn-dark" name="data" value="' . $termek["customerNumber"] . '">Kosárba tesz</a>';
           echo '</div>
         </div>
         </article>
