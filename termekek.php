@@ -2,11 +2,6 @@
 
 session_start();
 
-// az első gomb nyomás után nem jelenik meg a kiválasztott termék, a másodiknál a másodikként kiválasztott termék megjelenik és a többi is
-// az elsőre kiválasztott termék csak akkor jelenik meg ha újra megnyomom a gombját
-// **************
-
-
 /*
 if (isset($_SESSION["user"]) == false) {
   exit('Csak bejelenkezett felhasználók részére!');
@@ -29,9 +24,6 @@ if (isset($_SESSION["user"]) == false) {
 
 <!--
   fenti tíltás beállítása
-  - gombra kattintásnál az oldal tetejére ugrik! ***************
-
-  // https://www.php.net/manual/en/language.variables.external.php
 -->
 
 <body>
@@ -52,7 +44,7 @@ if (isset($_SESSION["user"]) == false) {
     echo $errors;
   }
 
-  $termekek = mysqli_query($connection, "select * from customers limit 10");
+  $termekek = mysqli_query($connection, "select * from products");
 
   ?>
 
@@ -70,9 +62,7 @@ if (isset($_SESSION["user"]) == false) {
 
       <section class="row row-cols-3 gy-3 py-3">
         <?php
-        // sessionbe kell tenni
-        $penznem = 'Ft';
-
+        
         while ($termek = mysqli_fetch_array($termekek)) {
           echo '
         <article class="col p-2">
@@ -81,32 +71,26 @@ if (isset($_SESSION["user"]) == false) {
             <span><strong>Kép helye</strong></span>
           </div>
           <div class="card-body">
-            <h5 class="card-title termek-cim">' . $termek["customerName"] . '</h5>
-            <!-- contactLastName, contactFirstName -->
-            <h6 class="fst-italic py-3 name-color">' . $termek["contactLastName"] . ' ' . $termek["contactFirstName"] . '</h6>
+            <h5 class="card-title termek-cim">' . $termek["name"] . '</h5>
+            <h6 class="fst-italic py-3 name-color">' . $termek["slug"] . '</h6>
             <h6 class="name-color">Leírás</h6>
-            <p class="card-text text-color">Some quick example text to build on the card title and make up the bulk of the card\'s content.</p>
+            <p class="card-text text-color">'.$termek["description"].'</p>
             <hr class="border-custom">
             <h6 class="name-color">Termék ára</h6>
-            <p class="card-text text-color">' . $termek["creditLimit"] . ' ' . $penznem . '</p>
+            <p class="card-text text-color">' . $termek["price"] . ' Ft</p>
             <hr class="border-custom">
           </div>
           <div class="card-footer border-0 d-grid justify-content-center">';
-          echo '<a href="termek.php?id=' . $termek["customerNumber"] . '" target="_blank" class="btn btn-dark" name="data" value="' . $termek["customerNumber"] . '">Kosárba tesz</a>';
+          echo '<a href="termek.php?id=' . $termek["id"] . '" target="_blank" class="btn btn-dark" name="data" value="' . $termek["id"] . '">Megnézem</a>';
           echo '</div>
         </div>
         </article>
         ';
         }
 
-
-
-
-
         ?>
       </section>
 
-      <!-- teszt -->
     </form>
 
   </main>
