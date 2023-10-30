@@ -1,26 +1,20 @@
 <?php
 
 session_start();
-//$_SESSION["darabszam"] = 1;
-//$_SESSION["darabszam"] = [];
-$_SESSION["termekdarab"] = 1;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // termek_id és termek_db létrehozása id alapján lesz azonosítva majd a kosárban, így ha újra be lesz helyezve a kosárba ugyanaz az id már megtalálja és az ott lévő értéket módosítja vagy ad hozzá
+    $termek_id = $_POST["data"];
+    $termek_db = is_numeric($_POST["darabszam"]) && $_POST["darabszam"] > 0 ? $_POST["darabszam"] : 1;
+
     if (!isset($_SESSION["kosar"])) {
         $_SESSION["kosar"] = [];
     }
-    $_SESSION["kosar"][] = $_POST["data"];
+    // ahányszor nyomjuk meg a "kosárba tesz" gombot annyiszor adja hozzá a darabszámot
+    $_SESSION["kosar"][$termek_id] += $termek_db;
 
-    if (!isset($_SESSION["darabszam"])) {
-        $_SESSION["darabszam"] = [];
-    }
-    $_SESSION["darabszam"][] = $_POST["darabszam"];
-
-    // header a kosar.php-ra??? meg kéne nézni pár webshopot hogy ott hogy van
-    // teszt másik oldalon: 3 terméknél rányomok a kosárba gombra, majd az elsőt újra megnyitom és megint elküldöm
-    // az első termék mennyisége változik? 2 lesz? vagy marad 1?
-
-    //header('location: ' . $_SERVER['PHP_SELF']);
+    header('location: ' . $_SERVER['REQUEST_URI']);
 }
 
 ?>
@@ -55,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo $errors;
     }
 
-    $termekek = mysqli_query($connection, "select * from customers where customerNumber = '".$_GET["id"]."'");
+    $termekek = mysqli_query($connection, "select * from products where id = '".$_GET["id"]."'");
 
     ?>
 
@@ -72,8 +66,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <article class="col">
                 <?php
 
-                $penznem = 'Ft';
-
                 while( $data = mysqli_fetch_array($termekek) ) {
                     echo '
         <article class="col p-2">
@@ -82,19 +74,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <span><strong>Kép helye</strong></span>
           </div>
           <div class="card-body">
-            <h5 class="card-title termek-cim">' . $data["customerName"] . '</h5>
-            <!-- contactLastName, contactFirstName -->
-            <h6 class="fst-italic py-3 name-color">' . $data["contactLastName"] . ' ' . $data["contactFirstName"] . '</h6>
+            <h5 class="card-title termek-cim">' . $data["name"] . '</h5>
+            <h6 class="fst-italic py-3 name-color">' . $data["slug"] . '</h6>
             <h6 class="name-color">Leírás</h6>
-            <p class="card-text text-color">Some quick example text to build on the card title and make up the bulk of the card\'s content.</p>
+            <p class="card-text text-color">'.$data["description"].'</p>
             <hr class="border-custom">
             <h6 class="name-color">Termék ára</h6>
-            <p class="card-text text-color">' . $data["creditLimit"] . ' ' . $penznem . '</p>
+            <p class="card-text text-color">' . $data["price"] . ' Ft</p>
             <hr class="border-custom">
           </div>
           <div class="card-footer border-0 d-grid justify-content-center gap-3"><div>';
-                    echo '<input type="number" class="form-control" name="darabszam">';
-                    echo '</div><button type="submit" class="btn btn-dark" name="data" value="' . $data["customerNumber"] . '">Kosárba tesz</button>';
+                    echo '<input type="number" class="form-control" name="darabszam" value="1">';
+                    echo '</div><button type="submit" class="btn btn-dark" name="data" value="' . $data["id"] . '">Kosárba tesz</button>';
                     echo '</div>
         </div>
         </article>

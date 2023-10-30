@@ -1,13 +1,38 @@
 <?php
 
 session_start();
-$_SESSION["osszeg"] = 0;
 
 /*
 if (isset($_SESSION["user"]) == false) {
   exit('Csak bejelenkezett felhasználók részére!');
 }
 */
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $termek_id = $_POST["id"];
+    $termek_db = is_numeric($_POST["qtty"]) && $_POST["qtty"] > 0 ? $_POST["qtty"] : 1;
+
+    // felülírja a darabszámot
+    $_SESSION["kosar"][$termek_id] = $termek_db;
+
+    header('location: ' . $_SERVER['REQUEST_URI']);
+}
+
+// mind törlése
+if (isset($_POST["torolmind"])) {
+    unset($_SESSION["kosar"]);
+    header("location: kosar.php");
+}
+
+// egy termék törlése
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    $product_id = $_POST["torol"];
+    unset($_SESSION["kosar"][$product_id]);
+    header("location: kosar.php");            
+
+}
 
 ?>
 <!DOCTYPE html>
@@ -43,15 +68,7 @@ if (isset($_SESSION["user"]) == false) {
 
     if ($errors) {
         echo $errors;
-    }
-
-    $termekek = mysqli_query($connection, "select * from customers limit 10");
-
-    // mind törlése
-    if (isset($_POST["torolmind"])) {
-        unset($_SESSION["kosar"]);
-        header("location: kosar.php");
-    }
+    }   
 
     ?>
 
@@ -67,98 +84,36 @@ if (isset($_SESSION["user"]) == false) {
             $penznem = 'Ft';
 
             echo '<article class="col p-2"><table class="table table-responsive"><tbody>';
-            if (isset($_SESSION["kosar"])) {
-                // kiíratáson még dolgozni***************
-                // darabszám bevezetése**************
-                while ($termek = mysqli_fetch_array($termekek)) {
-                    $kosar = $_SESSION["kosar"];
-                    // $kosar = array_unique($kosartomb);
+
+            $total = 0;
+
+            if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
+
+                foreach ($_SESSION["kosar"] as $product_id => $qtty) {
+
+                    // termek.php oldalról továbbküldi id-t majd itt ellenőrzi hogy az adatbázisban lévő id egyezik-e a küldött id-val
+                    $termek = mysqli_fetch_assoc(mysqli_query($connection, "select * from products where id = $product_id"));
+
+                    $subtotal = ($qtty * $termek["price"]);
+                    $total += $subtotal;
+
                     echo '<tr>';
-
-                    // teszt eleje***************** 2023.10.05.
-                    /*
-                    foreach ($kosar as $id => $tartalom) {
-                        // echo '$id: '.$id.'----$tart: '.$tart.'<br>';
-
-                        foreach ($_SESSION["darabszam"] as $key => $darab) {
-                            // echo '$key: '.$key.'----$darab: '.$darab.'<br>';
-
-                            if ($id === $key) {
-
-                                if ($termek["customerNumber"] === $tartalom) {
-
-                                    $_SESSION["osszeg"] += $darab * $termek["creditLimit"];
-                                    echo '<form method="post"><td>' . $termek["customerName"] . '</td><td>' . $darab . '</td><td>' . $termek["creditLimit"] . '</td><td>' . $penznem . '</td><td><button type="submit" class="btn btn-dark" name="data" value="' . $id . '">Töröl</button></td></form>';
-                                }
-                            }
-                        }
-                    }
-                    exit;
-                    */
-                    // teszt vége*****************
-
-
-                    foreach ($kosar as $key => $tartalom) {
-
-                        //echo '$id: '.$key.'----$tart: '.$tartalom.'<br>';
-
-                        if ($termek["customerNumber"] === $tartalom) {
-
-                            //echo '$id: '.$key.'----$tart: '.$tartalom.'<br>';
-
-                            // darabszám??????????????????
-                            // $_SESSION["darabszam"]
-                            // $tartalom hányszor fordul elő benne? vagy $kosar-ban?
-                            // ciklussal körbefuttatni és feltétel hogy van-e már olyan?
-
-                            // tesztek
-                            // teszt eleje***************** 2023.10.05.
-                            foreach ($kosar as $id => $tartalom) {
-                                // echo '$id: '.$id.'----$tart: '.$tart.'<br>';
-
-                                foreach ($_SESSION["darabszam"] as $key => $darab) {
-                                    //echo '$key: '.$key.'----$darab: '.$darab.'<br>';
-
-                                    if ($id === $key) {
-
-                                        //$_SESSION["osszeg"] += $darab * $termek["creditLimit"];
-
-                                        if ($termek["customerNumber"] === $tartalom) {
-
-                                            $_SESSION["osszeg"] += $darab * $termek["creditLimit"];
-                                            echo '<form method="post"><td>' . $termek["customerName"] . '</td><td>' . $darab . '</td><td>' . $termek["creditLimit"] . '</td><td>' . $penznem . '</td><td><button type="submit" class="btn btn-dark" name="data" value="' . $id . '">Töröl</button></td></form>';
-                                        }
-
-                                    }
-                                }
-
-                            }
-                            
-                            // teszt vége*****************
-
-                            // törlés bekerült ~ 20231004
-                            // $_SESSION["osszeg"] += $_SESSION["darabszam"][$key] * $termek["creditLimit"];
-                            /*
-                            echo '<form method="post"><td>' . $termek["customerName"] . '</td><td>' . $_SESSION["darabszam"][$key] . '</td><td>' . $termek["creditLimit"] . '</td><td>' . $penznem . '</td><td><form method="post"><button type="submit" class="btn btn-dark" name="data" value="' . $key . '">Töröl</button></form></td></form>';
-                            */
-                            
-                        }
-                    }
-
+                    echo '<td>' . $termek["name"] . '</td>';
+                    echo '<td>' . $termek["price"] . ' Ft</td>';
+                    echo '<td><form method="post" class="d-flex gap-3"><input type="number" class="form-control" max="99" value="' . $qtty . '" name="qtty"><input type="hidden" name="id" value="' . $product_id . '"><button class="btn btn-dark">Módosít</button><button class="btn btn-danger" name="torol" value="'.$product_id.'">Töröl</button></form></td>';
+                    echo '<td>' . $subtotal . ' Ft</td>';
                     echo '</tr>';
                 }
+
+                echo '</table></tbody></article>';
+                echo '<h3>Összesen: ' . $total . ' Ft</h3>';
             }
 
+            echo '<article class="col p-2">';
 
-
-            // kiíratáson még dolgozni***************
-            echo '<tr>' . ($_SESSION["osszeg"] > 0) ? '<th>A végösszeg: </th><th></th><th>' . $_SESSION["osszeg"] . '.00 </th><th>' . $penznem . '</th>' : '<th> </th>';
-            echo '</tr></tbody></table></article><article class="col p-2">';
-
-            // teszt rész ********************
             echo '<hr>';
 
-            echo '<form method="post"><input type="submit" name="torolmind" id="torolmind" value="Mindent töröl"></form></article>';
+            echo '<form method="post"><input type="submit" class="btn btn-danger" name="torolmind" id="torolmind" value="Mindent töröl"></form></article>';
 
             ?>
         </section>
