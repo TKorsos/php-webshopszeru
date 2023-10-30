@@ -83,11 +83,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <?php
             $penznem = 'Ft';
 
-            echo '<article class="col p-2"><table class="table table-responsive"><tbody>';
-
+            echo '<article class="col p-2"><table class="table table-responsive align-middle">';
+            
             $total = 0;
 
             if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
+
+                echo '<thead><tr><th>Leírás</th><th>Termék ára</th><th>Darabszám</th><th>Összeg</th></tr></thead><tbody>';
 
                 foreach ($_SESSION["kosar"] as $product_id => $qtty) {
 
@@ -100,20 +102,28 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     echo '<tr>';
                     echo '<td>' . $termek["name"] . '</td>';
                     echo '<td>' . $termek["price"] . ' Ft</td>';
-                    echo '<td><form method="post" class="d-flex gap-3"><input type="number" class="form-control" max="99" value="' . $qtty . '" name="qtty"><input type="hidden" name="id" value="' . $product_id . '"><button class="btn btn-dark">Módosít</button><button class="btn btn-danger" name="torol" value="'.$product_id.'">Töröl</button></form></td>';
+                    echo '<td><form method="post" class="d-flex gap-3"><input type="number" class="form-control" style="width: 4rem" max="99" value="' . $qtty . '" name="qtty"><input type="hidden" name="id" value="' . $product_id . '"><button class="btn btn-dark">Módosít</button><button class="btn btn-danger" name="torol" value="'.$product_id.'">Eltávolítás a kosárból</button></form></td>';
                     echo '<td>' . $subtotal . ' Ft</td>';
                     echo '</tr>';
                 }
 
+            }
+            else {
+                echo '<h4>Nincs termék a kosárban</h4>';
+            }
+
                 echo '</table></tbody></article>';
                 echo '<h3>Összesen: ' . $total . ' Ft</h3>';
-            }
 
             echo '<article class="col p-2">';
 
-            echo '<hr>';
+            //echo '<hr>';
 
-            echo '<form method="post"><input type="submit" class="btn btn-danger" name="torolmind" id="torolmind" value="Mindent töröl"></form></article>';
+            if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
+
+            echo '<form method="post"><input type="submit" class="btn btn-danger" name="torolmind" id="torolmind" value="Kosár törlése"></form></article>';
+
+        }
 
             ?>
         </section>

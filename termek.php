@@ -66,6 +66,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <article class="col">
                 <?php
 
+                // kinézet átdolgozása
+
                 while( $data = mysqli_fetch_array($termekek) ) {
                     echo '
         <article class="col p-2">
