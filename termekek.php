@@ -81,7 +81,7 @@ if (isset($_SESSION["user"]) == false) {
             <hr class="border-custom">
           </div>
           <div class="card-footer border-0 d-grid justify-content-center">';
-          echo '<a href="termek.php?id=' . $termek["id"] . '" target="_blank" class="btn btn-dark" name="data" value="' . $termek["id"] . '">Megnézem</a>';
+          echo '<a href="termek.php?id=' . $termek["id"] . '" class="btn btn-dark" name="data" value="' . $termek["id"] . '">Megnézem</a>';
           echo '</div>
         </div>
         </article>

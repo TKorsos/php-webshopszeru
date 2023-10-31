@@ -49,7 +49,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo $errors;
     }
 
-    $termekek = mysqli_query($connection, "select * from products where id = '".$_GET["id"]."'");
+    $termekek = mysqli_query($connection, "select * from products where id = '" . $_GET["id"] . "'");
 
     ?>
 
@@ -59,50 +59,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h1>Termék</h1>
             </article>
         </section>
+
+        <form method="post">
+        <?php
+
+                    while ($data = mysqli_fetch_array($termekek)) {
+                        echo '<section class="row p-2">
+                        <article class="col-8 d-flex flex-column gap-3">
+                            <article>
+                                <h5 class="card-title termek-cim">' . $data["name"] . ' - ' . $data["slug"] . '</h5>
+                            </article>
+                            <article class="d-flex justify-content-center align-items-center h-100 border">
+                                <span><strong>Kép helye</strong></span>
+                            </article>
+                        </article>
+                        <article class="col-4 d-flex flex-column gap-3">
+                            <h2 class="card-text text-color">' . $data["price"] . ' Ft</h2>
+                            <article><a href="termekek.php" class="btn btn-dark w-100">Vissza a vásárláshoz</a></article>
+                            <article><a href="kosar.php" class="btn btn-dark w-100">Tovább a kosárhoz</a></article>
+                            <article class="row">
+                                <article class="col-auto"><input type="number" class="form-control" style="width: 4rem" name="darabszam" value="1"></article>
+                                <article class="col"><button type="submit" class="btn btn-dark w-100" name="data" value="' . $data["id"] . '">Kosárba tesz</button></article>
+                            </article>
+                        </article>
+                    </section>
+                    <hr>
+                    <section class="row row-cols-1 p-2">
+                        <article class="col pb-3">
+                            <h2 class="card-text text-color">Leírás</h2>
+                        </article>
+                        <article class="col">
+                            <p class="card-text text-color">' . $data["description"] . '</p>
+                        </article>
+                    </section>';
+                    }
+
+                    ?>
+
+        </form>
+
     </main>
-
-    <form method="post">
-        <section class="row">
-            <article class="col">
-                <?php
-
-                // kinézet átdolgozása
-
-                while( $data = mysqli_fetch_array($termekek) ) {
-                    echo '
-        <article class="col p-2">
-        <div class="card border-card shadow h-100">
-          <div class="card-header text-center border-custom">
-            <span><strong>Kép helye</strong></span>
-          </div>
-          <div class="card-body">
-            <h5 class="card-title termek-cim">' . $data["name"] . '</h5>
-            <h6 class="fst-italic py-3 name-color">' . $data["slug"] . '</h6>
-            <h6 class="name-color">Leírás</h6>
-            <p class="card-text text-color">'.$data["description"].'</p>
-            <hr class="border-custom">
-            <h6 class="name-color">Termék ára</h6>
-            <p class="card-text text-color">' . $data["price"] . ' Ft</p>
-            <hr class="border-custom">
-          </div>
-          <div class="card-footer border-0 d-grid justify-content-center gap-3"><div>';
-                    echo '<input type="number" class="form-control" name="darabszam" value="1">';
-                    echo '</div><button type="submit" class="btn btn-dark" name="data" value="' . $data["id"] . '">Kosárba tesz</button>';
-                    echo '</div>
-        </div>
-        </article>
-        ';
-                }
-                
-
-                ?>
-            </article>
-        </section>
-    </form>
-
-    <?php
-
-    ?>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.bundle.min.js" integrity="sha512-9GacT4119eY3AcosfWtHMsT5JyZudrexyEVzTBWV3viP/YfB9e2pEy3N7WXL3SV6ASXpTU0vzzSxsbfsuUH4sQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="scripts.js"></script>
