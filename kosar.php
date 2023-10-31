@@ -2,6 +2,8 @@
 
 session_start();
 
+// kosar felirat fent jelezze hogy nem üres + bootstrap *****************
+
 /*
 if (isset($_SESSION["user"]) == false) {
   exit('Csak bejelenkezett felhasználók részére!');
@@ -30,9 +32,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $product_id = $_POST["torol"];
     unset($_SESSION["kosar"][$product_id]);
-    header("location: kosar.php");            
-
+    header("location: kosar.php");
 }
+
+
+// fizetes.php
+// name="fizetes" post
+if (isset($_POST["fizet"])) {
+    header('location: fizetes.php');
+}
+
 
 ?>
 <!DOCTYPE html>
@@ -68,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($errors) {
         echo $errors;
-    }   
+    }
 
     ?>
 
@@ -80,58 +89,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             </article>
         </section>
         <section class="row row-cols-1 gy-3 py-3">
-            <?php
-            $penznem = 'Ft';
+            <form method="post">
+                <?php
+                $penznem = 'Ft';
 
-            echo '<article class="col p-2"><table class="table table-responsive align-middle">';
-            
-            $total = 0;
+                // article class table-responsive
+                echo '<article class="col p-2"><table class="table align-middle">';
 
-            if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
+                $total = 0;
 
-                echo '<thead><tr><th>Leírás</th><th>Termék ára</th><th>Darabszám</th><th>Összeg</th></tr></thead><tbody>';
+                if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
 
-                foreach ($_SESSION["kosar"] as $product_id => $qtty) {
+                    echo '<thead><tr><th>Leírás</th><th>Termék ára</th><th>Darabszám</th><th>Összeg</th></tr></thead><tbody>';
 
-                    // termek.php oldalról továbbküldi id-t majd itt ellenőrzi hogy az adatbázisban lévő id egyezik-e a küldött id-val
-                    $termek = mysqli_fetch_assoc(mysqli_query($connection, "select * from products where id = $product_id"));
+                    foreach ($_SESSION["kosar"] as $product_id => $qtty) {
 
-                    $subtotal = ($qtty * $termek["price"]);
-                    $total += $subtotal;
+                        // termek.php oldalról továbbküldi id-t majd itt ellenőrzi hogy az adatbázisban lévő id egyezik-e a küldött id-val
+                        $termek = mysqli_fetch_assoc(mysqli_query($connection, "select * from products where id = $product_id"));
 
-                    echo '<tr>';
-                    echo '<td>' . $termek["name"] . '</td>';
-                    echo '<td>' . $termek["price"] . ' Ft</td>';
-                    echo '<td><form method="post" class="d-flex gap-3"><input type="number" class="form-control" style="width: 4rem" max="99" value="' . $qtty . '" name="qtty"><input type="hidden" name="id" value="' . $product_id . '"><button class="btn btn-dark">Módosít</button><button class="btn btn-danger" name="torol" value="'.$product_id.'">Eltávolítás a kosárból</button></form></td>';
-                    echo '<td>' . $subtotal . ' Ft</td>';
-                    echo '</tr>';
+                        $subtotal = ($qtty * $termek["price"]);
+                        $total += $subtotal;
+
+                        echo '<tr>';
+                        echo '<td>' . $termek["name"] . '</td>';
+                        echo '<td>' . $termek["price"] . ' Ft</td>';
+                        echo '<td class="row">
+                        <article class="col-auto"><input type="number" class="form-control" style="width: 4rem" max="99" value="' . $qtty . '" name="qtty"><input type="hidden" name="id" value="' . $product_id . '"></article><article class="col-auto"><button class="btn btn-dark">Módosít</button></article><article class="col-auto"><button class="btn btn-danger" name="torol" value="' . $product_id . '">Eltávolítás a kosárból</button></article>
+                    </td>';
+                        echo '<td>' . $subtotal . ' Ft</td>';
+                        echo '</tr>';
+                    }
+                } else {
+                    echo '<h4>Nincs termék a kosárban</h4>';
                 }
-
-            }
-            else {
-                echo '<h4>Nincs termék a kosárban</h4>';
-            }
 
                 echo '</table></tbody></article>';
                 echo '<h3>Összesen: ' . $total . ' Ft</h3>';
 
-            echo '<article class="col p-2">';
+                echo '<article class="col p-2">';
 
-            //echo '<hr>';
+                if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
 
-            if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
+                    echo '<input type="submit" class="btn btn-danger" name="torolmind" id="torolmind" value="Kosár törlése"></article>';
+                }
 
-            echo '<form method="post"><input type="submit" class="btn btn-danger" name="torolmind" id="torolmind" value="Kosár törlése"></form></article>';
+                echo '<hr>';
 
-        }
+                echo '<section class="row justify-content-between">
+            <article class="col-auto">
+                <a href="termekek.php" class="btn btn-dark">Vissza a vásárláshoz</a>
+            </article>
+            <article class="col-auto">
+                <button class="btn btn-dark" name="fizet">Tovább a fizetéshez</button>
+                </article>
+            </section>';
 
-            ?>
+                ?>
+            </form>
         </section>
+
     </main>
-
-    <?php
-
-    ?>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.2.0/js/bootstrap.bundle.min.js" integrity="sha512-9GacT4119eY3AcosfWtHMsT5JyZudrexyEVzTBWV3viP/YfB9e2pEy3N7WXL3SV6ASXpTU0vzzSxsbfsuUH4sQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="scripts.js"></script>
