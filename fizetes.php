@@ -20,6 +20,7 @@ if ($errors) {
     echo $errors;
 }
 
+// kimenet formázása **************************************************
 // lname, fname, email, tel, szamlazasi_nev, orszag, irszam, varos, utca_hsz, adoszam, szallitasi_cim, papir_szamla
 if(isset($_POST["tovabb"])) {
     // fogadó fájl
@@ -57,10 +58,22 @@ if(isset($_POST["tovabb"])) {
     $varos = $_POST["varos"];
     $utca_hsz = $_POST["utca_hsz"];
     $adoszam = $_POST["adoszam"];
-    $szallitasi_cim = $_POST["szallitasi_cim"];
-    $papir_szamla = $_POST["papir_szamla"];
+    if(isset($_POST["szallitasi_cim"])) {
+        $szallitasi_cim = $_POST["szallitasi_cim"];
+    } else {
+        $szallitasi_cim = "Nem, másik címre kérem.";
+    }
+    if(isset($_POST["papir_szamla"])) {
+        $papir_szamla = $_POST["papir_szamla"];
+    } else {
+        $papir_szamla = "Nem.";
+    }
+    // radio-nál kötelezővé kell tenni a választást
+    $atvetel = $_POST["atvetel"];
+    $fizetes = $_POST["fizetes"];
+
     // végső kiíratás
-    $data = "Név: \t$lname\t$fname\nE-mail cím: \t$email\nTelfonszám: \t$tel\nSzámlázási név: \t$szamlazasi_nev\nOrszág: \t$orszag\nIrányítószám: \t$irszam\tVáros: \t$varos\nUtca, házszám: \t$utca_hsz\nAdószám (Nem kötelező): \t$adoszam\nSzállítási cím ugyanez legyen? \t$szallitasi_cim\nPapír alapú számlát kér? \t$papir_szamla";
+    $data = "Név: \t$lname\t$fname\nE-mail cím: \t$email\nTelfonszám: \t$tel\nSzámlázási név: \t$szamlazasi_nev\nOrszág: \t$orszag\nIrányítószám: \t$irszam\tVáros: \t$varos\nUtca, házszám: \t$utca_hsz\nAdószám (Nem kötelező): \t$adoszam\nSzállítási cím ugyanez legyen? \t$szallitasi_cim\nPapír alapú számlát kér? \t$papir_szamla\nÁtvétel módja: \t$atvetel\nFizetés módja: \t$fizetes";
 
     $sum = "$product\n$data";
 
@@ -99,10 +112,9 @@ if(isset($_POST["tovabb"])) {
         <form method="post">
 
             <?php
-
-            // innen tovább fizetési mód megadása radio button személyes adatok megadása egy tovább gombbal
-            // űrlap oldal először csak legyen meg készítsek el minden módosítást előbb majd utána jöhet az űrlapos fizetős php kidolgozása
-            // űrlap file_put_contents() -el küldene fájlt
+            // ciklusos megoldás *********************************************
+            // személyes adatok, átvételi mód radio, fizetési mód megadása radio
+            // checkboxnál feltétel hogy igen/nem
 
             $total = 0;
 
@@ -124,141 +136,114 @@ if(isset($_POST["tovabb"])) {
                 echo '<section class="row p-2"><article class="col"><h4>Végösszeg: ' . $total . ' Ft</h4></article></section>';
             }
 
-            // űrlap kezdete
-            echo '<section class="row p-2 mt-5">
-            <article class="col">
-                <article class="row pb-4">
-                    <h3>Személyes adatok</h3>
+            $urlap = [
+                [
+                    [['Személyes adatok']],
+                    [['Vezetéknév', 'Keresztnév']],
+                    [['E-mail cím']],
+                    [['Telefonszám']]
+                ],
+                [
+                    [['Számlázási adatok']],
+                    [['Számlázási név']],
+                    [['Ország', 'Irányítószám']],
+                    [['Város', 'Utcanév, házszám']],
+                    [['Adószám - (nem kötelező)']],
+                    [['A szállítási címem ugyanez.']],
+                    [['Papíralapú számlát kérek.']]
+                ],
+                [
+                    [['Átvételi mód']],
+                    [['Átvételi pontba kérem']],
+                    [['Házhoz szállítás']],
+                    [['Boltban veszem át']]
+                ],
+                [
+                    [['Fizetési mód']],
+                    [['Online fizetés']],
+                    [['PayPal fizetés']],
+                    [['Átvételkor fizetek']]
+                ],
+            ];
+    
+            $coutry = ['Magyarország', 'Argentína', 'Ausztrália', 'Ausztria', 'Egyiptom', 'Franciaország', 'Horvátország', 'Japán', 'Kanada', 'Nagy-Britannia', 'Németország', 'Olaszország', 'Románia', 'Szerbia', 'Szlovákia', 'Szlovénia', 'Ukrajna'];
+    
+            $for_ids = [
+                "Vezetéknév" => "lname",
+                "Keresztnév" => "fname",
+                "E-mail cím" => "email",
+                "Telefonszám" => "tel",
+                "Számlázási név" => "szamlazasi_nev",
+                "Irányítószám" => "irszam",
+                "Város" => "varos",
+                "Utcanév, házszám" => "utca_hsz",
+                "Adószám - (nem kötelező)" => "adoszam"
+            ];
+    
+            // űrlap kiíratás ciklussal eleje
+            echo '<section class="row p-2">';
+            foreach ($urlap as $ocol) {
+                echo '<article class="col-6 pt-5">';
+                foreach ($ocol as $row_id => $row) {
+                    echo ($row_id === 0 ? '<article class="row pb-4">' : '<article class="row">');
+                    foreach ($row as $icol) {
+                        foreach ($icol as $id => $content) {
+                            echo '<article class="col-' . (12 / count($icol)) . '">';
+                            if ($content === 'Átvételi mód' || $content === 'Fizetési mód') {
+                                echo '<h3 class="pb-4">' . $content . '</h3>';
+                                foreach ($ocol as $key => $sor) {
+                                    if ($key > 0) {
+                                        echo '<div class="form-check">
+                                            <input class="form-check-input" type="radio" name="' . ($content === 'Fizetési mód' ? "fizetes" : "atvetel") . '" id="' . ($content === 'Fizetési mód' ? "fizetes" . $key : "atvetel" . $key) . '" value="' . $sor[0][0] . '">
+                                            <label class="form-check-label" for="' . ($content === 'Fizetési mód' ? "fizetes" . $key : "atvetel" . $key) . '">
+                                            ' . $sor[0][0] . '
+                                            </label>
+                                        </div>';
+                                    }
+                                }
+                            } elseif ($row_id === 0) {
+                                echo '<h3>' . $content . '</h3>';
+                            } elseif ($content === 'A szállítási címem ugyanez.' || $content === 'Papíralapú számlát kérek.') {
+                                // checkbox value pipa és nem pipa esetén ************
+                                echo '<div class="form-check">
+                                    <input class="form-check-input rounded-0" type="checkbox" value="' . $content . '" id="' . ($content === 'A szállítási címem ugyanez.' ? "szallitasi_cim" : "papir_szamla") . '" name="' . ($content === 'A szállítási címem ugyanez.' ? "szallitasi_cim" : "papir_szamla") . '">
+                                    <label class="form-check-label" for="' . ($content === 'A szállítási címem ugyanez.' ? "szallitasi_cim" : "papir_szamla") . '">' . $content . '</label>
+                                </div>';
+                            } elseif ($content === 'Ország') {
+                                echo '<div class="form-floating mb-3">
+                                    <select class="form-select" name="orszag" id="orszag" aria-label="' . $content . '">
+                                        <option selected>Ország kiválasztása</option>';
+                                foreach ($coutry as $list) {
+                                    echo '<option value="' . $list . '">' . $list . '</option>';
+                                }
+                                echo '</select><label for="orszag">' . $content . '</label>
+                                </div>';
+                            } else {
+                                foreach ($for_ids as $id => $forname) {
+                                    if ($id === $content) {
+                                        echo '<div class="form-floating mb-3">
+                                            <input type="' . ($content === 'E-mail cím' ? 'email' : 'text') . '" class="form-control" name="' . $forname . '" id="' . $forname . '" placeholder="' . $content . '">
+                                            <label for="' . $forname . '">' . $content . '</label>
+                                </div>';
+                                    }
+                                }
+                            }
+                            echo '</article>';
+                        }
+                    }
+                    echo '</article>';
+                }
+                echo '</article>';
+            }
+            echo '</section>';
+            // űrlap kiíratás ciklussal vége
+    
+            echo '<section class="row p-2 justify-content-center">
+                <article class="col-auto">
+                    <!-- gomb name értékének beállítása -->
+                    <button class="btn btn-primary rounded-5 py-2 px-5" id="tovabb" name="tovabb">Tovább</button>
                 </article>
-                <article class="row">
-                    <article class="col">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="lname" id="lname" placeholder="Vezetéknév">
-                            <label for="lname">Vezetéknév</label>
-                        </div>
-                    </article>
-                    <article class="col">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="fname" id="fname" placeholder="Keresztnév">
-                            <label for="fname">Keresztnév</label>
-                        </div>
-                    </article>
-                </article>
-                <article class="row">
-                    <article class="col">
-                        <div class="form-floating mb-3">
-                            <input type="email" class="form-control" name="email" id="email" placeholder="E-mail cím">
-                            <label for="email">E-mail cím</label>
-                        </div>
-                    </article>
-                </article>
-                <article class="row">
-                    <article class="col">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="tel" id="tel" placeholder="Telefonszám">
-                            <label for="tel">Telefonszám</label>
-                        </div>
-                    </article>
-                </article>
-            </article>
-            <article class="col">
-                <article class="row pb-4">
-                    <h3>Számlázási adatok</h3>
-                </article>
-                <article class="row">
-                    <article class="col">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="szamlazasi_nev" id="szamlazasi_nev" placeholder="Számlázási név">
-                            <label for="szamlazasi_nev">Számlázási név</label>
-                        </div>
-                    </article>
-                </article>
-                <article class="row">
-                    <article class="col">
-                        <div class="form-floating mb-3">
-                            <select class="form-select" name="orszag" id="orszag" aria-label="Ország">
-                                <option selected>Ország kiválasztása</option>
-                                <option value="Magyarország">Magyarország</option>
-                                <option value="Argentína">Argentína</option>
-                                <option value="Ausztrália">Ausztrália</option>
-                                <option value="Ausztria">Ausztria</option>
-                                <option value="Egyiptom">Egyiptom</option>
-                                <option value="Franciaország">Franciaország</option>
-                                <option value="Horvátország">Horvátország</option>
-                                <option value="Japán">Japán</option>
-                                <option value="Kanada">Kanada</option>
-                                <option value="Nagy-Britannia">Nagy-Britannia</option>
-                                <option value="Németország">Németország</option>
-                                <option value="Olaszország">Olaszország</option>
-                                <option value="Románia">Románia</option>
-                                <option value="Szerbia">Szerbia</option>
-                                <option value="Szlovákia">Szlovákia</option>
-                                <option value="Szlovénia">Szlovénia</option>
-                                <option value="Ukrajna">Ukrajna</option>
-                            </select>
-                            <label for="orszag">Ország</label>
-                        </div>
-                    </article>
-                    <article class="col">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="irszam" id="irszam" placeholder="Irányítószám">
-                            <label for="irszam">Irányítószám</label>
-                        </div>
-                    </article>
-                </article>
-                <article class="row">
-                    <article class="col">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="varos" id="varos" placeholder="Város">
-                            <label for="varos">Város</label>
-                        </div>
-                    </article>
-                </article>
-                <article class="row">
-                    <article class="col">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="utca_hsz" id="utca_hsz" placeholder="Utcanév, házszám">
-                            <label for="utca_hsz">Utcanév, házszám</label>
-                        </div>
-                    </article>
-                </article>
-                <article class="row">
-                    <article class="col">
-                        <div class="form-floating mb-3">
-                            <input type="text" class="form-control" name="adoszam" id="adoszam" placeholder="Adószám - (nem kötelező)">
-                            <label for="adoszam">Adószám - (nem kötelező)</label>
-                        </div>
-                    </article>
-                </article>
-                <article class="row">
-                    <article class="col">
-                        <div class="form-check">
-                            <input class="form-check-input rounded-0" type="checkbox" value="" id="szallitasi_cim" name="szallitasi_cim">
-                            <label class="form-check-label" for="szallitasi_cim">
-                                A szállítási címem ugyanez.
-                            </label>
-                        </div>
-                    </article>
-                </article>
-                <article class="row">
-                    <article class="col">
-                        <div class="form-check">
-                            <input class="form-check-input rounded-0" type="checkbox" value="" id="papir_szamla" name="papir_szamla">
-                            <label class="form-check-label" for="papir_szamla">
-                                Papíralapú számlát kérek.
-                            </label>
-                        </div>
-                    </article>
-                </article>
-            </article>
-        </section>
-        <section class="row p-2 justify-content-center">
-            <article class="col-auto">
-                <!-- gomb name értékének beállítása -->
-                <button class="btn btn-primary rounded-5 py-2 px-5" id="tovabb" name="tovabb">Tovább</button>
-            </article>
-        </section>';
-        // űrlap vége
+            </section>';
 
             echo '<hr>';
 
