@@ -113,9 +113,9 @@ if (isset($_POST["fizet"])) {
                         echo '<tr>';
                         echo '<td>' . $termek["name"] . '</td>';
                         echo '<td>' . $termek["price"] . ' Ft</td>';
-                        echo '<td class="row">
+                        echo '<form method="post"><td class="row">
                         <article class="col-auto"><input type="number" class="form-control" style="width: 4rem" max="99" value="' . $qtty . '" name="qtty"><input type="hidden" name="id" value="' . $product_id . '"></article><article class="col-auto"><button class="btn btn-dark">Módosít</button></article><article class="col-auto"><button class="btn btn-danger" name="torol" value="' . $product_id . '">Eltávolítás a kosárból</button></article>
-                    </td>';
+                    </td></form>';
                         echo '<td>' . $subtotal . ' Ft</td>';
                         echo '</tr>';
                     }
