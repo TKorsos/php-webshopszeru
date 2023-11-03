@@ -136,6 +136,7 @@ if(isset($_POST["tovabb"])) {
                 echo '<section class="row p-2"><article class="col"><h4>Végösszeg: ' . $total . ' Ft</h4></article></section>';
             }
 
+            // űrlap kiíratáshoz
             $urlap = [
                 [
                     [['Személyes adatok']],
