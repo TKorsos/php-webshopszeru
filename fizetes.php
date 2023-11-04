@@ -26,6 +26,7 @@ if(isset($_POST["tovabb"])) {
     // fogadó fájl
     // $file = 'test.pdf';
     // $file = 'test.xlsx'; így legalább táblázatba van
+    // biztonsági kockázat az adatokkal kapcsolatban *************************
     $file = 'test.xlsx';
     // vásárolni kívánt termékek
     $total = 0;
@@ -72,7 +73,7 @@ if(isset($_POST["tovabb"])) {
     $atvetel = $_POST["atvetel"];
     $fizetes = $_POST["fizetes"];
 
-    // végső kiíratás
+    // végső kiíratás fájlba
     $data = "Név: \t$lname\t$fname\nE-mail cím: \t$email\nTelfonszám: \t$tel\nSzámlázási név: \t$szamlazasi_nev\nOrszág: \t$orszag\nIrányítószám: \t$irszam\tVáros: \t$varos\nUtca, házszám: \t$utca_hsz\nAdószám (Nem kötelező): \t$adoszam\nSzállítási cím ugyanez legyen? \t$szallitasi_cim\nPapír alapú számlát kér? \t$papir_szamla\nÁtvétel módja: \t$atvetel\nFizetés módja: \t$fizetes";
 
     $sum = "$product\n$data";
