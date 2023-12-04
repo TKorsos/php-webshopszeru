@@ -8,10 +8,12 @@ if (isset($_SESSION["user"]) == false) {
 }
 */
 
+// sql, order, shipping, payment stb.
+
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
 
-$connection = mysqli_connect("localhost", "root", "12345", "gyakorlas");
+$connection = mysqli_connect("localhost", "root", "12345", "pcshop");
 
 $errors = mysqli_error($connection);
 mysqli_set_charset($connection, "utf8mb4");
