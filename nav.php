@@ -15,7 +15,11 @@
                     <a class="nav-link link-light" href="termekek.php">Termékek</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link link-light" href="kosar.php">Kosár tartalma</a>
+                    <a class="nav-link link-light" href="kosar.php">Kosár tartalma<?php
+                    if (count($_SESSION["kosar"]) > 0) {
+                        echo '<span class="text-danger"> ( ' . array_sum($_SESSION["kosar"]) . 'db )</span>';
+                    }
+                    ?></a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link link-light" href="#exampleModal" data-bs-toggle="modal">Bejelentkezés</a>
@@ -43,7 +47,7 @@ if (isset($_POST["login"])) {
     error_reporting(E_ALL);
     ini_set("display_errors", 1);
 
-    $connection = mysqli_connect("localhost", "root", "12345", "gyakorlas");
+    $connection = mysqli_connect("localhost", "root", "12345", "pcshop");
 
     $error = mysqli_error($connection);
     mysqli_set_charset($connection, "utf8mb4");
