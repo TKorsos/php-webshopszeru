@@ -7,7 +7,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav d-lg-flex flex-lg-row justify-content-lg-evenly w-100">
                 <li class="nav-item">
                     <a class="nav-link link-light" href="index.php">Kezdőlap</a>
                 </li>
@@ -15,11 +15,17 @@
                     <a class="nav-link link-light" href="termekek.php">Termékek</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link link-light" href="kosar.php">Kosár tartalma<?php
-                    if (count($_SESSION["kosar"]) > 0) {
-                        echo '<span class="text-danger"> ( ' . array_sum($_SESSION["kosar"]) . 'db )</span>';
-                    }
-                    ?></a>
+                    <a class="nav-link link-light" href="kosar.php">
+                        <span class="position-relative pt-1 pe-1">Kosár tartalma
+                            <?php
+                                echo '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">';
+                                    if (count($_SESSION["kosar"]) > 0) {
+                                        echo array_sum($_SESSION["kosar"]) . 'db';
+                                    }
+                                echo '</span>';
+                            ?>
+                        </span>
+                    </a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link link-light" href="#exampleModal" data-bs-toggle="modal">Bejelentkezés</a>
