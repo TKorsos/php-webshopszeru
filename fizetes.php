@@ -2,6 +2,17 @@
 
 session_start();
 
+// $termek["week_offer"] -> $week
+// $ertek -> $ertek
+function subTotal($week, $ertek) {
+    if( $_SESSION["today"] === 0 || $_SESSION["today"] === 5 || $_SESSION["today"] === 6 ) {
+        return $week === "1" ? ($ertek *= $_SESSION["week_offer"]) : $ertek;
+    }
+    else {
+        return $ertek = 1;
+    }
+}
+
 /*
 if (isset($_SESSION["user"]) == false) {
   exit('Csak bejelenkezett felhasználók részére!');
@@ -33,13 +44,15 @@ if(isset($_POST["tovabb"])) {
     // vásárolni kívánt termékek
     $total = 0;
     $product = '';
+    // akcióhoz tartozó szorzó
+    $ertek = 1;
     if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
         // name, qtty, subtotal, total
         foreach ($_SESSION["kosar"] as $id => $dbszam) {
 
             $termek = mysqli_fetch_assoc(mysqli_query($connection, "select * from products where id = $id"));
 
-            $subtotal = ($dbszam * $termek["price"]);
+            $subtotal = ($dbszam * subTotal($termek["week_offer"], $ertek) * $termek["price"]);
             $total += $subtotal;
 
             $prod = $termek["name"];
@@ -120,6 +133,8 @@ if(isset($_POST["tovabb"])) {
             // checkboxnál feltétel hogy igen/nem
 
             $total = 0;
+            // akcióhoz tartozó szorzó
+            $ertek = 1;
 
             if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
                 // name, qtty, subtotal, total
@@ -127,7 +142,7 @@ if(isset($_POST["tovabb"])) {
 
                     $termek = mysqli_fetch_assoc(mysqli_query($connection, "select * from products where id = $id"));
 
-                    $subtotal = ($dbszam * $termek["price"]);
+                    $subtotal = ($dbszam * subTotal($termek["week_offer"], $ertek) * $termek["price"]);
                     $total += $subtotal;
 
                     echo '<section class="row p-1"><article class="col border p-3">';

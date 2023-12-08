@@ -2,7 +2,35 @@
 
 session_start();
 
-// kosar felirat fent jelezze hogy nem üres + bootstrap *****************
+$val = 0.9;
+$_SESSION["week_offer"] = $val;
+
+$t = getdate();
+//$t = 2;
+$_SESSION["today"] = $t["wday"];
+
+// $termek["week_offer"] -> $weekoffer
+// $termek["price"] -> $price
+// offert majd lehet át kellene nevezni
+function offer($weekoffer, $price) {
+  if( $_SESSION["today"] === 0 || $_SESSION["today"] === 5 || $_SESSION["today"] === 6 ) {
+    return $weekoffer === "1" ? '<div>' . $price * $_SESSION["week_offer"] . ' Ft</div>' : '<div>' . $price . ' Ft</div>';
+  }
+  else {
+    return '<div>' . $price . ' Ft</div>';
+  }
+}
+
+// $termek["week_offer"] -> $week
+// $ertek -> $ertek
+function subTotal($week, $ertek) {
+    if( $_SESSION["today"] === 0 || $_SESSION["today"] === 5 || $_SESSION["today"] === 6 ) {
+        return $week === "1" ? ($ertek *= $_SESSION["week_offer"]) : $ertek;
+    }
+    else {
+        return $ertek = 1;
+    }
+}
 
 /*
 if (isset($_SESSION["user"]) == false) {
@@ -107,12 +135,15 @@ if (isset($_POST["fizet"])) {
                         // termek.php oldalról továbbküldi id-t majd itt ellenőrzi hogy az adatbázisban lévő id egyezik-e a küldött id-val
                         $termek = mysqli_fetch_assoc(mysqli_query($connection, "select * from products where id = $product_id"));
 
-                        $subtotal = ($qtty * $termek["price"]);
+                        // akcióhoz tartozó szorzó
+                        $ertek = 1;
+
+                        $subtotal = ($qtty * subTotal($termek["week_offer"], $ertek) * $termek["price"]);
                         $total += $subtotal;
 
                         echo '<tr>';
                         echo '<td>' . $termek["name"] . '</td>';
-                        echo '<td>' . $termek["price"] . ' Ft</td>';
+                        echo '<td>' . ( offer($termek["week_offer"], $termek["price"]) ) . ' Ft</td>';
                         echo '<form method="post"><td class="row">
                         <article class="col-auto"><input type="number" class="form-control" style="width: 4rem" max="99" value="' . $qtty . '" name="qtty"><input type="hidden" name="id" value="' . $product_id . '"></article><article class="col-auto"><button class="btn btn-dark">Módosít</button></article><article class="col-auto"><button class="btn btn-danger" name="torol" value="' . $product_id . '">Eltávolítás a kosárból</button></article>
                     </td></form>';
