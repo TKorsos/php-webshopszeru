@@ -2,6 +2,25 @@
 
 session_start();
 
+$val = 0.9;
+$_SESSION["week_offer"] = $val;
+
+$t = getdate();
+//$t = 2;
+$_SESSION["today"] = $t["wday"];
+
+// $termek["week_offer"] -> $weekoffer
+// $termek["price"] -> $price
+// offert majd lehet át kellene nevezni
+function offer($weekoffer, $price) {
+  if( $_SESSION["today"] === 0 || $_SESSION["today"] === 5 || $_SESSION["today"] === 6 ) {
+    return $weekoffer === "1" ? '<div class="text-decoration-line-through text-danger">' . $price . ' Ft</div><div>' . $price * $_SESSION["week_offer"] . ' Ft</div>' : '<div>' . $price . ' Ft</div>';
+  }
+  else {
+    return '<div>' . $price . ' Ft</div>';
+  }
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // termek_id és termek_db létrehozása id alapján lesz azonosítva majd a kosárban, így ha újra be lesz helyezve a kosárba ugyanaz az id már megtalálja és az ott lévő értéket módosítja vagy ad hozzá
@@ -63,6 +82,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <form method="post">
         <?php
 
+            // ( offer($termek["week_offer"], $termek["price"]) )
+            // csak itt $termek helyett $data
+
                     while ($data = mysqli_fetch_array($termekek)) {
                         echo '<section class="row p-2">
                         <article class="col-8 d-flex flex-column gap-3">
@@ -74,7 +96,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </article>
                         </article>
                         <article class="col-4 d-flex flex-column gap-3">
-                            <h2 class="card-text text-color">' . $data["price"] . ' Ft</h2>
+                            <h2 class="card-text text-color">' . ( offer($data["week_offer"], $data["price"]) ) . '</h2>
                             <article><a href="termekek.php" class="btn btn-dark w-100">Vissza a vásárláshoz</a></article>
                             <article><a href="kosar.php" class="btn btn-dark w-100">Tovább a kosárhoz</a></article>
                             <article class="row">

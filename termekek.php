@@ -2,6 +2,25 @@
 
 session_start();
 
+$val = 0.9;
+$_SESSION["week_offer"] = $val;
+
+$t = getdate();
+//$t = 2;
+$_SESSION["today"] = $t["wday"];
+
+// $termek["week_offer"] -> $weekoffer
+// $termek["price"] -> $price
+// offert majd lehet át kellene nevezni
+function offer($weekoffer, $price) {
+  if( $_SESSION["today"] === 0 || $_SESSION["today"] === 5 || $_SESSION["today"] === 6 ) {
+    return $weekoffer === "1" ? '<div class="text-decoration-line-through text-danger">' . $price . ' Ft</div><div>' . $price * $_SESSION["week_offer"] . ' Ft</div>' : '<div>' . $price . ' Ft</div>';
+  }
+  else {
+    return '<div>' . $price . ' Ft</div>';
+  }
+}
+
 /*
 if (isset($_SESSION["user"]) == false) {
   exit('Csak bejelenkezett felhasználók részére!');
@@ -62,6 +81,13 @@ if (isset($_SESSION["user"]) == false) {
 
       <section class="row row-cols-3 gy-3 py-3">
         <?php
+
+        // termék ár * 1 / akció mértéke attól függően van-e ill hogy melyik nap van
+        // week_offer
+        // melyik napokon legyen akciós
+        // season_offer
+        // melyik hónap/nap legyen akciós
+        // majd ha itt jó a feltétel akkor legyen a többibe is átvive!!!********
         
         while ($termek = mysqli_fetch_array($termekek)) {
           echo '
@@ -77,7 +103,7 @@ if (isset($_SESSION["user"]) == false) {
             <p class="card-text text-color">'.$termek["description"].'</p>
             <hr class="border-custom">
             <h6 class="name-color">Termék ára</h6>
-            <p class="card-text text-color">' . $termek["price"] . ' Ft</p>
+            <p class="card-text text-color">' . ( offer($termek["week_offer"], $termek["price"]) ) . '</p>
             <hr class="border-custom">
           </div>
           <div class="card-footer border-0 d-grid justify-content-center">';
@@ -87,7 +113,6 @@ if (isset($_SESSION["user"]) == false) {
         </article>
         ';
         }
-
         ?>
       </section>
 
