@@ -46,6 +46,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // felülírja a darabszámot
     $_SESSION["kosar"][$termek_id] = $termek_db;
 
+    // termék törlése
+    $product_id = $_POST["torol"];
+    unset($_SESSION["kosar"][$product_id]);
+
     header('location: ' . $_SERVER['REQUEST_URI']);
 }
 
@@ -55,21 +59,11 @@ if (isset($_POST["torolmind"])) {
     header("location: kosar.php");
 }
 
-// egy termék törlése
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-    $product_id = $_POST["torol"];
-    unset($_SESSION["kosar"][$product_id]);
-    header("location: kosar.php");
-}
-
-
 // fizetes.php
 // name="fizetes" post
 if (isset($_POST["fizet"])) {
     header('location: fizetes.php');
 }
-
 
 ?>
 <!DOCTYPE html>
@@ -122,7 +116,8 @@ if (isset($_POST["fizet"])) {
                 $penznem = 'Ft';
 
                 // article class table-responsive
-                echo '<article class="col p-2"><table class="table align-middle">';
+                // oszolopokban lévő tartalom igazítása szöveg igazítása stb.****************
+                echo '<article class="col p-2"><table class="table table-responsive align-middle">';
 
                 $total = 0;
 
@@ -143,10 +138,10 @@ if (isset($_POST["fizet"])) {
 
                         echo '<tr>';
                         echo '<td>' . $termek["name"] . '</td>';
-                        echo '<td>' . ( offer($termek["week_offer"], $termek["price"]) ) . ' Ft</td>';
-                        echo '<form method="post"><td class="row">
-                        <article class="col-auto"><input type="number" class="form-control" style="width: 4rem" max="99" value="' . $qtty . '" name="qtty"><input type="hidden" name="id" value="' . $product_id . '"></article><article class="col-auto"><button class="btn btn-dark">Módosít</button></article><article class="col-auto"><button class="btn btn-danger" name="torol" value="' . $product_id . '">Eltávolítás a kosárból</button></article>
-                    </td></form>';
+                        echo '<td>' . ( offer($termek["week_offer"], $termek["price"]) ) . '</td>';
+                        echo '<form method="post"><td><article class="row gap-2 justify-content-center justify-content-md-start">
+                        <article class="col-auto"><input type="number" class="form-control input-qtty" max="99" value="' . $qtty . '" name="qtty"><input type="hidden" name="id" value="' . $product_id . '"></article><article class="col-auto"><button class="btn btn-dark">Módosít</button></article><article class="col-auto"><button class="btn btn-danger" name="torol" value="' . $product_id . '">Eltávolítás a kosárból</button></article>
+                    </article></td></form>';
                         echo '<td>' . $subtotal . ' Ft</td>';
                         echo '</tr>';
                     }
@@ -154,7 +149,7 @@ if (isset($_POST["fizet"])) {
                     echo '<h4>Nincs termék a kosárban</h4>';
                 }
 
-                echo '</table></tbody></article>';
+                echo '</tbody></table></article>';
                 echo '<h3>Összesen: ' . $total . ' Ft</h3>';
 
                 echo '<article class="col p-2">';
@@ -166,12 +161,12 @@ if (isset($_POST["fizet"])) {
 
                 echo '<hr>';
 
-                echo '<section class="row justify-content-between">
-            <article class="col-auto">
-                <a href="termekek.php" class="btn btn-dark">Vissza a vásárláshoz</a>
+                echo '<section class="row justify-content-center justify-content-md-between gap-2">
+            <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
+                <a href="termekek.php" class="btn btn-dark w-100">Vissza a vásárláshoz</a>
             </article>
-            <article class="col-auto">
-                <button class="btn btn-dark" name="fizet">Tovább a fizetéshez</button>
+            <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
+                <button class="btn btn-dark w-100" name="fizet">Tovább a fizetéshez</button>
                 </article>
             </section>';
 

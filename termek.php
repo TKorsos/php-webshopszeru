@@ -100,7 +100,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             <article><a href="termekek.php" class="btn btn-dark w-100">Vissza a vásárláshoz</a></article>
                             <article><a href="kosar.php" class="btn btn-dark w-100">Tovább a kosárhoz</a></article>
                             <article class="row">
-                                <article class="col-auto"><input type="number" class="form-control" style="width: 4rem" name="darabszam" value="1"></article>
+                                <article class="col-auto"><input type="number" class="form-control input-qtty" name="darabszam" value="1"></article>
                                 <article class="col"><button type="submit" class="btn btn-dark w-100" name="data" value="' . $data["id"] . '">Kosárba tesz</button></article>
                             </article>
                         </article>
