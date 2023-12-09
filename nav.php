@@ -106,7 +106,6 @@ if (isset($_POST["login"])) {
 
     // login vége
 }
-
 ?>
 
 <!-- bejelentkezés -->
@@ -125,7 +124,10 @@ if (isset($_POST["login"])) {
                     </div>
                     <div class="col py-3">
                         <label for="passwordLog" class="form-label">Jelszó</label>
-                        <input type="password" class="form-control" id="passwordLog" name="password">
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="passwordLog" name="password">
+                            <button type="button" class="btn btn-outline-light" id="passBtn" name="passBtn"><i class="bi bi-eye"></i></button>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
