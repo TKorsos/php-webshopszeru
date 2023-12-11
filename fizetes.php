@@ -2,13 +2,20 @@
 
 session_start();
 // ****************************************************************************
-// űrlap adatok:
-// lname, fname, email, tel, szamlazasi_nev, orszag, irszam, varos, utca_hsz, adoszam, szallitasi_cim, papir_szamla, atvetel, fizetes
-// mysql users
-// first_name, last_name, about_me (ez nem kell), email, zip, city, nr, created_at
+// táblák (products, users, orders, shipping, payment)
 
-// összevetés
-// 
+// *** összevetés ***
+// 1. módosított users tábla
+// first_name, last_name, email, phone (egyelőre meghatározás nélkül bármilyen számot tudjon fogadni +-jel varchar), billing_name, country (új), zip, city, street, nr, created_at, updated_at (új)
+
+// 2. új orders tábla
+// id, user_id, payment_json, shipping_json, products_json, total
+
+// 3. új shipping tábla
+// id, type, status(melyik folyamatnál tart éppen, alapértelmezett: process, packing, ..., shipping? ), note
+
+// 4. új payment tábla
+// id, type
 
 // módosítások után exportálni kell a módosított sql-eket
 
@@ -45,12 +52,9 @@ if ($errors) {
     echo $errors;
 }
 
-// lname, fname, email, tel, szamlazasi_nev, orszag, irszam, varos, utca_hsz, adoszam, szallitasi_cim, papir_szamla
+// first_name, last_name, email, phone (új ~ csak magyar számokra lesz jó), billing_name (új), country (új), zip, city, street, nr
 if(isset($_POST["tovabb"])) {
-    // fogadó fájl
-    $file = 'test.pdf';
-    // $file = 'test.xlsx'; így legalább táblázatba van
-    // biztonsági kockázat az adatokkal kapcsolatban *************************
+
     // vásárolni kívánt termékek
     $total = 0;
     $product = '';
@@ -73,39 +77,6 @@ if(isset($_POST["tovabb"])) {
         $product .= "Végösszeg: \t$total";
     }
 
-    // űrlapadatok
-    $lname = $_POST["lname"];
-    $fname = $_POST["fname"];
-    $email = $_POST["email"];
-    $tel = $_POST["tel"];
-    $szamlazasi_nev = $_POST["szamlazasi_nev"];
-    $orszag = $_POST["orszag"];
-    $irszam = $_POST["irszam"];
-    $varos = $_POST["varos"];
-    $utca_hsz = $_POST["utca_hsz"];
-    $adoszam = $_POST["adoszam"];
-    if(isset($_POST["szallitasi_cim"])) {
-        $szallitasi_cim = $_POST["szallitasi_cim"];
-    } else {
-        $szallitasi_cim = "Nem, másik címre kérem.";
-    }
-    if(isset($_POST["papir_szamla"])) {
-        $papir_szamla = $_POST["papir_szamla"];
-    } else {
-        $papir_szamla = "Nem.";
-    }
-    // radio-nál kötelezővé kell tenni a választást
-    $atvetel = $_POST["atvetel"];
-    $fizetes = $_POST["fizetes"];
-
-    // végső kiíratás fájlba
-    $data = "Név: \t$lname\t$fname\nE-mail cím: \t$email\nTelfonszám: \t$tel\nSzámlázási név: \t$szamlazasi_nev\nOrszág: \t$orszag\nIrányítószám: \t$irszam\tVáros: \t$varos\nUtca, házszám: \t$utca_hsz\nAdószám (Nem kötelező): \t$adoszam\nSzállítási cím ugyanez legyen? \t$szallitasi_cim\nPapír alapú számlát kér? \t$papir_szamla\nÁtvétel módja: \t$atvetel\nFizetés módja: \t$fizetes";
-
-    $sum = "$product\n$data";
-
-    $txt = file_put_contents($file, $sum);
-
-    // checkboxokkal még gond van
 }
 
 ?>
@@ -176,10 +147,8 @@ if(isset($_POST["tovabb"])) {
                     [['Számlázási adatok']],
                     [['Számlázási név']],
                     [['Ország', 'Irányítószám']],
-                    [['Város', 'Utcanév, házszám']],
-                    [['Adószám - (nem kötelező)']],
-                    [['A szállítási címem ugyanez.']],
-                    [['Papíralapú számlát kérek.']]
+                    [['Város']],
+                    [['Utcanév', 'Házszám']]
                 ],
                 [
                     [['Átvételi mód']],
@@ -201,12 +170,12 @@ if(isset($_POST["tovabb"])) {
                 "Vezetéknév" => "lname",
                 "Keresztnév" => "fname",
                 "E-mail cím" => "email",
-                "Telefonszám" => "tel",
-                "Számlázási név" => "szamlazasi_nev",
-                "Irányítószám" => "irszam",
-                "Város" => "varos",
-                "Utcanév, házszám" => "utca_hsz",
-                "Adószám - (nem kötelező)" => "adoszam"
+                "Telefonszám" => "phone",
+                "Számlázási név" => "billing_name",
+                "Irányítószám" => "zip",
+                "Város" => "city",
+                "Utcanév" => "street",
+                "Házszám" => "nr"
             ];
     
             // űrlap kiíratás ciklussal eleje
@@ -232,12 +201,6 @@ if(isset($_POST["tovabb"])) {
                                 }
                             } elseif ($row_id === 0) {
                                 echo '<h3>' . $content . '</h3>';
-                            } elseif ($content === 'A szállítási címem ugyanez.' || $content === 'Papíralapú számlát kérek.') {
-                                // checkbox value pipa és nem pipa esetén ************
-                                echo '<div class="form-check">
-                                    <input class="form-check-input rounded-0" type="checkbox" value="' . $content . '" id="' . ($content === 'A szállítási címem ugyanez.' ? "szallitasi_cim" : "papir_szamla") . '" name="' . ($content === 'A szállítási címem ugyanez.' ? "szallitasi_cim" : "papir_szamla") . '">
-                                    <label class="form-check-label" for="' . ($content === 'A szállítási címem ugyanez.' ? "szallitasi_cim" : "papir_szamla") . '">' . $content . '</label>
-                                </div>';
                             } elseif ($content === 'Ország') {
                                 echo '<div class="form-floating mb-3">
                                     <select class="form-select" name="orszag" id="orszag" aria-label="' . $content . '">
