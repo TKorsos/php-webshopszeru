@@ -2,22 +2,15 @@
 
 session_start();
 
-$val = 0.9;
-$_SESSION["week_offer"] = $val;
-
-$t = getdate();
-//$t = 2;
-$_SESSION["today"] = $t["wday"];
-
 // $termek["week_offer"] -> $weekoffer
 // $termek["price"] -> $price
 // offert majd lehet át kellene nevezni
 function offer($weekoffer, $price) {
   if( $_SESSION["today"] === 0 || $_SESSION["today"] === 5 || $_SESSION["today"] === 6 ) {
-    return $weekoffer === "1" ? '<div>' . $price * $_SESSION["week_offer"] . ' Ft</div>' : '<div>' . $price . ' Ft</div>';
+    return $weekoffer === "1" ? '<div>' . $price * $_SESSION["week_offer"] . '</div>' : '<div>' . $price . '</div>';
   }
   else {
-    return '<div>' . $price . ' Ft</div>';
+    return '<div>' . $price . '</div>';
   }
 }
 
@@ -113,17 +106,15 @@ if (isset($_POST["fizet"])) {
         <section class="row row-cols-1 gy-3 py-3">
             <form method="post">
                 <?php
-                $penznem = 'Ft';
-
-                // article class table-responsive
                 // oszolopokban lévő tartalom igazítása szöveg igazítása stb.****************
+                // 
                 echo '<article class="col p-2"><table class="table table-responsive align-middle">';
 
                 $total = 0;
 
                 if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
 
-                    echo '<thead><tr><th>Leírás</th><th>Termék ára</th><th>Darabszám</th><th>Összeg</th></tr></thead><tbody>';
+                    echo '<thead><tr><th>Leírás</th><th>Ár</th><th colspan="2">Darabszám</th><th>Összeg (Ft)</th></tr></thead><tbody>';
 
                     foreach ($_SESSION["kosar"] as $product_id => $qtty) {
 
@@ -136,13 +127,22 @@ if (isset($_POST["fizet"])) {
                         $subtotal = ($qtty * subTotal($termek["week_offer"], $ertek) * $termek["price"]);
                         $total += $subtotal;
 
+                        // régi meghagyva ötletelésként
+                        /*
+                        echo '<form method="post"><td><article class="row gap-2 justify-content-center justify-content-md-start">
+                        <article class="col-md-auto"><input type="number" class="form-control input-qtty" max="99" value="' . $qtty . '" name="qtty"><input type="hidden" name="id" value="' . $product_id . '"></article><article class="col-md-auto"><button class="btn btn-dark w-100">Módosít</button></article><article class="col-md-auto"><button class="btn btn-danger w-100" name="torol" value="' . $product_id . '">Eltávolítás a kosárból</button></article>
+                        </article></td></form>';
+                        */
+
                         echo '<tr>';
                         echo '<td>' . $termek["name"] . '</td>';
-                        echo '<td>' . ( offer($termek["week_offer"], $termek["price"]) ) . '</td>';
-                        echo '<form method="post"><td><article class="row gap-2 justify-content-center justify-content-md-start">
-                        <article class="col-auto"><input type="number" class="form-control input-qtty" max="99" value="' . $qtty . '" name="qtty"><input type="hidden" name="id" value="' . $product_id . '"></article><article class="col-auto"><button class="btn btn-dark">Módosít</button></article><article class="col-auto"><button class="btn btn-danger" name="torol" value="' . $product_id . '">Eltávolítás a kosárból</button></article>
-                    </article></td></form>';
-                        echo '<td>' . $subtotal . ' Ft</td>';
+                        echo '<td class="text-center text-md-start">' . ( offer($termek["week_offer"], $termek["price"]) ) . '</td>';
+
+                        echo '<form method="post">
+                        <td><article class="row gap-3 justify-content-center justify-content-md-start"><article class="col-12 col-md-auto"><input type="number" class="form-control input-qtty" max="99" value="' . $qtty . '" name="qtty"><input type="hidden" name="id" value="' . $product_id . '"></article><article class="col-12 col-md-auto"><button class="btn btn-dark w-100">Módosít</button></article></article></td><td><button class="btn btn-danger" name="torol" value="' . $product_id . '">Eltávolítás a kosárból</button></td>
+                        </form>';
+                        
+                        echo '<td class="text-center text-md-start">' . $subtotal . '</td>';
                         echo '</tr>';
                     }
                 } else {

@@ -2,13 +2,6 @@
 
 session_start();
 
-$val = 0.9;
-$_SESSION["week_offer"] = $val;
-
-$t = getdate();
-//$t = 2;
-$_SESSION["today"] = $t["wday"];
-
 // $termek["week_offer"] -> $weekoffer
 // $termek["price"] -> $price
 // offert majd lehet át kellene nevezni
@@ -84,10 +77,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             // ( offer($termek["week_offer"], $termek["price"]) )
             // csak itt $termek helyett $data
+            // egységesítés? $termek/$data
 
                     while ($data = mysqli_fetch_array($termekek)) {
-                        echo '<section class="row p-2">
-                        <article class="col-8 d-flex flex-column gap-3">
+                        echo '<section class="row p-2 g-3">
+                        <article class="col-sm-6 col-md-8 d-flex flex-column gap-3">
                             <article>
                                 <h5 class="card-title termek-cim">' . $data["name"] . ' - ' . $data["slug"] . '</h5>
                             </article>
@@ -95,13 +89,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 <span><strong>Kép helye</strong></span>
                             </article>
                         </article>
-                        <article class="col-4 d-flex flex-column gap-3">
+                        <article class="col-sm-6 col-md-4 d-flex flex-column gap-3">
                             <h2 class="card-text text-color">' . ( offer($data["week_offer"], $data["price"]) ) . '</h2>
                             <article><a href="termekek.php" class="btn btn-dark w-100">Vissza a vásárláshoz</a></article>
                             <article><a href="kosar.php" class="btn btn-dark w-100">Tovább a kosárhoz</a></article>
-                            <article class="row">
-                                <article class="col-auto"><input type="number" class="form-control input-qtty" name="darabszam" value="1"></article>
-                                <article class="col"><button type="submit" class="btn btn-dark w-100" name="data" value="' . $data["id"] . '">Kosárba tesz</button></article>
+                            <article class="row gap-3 gap-lg-0">
+                                <article class="col-lg-4 col-xl-3"><input type="number" class="form-control" name="darabszam" value="1"></article>
+                                <article class="col-lg-8 col-xl-9"><button type="submit" class="btn btn-dark w-100" name="data" value="' . $data["id"] . '">Kosárba tesz</button></article>
                             </article>
                         </article>
                     </section>

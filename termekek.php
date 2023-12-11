@@ -6,7 +6,7 @@ $val = 0.9;
 $_SESSION["week_offer"] = $val;
 
 $t = getdate();
-//$t = 2;
+// $t["wday"] -> csere vmi számra teszthez
 $_SESSION["today"] = $t["wday"];
 
 // $termek["week_offer"] -> $weekoffer
@@ -79,7 +79,7 @@ if (isset($_SESSION["user"]) == false) {
     <!-- post helyett get -->
     <form method="get">
 
-      <section class="row row-cols-3 gy-3 py-3">
+      <section class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 gy-3 py-3">
         <?php
 
         // termék ár * 1 / akció mértéke attól függően van-e ill hogy melyik nap van
