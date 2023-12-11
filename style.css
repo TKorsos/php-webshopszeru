@@ -40,6 +40,10 @@ input:focus {
     outline: 0 none!important;
 }
 
-.input-qtty {
-    width: 4rem;
+/* ha külön td-be lesznek akkor nem kell */
+
+@media screen and (min-width: 768px) {
+    .input-qtty {
+        width: 4rem;
+    }    
 }

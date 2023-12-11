@@ -1,6 +1,18 @@
 <?php
 
 session_start();
+// ****************************************************************************
+// űrlap adatok:
+// lname, fname, email, tel, szamlazasi_nev, orszag, irszam, varos, utca_hsz, adoszam, szallitasi_cim, papir_szamla, atvetel, fizetes
+// mysql users
+// first_name, last_name, about_me (ez nem kell), email, zip, city, nr, created_at
+
+// összevetés
+// 
+
+// módosítások után exportálni kell a módosított sql-eket
+
+// ****************************************************************************
 
 // $termek["week_offer"] -> $week
 // $ertek -> $ertek
@@ -33,14 +45,12 @@ if ($errors) {
     echo $errors;
 }
 
-// kimenet formázása **************************************************
 // lname, fname, email, tel, szamlazasi_nev, orszag, irszam, varos, utca_hsz, adoszam, szallitasi_cim, papir_szamla
 if(isset($_POST["tovabb"])) {
     // fogadó fájl
-    // $file = 'test.pdf';
+    $file = 'test.pdf';
     // $file = 'test.xlsx'; így legalább táblázatba van
     // biztonsági kockázat az adatokkal kapcsolatban *************************
-    $file = 'test.xlsx';
     // vásárolni kívánt termékek
     $total = 0;
     $product = '';
@@ -202,12 +212,12 @@ if(isset($_POST["tovabb"])) {
             // űrlap kiíratás ciklussal eleje
             echo '<section class="row p-2">';
             foreach ($urlap as $ocol) {
-                echo '<article class="col-6 pt-5">';
+                echo '<article class="col-md-6 pt-5">';
                 foreach ($ocol as $row_id => $row) {
                     echo ($row_id === 0 ? '<article class="row pb-4">' : '<article class="row">');
                     foreach ($row as $icol) {
                         foreach ($icol as $id => $content) {
-                            echo '<article class="col-' . (12 / count($icol)) . '">';
+                            echo '<article class="col-sm-' . (12 / count($icol)) . '">';
                             if ($content === 'Átvételi mód' || $content === 'Fizetési mód') {
                                 echo '<h3 class="pb-4">' . $content . '</h3>';
                                 foreach ($ocol as $key => $sor) {
@@ -266,7 +276,14 @@ if(isset($_POST["tovabb"])) {
 
             echo '<hr>';
 
-            echo '<section class="row justify-content-between"><article class="col-auto"><a href="termekek.php" class="btn btn-dark">Vissza a vásárláshoz</a></article><article class="col-auto"><a href="kosar.php" class="btn btn-dark">Vissza a kosárhoz</a></article></section>';
+            echo '<section class="row justify-content-center justify-content-md-between gap-2">
+                <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
+                    <a href="termekek.php" class="btn btn-dark w-100">Vissza a vásárláshoz</a>
+                </article>
+                <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
+                    <a href="kosar.php" class="btn btn-dark w-100">Vissza a kosárhoz</a>
+                </article>
+            </section>';
 
             ?>
 
