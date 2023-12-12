@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost
--- Létrehozás ideje: 2023. Dec 11. 22:38
+-- Létrehozás ideje: 2023. Dec 12. 18:03
 -- Kiszolgáló verziója: 8.0.17
 -- PHP verzió: 7.3.10
 
@@ -61,7 +61,12 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `phon
 (10, 'Bodnár', 'László', 'b.laszlo@gmail.com', 'bodnar', '+36104781125', 'Bodnár László', 'Magyarország', 1022, 'Budapest', 'Révész utca', '123', '2022-05-24 14:07:28', '2023-12-11 21:19:19'),
 (11, 'Kiss', 'Evelin', 'kevelin@gmail.com', 'keve0123', '+36122007845', 'Kiss Evelin', 'Magyarország', 4400, 'Nyíregyháza', 'Tavasz út', '127', '2022-05-24 14:09:09', '2023-12-11 21:20:11'),
 (12, 'Zenthe', 'József', 'zenthe.j@mail.com', '123456', '+36100107849', 'Zenthe József', 'Magyarország', 1120, 'Budapest', 'Alajos utca', '12', '2022-05-24 14:15:21', '2023-12-11 21:30:01'),
-(13, 'Tóth', 'Enikő', 'teni@gmail.com', 'titkos', '+367981412', 'Tóth Enikő', 'Magyarország', 6500, 'Baja', 'Szabad utca', '127', '2022-05-24 14:29:30', '2023-12-11 21:30:38');
+(13, 'Tóth', 'Enikő', 'teni@gmail.com', 'titkos', '+367981412', 'Tóth Enikő', 'Magyarország', 6500, 'Baja', 'Szabad utca', '127', '2022-05-24 14:29:30', '2023-12-11 21:30:38'),
+(16, 'Gipsz', 'Jakab', 'gjakab@mail.com', '12345678', '+36121105937', 'Gipsz Jakab', 'Magyarország', 1022, 'Budapest', 'Tavasz utca', '77', '2023-12-12 17:36:04', NULL),
+(17, 'Debreceni', 'László', 'dlaszlo@mail.hu', 'huzat000', '+36105491128', 'Debreceni László', 'Magyarország', 3200, 'Gyöngyös', 'Petőfi utca', '17', '2023-12-12 17:43:15', NULL),
+(18, 'Takács', 'Péter', 'ptakacs@gmail.com', '12344321', '+36102156987', 'Takács Péter', 'Magyarország', 9000, 'Győr', 'Nyugat utca', '19', '2023-12-12 17:51:00', NULL),
+(19, 'Vörös', 'János', 'vjanos@gmail.com', 'vjani1212', '+36124967712', 'Vörös János', 'Magyarország', 8243, 'Balatonakali', 'Balaton utca', '5', '2023-12-12 17:55:26', NULL),
+(20, 'Nagy', 'Zita', 'nzita@mail.com', 'nzita123', '+36105557846', 'Nagy Zita', 'Magyarország', 3348, 'Szilvásvárad', 'Hegyi utca', '10', '2023-12-12 17:58:19', NULL);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -81,7 +86,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

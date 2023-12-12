@@ -4,17 +4,13 @@ session_start();
 // ****************************************************************************
 // táblák (products, users, orders, shipping, payment)
 
-// *** összevetés ***
-// 1. módosított users tábla
-// first_name, last_name, email, phone (egyelőre meghatározás nélkül bármilyen számot tudjon fogadni +-jel varchar), billing_name, country (új), zip, city, street, nr, created_at, updated_at (új)
-
-// 2. új orders tábla
+// 1. új orders tábla
 // id, user_id, payment_json, shipping_json, products_json, total
 
-// 3. új shipping tábla
+// 2. új shipping tábla
 // id, type, status(melyik folyamatnál tart éppen, alapértelmezett: process, packing, ..., shipping? ), note
 
-// 4. új payment tábla
+// 3. új payment tábla
 // id, type
 
 // módosítások után exportálni kell a módosított sql-eket
