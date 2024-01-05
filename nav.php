@@ -28,6 +28,7 @@
                     </a>
                 </li>
                 <!-- bejelentkezés és regisztráció akkor látható ha nincs bejelentkezve a felhasználó -->
+                <?php if (isset($_SESSION['user']) == false) { ?>
                 <li class="nav-item">
                     <a class="nav-link link-light" href="#loginModal" data-bs-toggle="modal">Bejelentkezés</a>
                 </li>
@@ -35,16 +36,18 @@
                     <a class="nav-link link-light" href="#regModal" data-bs-toggle="modal">Regisztráció</a>
                 </li>
                 <!-- kijelentkezés akkor látható ha be van jelentkezve a felhasználó -->
+                <?php } else { ?>
                 <li class="nav-item">
                     <div class="d-flex flex-row align-items-center">
                         <?php
                         if (isset($_SESSION['user'])) {
-                            echo '<span class="text-light pe-3">Üdvözlünk, ' . $_SESSION["user"]["first_name"] . ' ' . $_SESSION["user"]["last_name"] . '</span>';
+                            echo '<span class="text-light pe-3">Üdvözlünk, <span class="log-name">' . $_SESSION["user"]["first_name"] . ' ' . $_SESSION["user"]["last_name"] . '</span></span>';
                         }
                         ?>
                         <a class="nav-link link-light" href="logout.php">Kijelentkezés</a>
                     </div>
                 </li>
+                <?php } ?>
             </ul>
         </div>
     </div>

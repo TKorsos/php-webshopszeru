@@ -1,9 +1,13 @@
-body {
-    background-color: #efc998;
+html, body {
+    background-color: #efc998!important;
 }
 
 .nav-color {
     background-image: linear-gradient(to right, #663322, #885544, #aa7766)!important;
+}
+
+.log-name {
+    color: #efc998;
 }
 
 .border-card {
@@ -38,6 +42,11 @@ input:focus {
     border-color: #121212!important;
     box-shadow: 1px 1px 1px #121212 inset, 0 0 8px #343434!important;
     outline: 0 none!important;
+}
+
+/* új bootstrap verzió után szükséges, a táblázatok fehér háttérrel rendelkeznek enélkül */
+table > thead > tr > th, table > tbody > tr > td {
+    background-color: transparent!important;
 }
 
 /* ha külön td-be lesznek akkor nem kell */
