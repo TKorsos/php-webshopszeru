@@ -1,5 +1,3 @@
-<!-- kiíratás php-val plusz feltételek? -->
-
 <nav class="navbar navbar-expand-lg nav-color">
     <div class="container-fluid">
         <a class="navbar-brand link-light" href="#">Logó</a>
@@ -209,27 +207,8 @@ if (isset($_POST["reg"])) {
             <strong>Sikeres volt a regisztráció!</strong>
         </div>';
         
-
-        // bootstrap toast megjelenítés??
-        /*
-        echo '
-            <div class="toast-container position-fixed bottom-0 end-0 p-3">
-              <div id="liveToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                <div class="toast-header">
-                  <img src="..." class="rounded me-2" alt="...">
-                  <strong class="me-auto">Bootstrap</strong>
-                  <small>11 mins ago</small>
-                  <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body">
-                  Hello, world! This is a toast message.
-                </div>
-              </div>
-            </div>
-        ';
-        */
-
-        header("location: index.php");
+        // a megjelenített üzenet után 5 másodperccel frissít
+        header('Refresh: 5');
     }
 }
 

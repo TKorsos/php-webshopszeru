@@ -1,29 +1,14 @@
 <?php
 
 session_start();
-// ****************************************************************************
-// táblák (products, users, orders, shipping, payment)
-
-// 1. új orders tábla
-// id, user_id, payment_json, shipping_json, products_json, total
-
-// 2. új shipping tábla
-// id, type, status(melyik folyamatnál tart éppen, alapértelmezett: process, packing, ..., shipping? ), note
-
-// 3. új payment tábla
-// id, type
-
-// módosítások után exportálni kell a módosított sql-eket
-
-// ****************************************************************************
 
 // $termek["week_offer"] -> $week
 // $ertek -> $ertek
-function subTotal($week, $ertek) {
-    if( $_SESSION["today"] === 0 || $_SESSION["today"] === 6 ) {
+function subTotal($week, $ertek)
+{
+    if ($_SESSION["today"] === 0 || $_SESSION["today"] === 6) {
         return $week === "1" ? ($ertek *= $_SESSION["week_offer"]) : $ertek;
-    }
-    else {
+    } else {
         return $ertek = 1;
     }
 }
@@ -33,8 +18,6 @@ if (isset($_SESSION["user"]) == false) {
   exit('Csak bejelenkezett felhasználók részére!');
 }
 */
-
-// sql, order, shipping, payment stb.
 
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
@@ -48,31 +31,87 @@ if ($errors) {
     echo $errors;
 }
 
-// first_name, last_name, email, phone (új ~ csak magyar számokra lesz jó), billing_name (új), country (új), zip, city, street, nr
-if(isset($_POST["tovabb"])) {
+if (isset($_POST["tovabb"])) {
+
+    // first_name, last_name, email, phone (új ~ csak magyar számokra lesz jó), billing_name (új), country (új), zip, city, street, nr
+
+    // user_id *************************************
+    // user adatok helye - email alapján ellenőriz!
+    $userToJSON = mysqli_query($connection, "select * from users where email='" . $_POST["email"] . "' ");
+
+    $user = mysqli_fetch_assoc($userToJSON);
+
+    // utf8 encode
+    // ez a rész akkor kell ha nem csak az id-t akarnánk kiíratni
+    $user = array_map('htmlentities', $user);
+    $userJSON = html_entity_decode(json_encode($user));
+
+    $userTest = $userJSON;
+
+    // payment_json *************************************
+    $paymentToJSON = mysqli_query($connection, "select * from payment where type='" . $_POST["fizetes"] . "'");
+
+    $payment = mysqli_fetch_assoc($paymentToJSON);
+
+    // utf8 encode
+    $payment = array_map('htmlentities', $payment);
+    $paymentJSON = html_entity_decode(json_encode($payment));
+
+    $paymentTest = $paymentJSON;
+
+    // shipping_json *************************************
+    $shippingToJSON = mysqli_query($connection, "select * from shipping where type='" . $_POST["atvetel"] . "'");
+
+    $shipping = mysqli_fetch_assoc($shippingToJSON);
+
+    // utf8 encode
+    $shipping = array_map('htmlentities', $shipping);
+    $shippingJSON = html_entity_decode(json_encode($shipping));
+
+    $shippingTest = $shippingJSON;
 
     // vásárolni kívánt termékek
     $total = 0;
-    $product = '';
     // akcióhoz tartozó szorzó
     $ertek = 1;
+    // products_json *************************************
+    $productsTest = "";
+
     if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
         // name, qtty, subtotal, total
         foreach ($_SESSION["kosar"] as $id => $dbszam) {
 
-            $termek = mysqli_fetch_assoc(mysqli_query($connection, "select * from products where id = $id"));
+            $termekek = mysqli_query($connection, "select * from products where id = $id");
+            $termek = mysqli_fetch_assoc($termekek);
 
             $subtotal = ($dbszam * subTotal($termek["week_offer"], $ertek) * $termek["price"]);
             $total += $subtotal;
 
-            $prod = $termek["name"];
-            // vásárolt termék adatai
-            $product .= "Termék neve: \t$prod\nDarabszám: \t$dbszam\nTermék ára: \t$subtotal\n";
+            // products_json *************************************
+            $productsToJSON = mysqli_query($connection, "select * from products where id=$id ");
+
+            $products = mysqli_fetch_assoc($productsToJSON);
+
+            // utf8 encode
+            $products = array_map('htmlentities', $products);
+            $productsJSON = html_entity_decode(json_encode($products));
+
+            $productsTest .= $productsJSON;
         }
-        // + végösszeg
-        $product .= "Végösszeg: \t$total";
     }
 
+    // megjelenés feltétele csak ha minden ki van töltve!
+    // feltételek hogy a küldött értékek megegyeznek-e az adatbázisban lévőkkel
+    // ha nem hibaüzenetet küld
+
+    
+    // kiíratás
+    /*
+    echo "<div><p>userID: " . $user["id"] . "</p></div><div>$paymentTest</div><div>$shippingTest</div><div>$productsTest</div><div><p>$total</p></div>";
+    */
+
+    // adatbázisba feltöltés
+    mysqli_query($connection, "insert into orders (`user_id`, `payment_json`, `shipping_json`, `products_json`, `total`) values (" . $user["id"] . ", '$paymentTest', '$shippingTest', '$productsTest', '$total') ");
 }
 
 ?>
@@ -105,9 +144,6 @@ if(isset($_POST["tovabb"])) {
         <form method="post">
 
             <?php
-            // ciklusos megoldás *********************************************
-            // személyes adatok, átvételi mód radio, fizetési mód megadása radio
-            // checkboxnál feltétel hogy igen/nem
 
             $total = 0;
             // akcióhoz tartozó szorzó
@@ -159,9 +195,9 @@ if(isset($_POST["tovabb"])) {
                     [['Átvételkor fizetek']]
                 ],
             ];
-    
+
             $coutry = ['Magyarország', 'Argentína', 'Ausztrália', 'Ausztria', 'Egyiptom', 'Franciaország', 'Horvátország', 'Japán', 'Kanada', 'Nagy-Britannia', 'Németország', 'Olaszország', 'Románia', 'Szerbia', 'Szlovákia', 'Szlovénia', 'Ukrajna'];
-    
+
             $for_ids = [
                 "Vezetéknév" => "lname",
                 "Keresztnév" => "fname",
@@ -173,7 +209,7 @@ if(isset($_POST["tovabb"])) {
                 "Utcanév" => "street",
                 "Házszám" => "nr"
             ];
-    
+
             // űrlap kiíratás ciklussal eleje
             echo '<section class="row p-2">';
             foreach ($urlap as $ocol) {
@@ -225,7 +261,7 @@ if(isset($_POST["tovabb"])) {
             }
             echo '</section>';
             // űrlap kiíratás ciklussal vége
-    
+
             echo '<section class="row p-2 justify-content-center">
                 <article class="col-auto">
                     <!-- gomb name értékének beállítása -->

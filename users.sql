@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost
--- Létrehozás ideje: 2023. Dec 12. 18:03
+-- Létrehozás ideje: 2024. Jan 06. 15:44
 -- Kiszolgáló verziója: 8.0.17
 -- PHP verzió: 7.3.10
 
@@ -55,18 +55,21 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `phon
 (4, 'Lakatos', 'Géza', 'lakage@gmail.com', '12121212112', '+36105557896', 'Lakatos Géza', 'Magyarország', 8127, 'Aba', 'Lakályos utca', '1298', '2022-03-10 15:44:05', '2023-12-11 21:34:17'),
 (5, 'Kováts', 'Kinga', 'kkinga@mail.com', 'lakat', '+36101214569', 'Kováts Kinga', 'Magyarország', 4400, 'Nyíregyháza', 'Molnár Piroska utca', '721', '2022-05-23 14:44:26', '2023-12-11 21:15:03'),
 (6, 'Lovászi', 'Tekla', 'lovassi@mail.com', 'lovaslovaslovas', '+36127573265', 'Lovászi Tekla', 'Magyarország', 7130, 'Tolna', 'Petőfi Sándor utca', '129', '2022-05-23 14:50:11', '2023-12-11 21:16:12'),
-(7, 'Kovách', 'Gábor', 'k.nagy@mail.com', '12345', '+104475588', 'Kovách Gábor', 'Magyarország', 6500, 'Baja', 'Petőfi Sándor utca', '321', '2022-05-23 15:35:00', '2023-12-11 21:16:57'),
+(7, 'Kovách', 'Gábor', 'k.nagy@mail.com', '12345', '+36104475588', 'Kovách Gábor', 'Magyarország', 6500, 'Baja', 'Petőfi Sándor utca', '321', '2022-05-23 15:35:00', '2024-01-05 15:12:59'),
 (8, 'Lengyel', 'Lilla', 'l.lilla@mail.com', '123g4g5', '+36125549986', 'Lengyel Lilla', 'Magyarország', 6500, 'Baja', 'Petőfi Sándor utca', '521', '2022-05-23 14:57:50', '2023-12-11 21:17:26'),
-(9, 'Szegedi', 'János', 'szegedij19@gmail.com', '12341121', '+105597788', 'Szegedi János', 'Magyarország', 6500, 'Baja', 'Szegedi út', '129', '2022-05-23 15:34:48', '2023-12-11 21:17:52'),
+(9, 'Szegedi', 'János', 'szegedij19@gmail.com', '12341121', '+36105597788', 'Szegedi János', 'Magyarország', 6500, 'Baja', 'Szegedi út', '129', '2022-05-23 15:34:48', '2024-01-05 15:13:25'),
 (10, 'Bodnár', 'László', 'b.laszlo@gmail.com', 'bodnar', '+36104781125', 'Bodnár László', 'Magyarország', 1022, 'Budapest', 'Révész utca', '123', '2022-05-24 14:07:28', '2023-12-11 21:19:19'),
 (11, 'Kiss', 'Evelin', 'kevelin@gmail.com', 'keve0123', '+36122007845', 'Kiss Evelin', 'Magyarország', 4400, 'Nyíregyháza', 'Tavasz út', '127', '2022-05-24 14:09:09', '2023-12-11 21:20:11'),
 (12, 'Zenthe', 'József', 'zenthe.j@mail.com', '123456', '+36100107849', 'Zenthe József', 'Magyarország', 1120, 'Budapest', 'Alajos utca', '12', '2022-05-24 14:15:21', '2023-12-11 21:30:01'),
-(13, 'Tóth', 'Enikő', 'teni@gmail.com', 'titkos', '+367981412', 'Tóth Enikő', 'Magyarország', 6500, 'Baja', 'Szabad utca', '127', '2022-05-24 14:29:30', '2023-12-11 21:30:38'),
+(13, 'Tóth', 'Enikő', 'teni@gmail.com', 'titkos', '+36127981412', 'Tóth Enikő', 'Magyarország', 6500, 'Baja', 'Szabad utca', '127', '2022-05-24 14:29:30', '2024-01-05 15:13:35'),
 (16, 'Gipsz', 'Jakab', 'gjakab@mail.com', '12345678', '+36121105937', 'Gipsz Jakab', 'Magyarország', 1022, 'Budapest', 'Tavasz utca', '77', '2023-12-12 17:36:04', NULL),
 (17, 'Debreceni', 'László', 'dlaszlo@mail.hu', 'huzat000', '+36105491128', 'Debreceni László', 'Magyarország', 3200, 'Gyöngyös', 'Petőfi utca', '17', '2023-12-12 17:43:15', NULL),
 (18, 'Takács', 'Péter', 'ptakacs@gmail.com', '12344321', '+36102156987', 'Takács Péter', 'Magyarország', 9000, 'Győr', 'Nyugat utca', '19', '2023-12-12 17:51:00', NULL),
 (19, 'Vörös', 'János', 'vjanos@gmail.com', 'vjani1212', '+36124967712', 'Vörös János', 'Magyarország', 8243, 'Balatonakali', 'Balaton utca', '5', '2023-12-12 17:55:26', NULL),
-(20, 'Nagy', 'Zita', 'nzita@mail.com', 'nzita123', '+36105557846', 'Nagy Zita', 'Magyarország', 3348, 'Szilvásvárad', 'Hegyi utca', '10', '2023-12-12 17:58:19', NULL);
+(20, 'Nagy', 'Zita', 'nzita@mail.com', 'nzita123', '+36105557846', 'Nagy Zita', 'Magyarország', 3348, 'Szilvásvárad', 'Hegyi utca', '10', '2023-12-12 17:58:19', NULL),
+(21, 'Szegedi', 'János', 'szegedij19@gmail.com', '12341121', '+36105597788', 'Szegedi János', 'Magyarország', 6500, 'Baja', 'Szegedi út', '129', '2022-05-23 15:34:48', '2023-12-11 21:17:52'),
+(22, 'Magyar', 'Péter', 'mpeter@teszt.dev', 'teszt222', '+36105551271', 'Magyar Péter', 'Magyarország', 1044, 'Budapest', 'Tésztaszűrő utca', '77', '2024-01-06 12:25:49', NULL),
+(23, 'Harang', 'Virág', 'haravirag@teszt.dev', 'harangvirag', '+36121794578', 'Harang Virág', 'Magyarország', 1022, 'Budapest', 'Ibolya utca', '17', '2024-01-06 12:52:55', NULL);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -86,7 +89,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost
--- Létrehozás ideje: 2023. Dec 13. 16:29
+-- Létrehozás ideje: 2024. Jan 06. 15:43
 -- Kiszolgáló verziója: 8.0.17
 -- PHP verzió: 7.3.10
 
@@ -39,9 +39,9 @@ CREATE TABLE `payment` (
 --
 
 INSERT INTO `payment` (`id`, `type`, `created_at`) VALUES
-(1, 'online', '2023-12-13 15:33:17'),
-(2, 'paypal', '2023-12-13 15:33:23'),
-(3, 'acceptance payment', '2023-12-13 15:34:00');
+(1, 'Online fizetés', '2023-12-13 15:33:17'),
+(2, 'PayPal fizetés', '2023-12-13 15:33:23'),
+(3, 'Átvételkor fizetek', '2023-12-13 15:34:00');
 
 --
 -- Indexek a kiírt táblákhoz
