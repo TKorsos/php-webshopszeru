@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost
--- Létrehozás ideje: 2023. Dec 13. 16:29
+-- Létrehozás ideje: 2024. Jan 06. 15:44
 -- Kiszolgáló verziója: 8.0.17
 -- PHP verzió: 7.3.10
 
@@ -40,9 +40,9 @@ CREATE TABLE `shipping` (
 --
 
 INSERT INTO `shipping` (`id`, `type`, `status`, `created_at`) VALUES
-(1, 'pickup point delivery', 'process', '2023-12-13 16:17:49'),
-(2, 'home delivery', 'process', '2023-12-13 16:17:52'),
-(3, 'in-store pickup', 'process', '2023-12-13 16:18:32');
+(1, 'Átvételi pontba kérem', 'process', '2023-12-13 16:17:49'),
+(2, 'Házhoz szállítás', 'process', '2023-12-13 16:17:52'),
+(3, 'Boltban veszem át', 'process', '2023-12-13 16:18:32');
 
 --
 -- Indexek a kiírt táblákhoz
