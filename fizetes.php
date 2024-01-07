@@ -33,42 +33,52 @@ if ($errors) {
 
 if (isset($_POST["tovabb"])) {
 
-    // first_name, last_name, email, phone (új ~ csak magyar számokra lesz jó), billing_name (új), country (új), zip, city, street, nr
-
     // user_id *************************************
-    // user adatok helye - email alapján ellenőriz!
-    $userToJSON = mysqli_query($connection, "select * from users where email='" . $_POST["email"] . "' ");
+    if (filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
 
-    $user = mysqli_fetch_assoc($userToJSON);
+        $userToJSON = mysqli_query($connection, "select * from users where email='" . $_POST["email"] . "' ");
 
-    // utf8 encode
-    // ez a rész akkor kell ha nem csak az id-t akarnánk kiíratni
-    $user = array_map('htmlentities', $user);
-    $userJSON = html_entity_decode(json_encode($user));
+        $user = mysqli_fetch_assoc($userToJSON);
 
-    $userTest = $userJSON;
+        // utf8 encode
+        // ez a rész akkor kell ha nem csak az id-t akarnánk kiíratni
+        $user = array_map('htmlentities', $user);
+        $userJSON = html_entity_decode(json_encode($user));
+
+        $userTest = $userJSON;
+    }
 
     // payment_json *************************************
-    $paymentToJSON = mysqli_query($connection, "select * from payment where type='" . $_POST["fizetes"] . "'");
+    if (isset($_POST["fizetes"])) {
 
-    $payment = mysqli_fetch_assoc($paymentToJSON);
+        $fizetes = $_POST["fizetes"]; // Undefined index: fizetes
 
-    // utf8 encode
-    $payment = array_map('htmlentities', $payment);
-    $paymentJSON = html_entity_decode(json_encode($payment));
+        $paymentToJSON = mysqli_query($connection, "select * from payment where type='" . $fizetes . "'");
 
-    $paymentTest = $paymentJSON;
+        $payment = mysqli_fetch_assoc($paymentToJSON);
+
+        // utf8 encode
+        $payment = array_map('htmlentities', $payment);
+        $paymentJSON = html_entity_decode(json_encode($payment));
+
+        $paymentTest = $paymentJSON;
+    }
 
     // shipping_json *************************************
-    $shippingToJSON = mysqli_query($connection, "select * from shipping where type='" . $_POST["atvetel"] . "'");
+    if (isset($_POST["atvetel"])) {
 
-    $shipping = mysqli_fetch_assoc($shippingToJSON);
+        $atvetel = $_POST["atvetel"]; // Undefined index: atvetel
 
-    // utf8 encode
-    $shipping = array_map('htmlentities', $shipping);
-    $shippingJSON = html_entity_decode(json_encode($shipping));
+        $shippingToJSON = mysqli_query($connection, "select * from shipping where type='" . $atvetel . "'");
 
-    $shippingTest = $shippingJSON;
+        $shipping = mysqli_fetch_assoc($shippingToJSON);
+
+        // utf8 encode
+        $shipping = array_map('htmlentities', $shipping);
+        $shippingJSON = html_entity_decode(json_encode($shipping));
+
+        $shippingTest = $shippingJSON;
+    }
 
     // vásárolni kívánt termékek
     $total = 0;
@@ -100,18 +110,90 @@ if (isset($_POST["tovabb"])) {
         }
     }
 
-    // megjelenés feltétele csak ha minden ki van töltve!
+    // first_name, last_name, email, phone (új ~ csak magyar számokra lesz jó), billing_name (új), country (új), zip, city, street, nr
     // feltételek hogy a küldött értékek megegyeznek-e az adatbázisban lévőkkel
-    // ha nem hibaüzenetet küld
 
-    
+    $first_name = $_POST["first_name"];
+    $last_name = $_POST["last_name"];
+    $email = $_POST["email"];
+    $phone = $_POST["phone"];
+    $billing_name = $_POST["billing_name"];
+    $country = $_POST["country"];
+    $zip = $_POST["zip"];
+    $city = $_POST["city"];
+    $street = $_POST["street"];
+    $nr = $_POST["nr"];
+
+    $order_errors = [];
+
+    // hibafeltételek
+    if (mb_strlen($first_name) < 2) {
+        $order_errors[] = "<div>A vezetéknévnek minimum 2 karakternek kell lennie!</div>";
+    }
+
+    if (mb_strlen($last_name) < 3) {
+        $order_errors[] = "<div>A keresztnévnek minimum 3 karakternek kell lennie!</div>";
+    }
+
+    if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
+        $order_errors[] = "<div>Invalid e-mail címet adott meg!</div>";
+    }
+
+    if (mb_strlen($phone) != 12) {
+        $order_errors[] = "<div>A telefonszámank 12 karakternek kell lennie és +36-tal kezdődik!</div>";
+    }
+
+    if (mb_strlen($billing_name) < 6) {
+        $order_errors[] = "<div>A számlázási névnek minimum 6 karakternek kell lennie!</div>";
+    }
+
+    if (mb_strlen($country) < 3) {
+        $order_errors[] = "<div>Az országnak minimum 3 karakternek kell lennie!</div>";
+    }
+
+    if (mb_strlen($zip) != 4) {
+        $order_errors[] = "<div>Az irányítószámnak 4 karakternek kell lennie!</div>";
+    }
+
+    if (mb_strlen($city) < 3) {
+        $order_errors[] = "<div>A városnak minimum 3 karakternek kell lennie!</div>";
+    }
+
+    if (mb_strlen($street) < 3) {
+        $order_errors[] = "<div>Az utcanévnek mimimum 3 karakternek kell lennie!</div>";
+    }
+
+    if (mb_strlen($nr) < 1) {
+        $order_errors[] = "<div>A házszámnak minimum 1 karakternek kell lennie!</div>";
+    }
+
+    if (isset($atvetel) == false) {
+        $order_errors[] = "<div>Nem adott meg átvételi formát!</div>";
+    }
+
+    if (isset($fizetes) == false) {
+        $order_errors[] = "<div>Nem adott meg fizetési módot!</div>";
+    }
+
     // kiíratás
     /*
     echo "<div><p>userID: " . $user["id"] . "</p></div><div>$paymentTest</div><div>$shippingTest</div><div>$productsTest</div><div><p>$total</p></div>";
     */
 
-    // adatbázisba feltöltés
-    mysqli_query($connection, "insert into orders (`user_id`, `payment_json`, `shipping_json`, `products_json`, `total`) values (" . $user["id"] . ", '$paymentTest', '$shippingTest', '$productsTest', '$total') ");
+    if (count($order_errors) > 0) {
+        echo '<div class="alert alert-danger" role="alert">';
+        foreach ($order_errors as $order_error) {
+            echo "$order_error";
+        }
+        echo '</div>';
+    } else {
+        mysqli_query($connection, "insert into orders (`user_id`, `payment_json`, `shipping_json`, `products_json`, `total`) values ('" . $user["id"] . "', '$paymentTest', '$shippingTest', '$productsTest', '$total') ");
+
+        // sikeres üzenet
+        echo '<div class="alert alert-success" role="alert"><strong>A rendelését felvettük!</strong></div>';
+
+        // header? refrech: 5 ?
+    }
 }
 
 ?>
@@ -199,8 +281,8 @@ if (isset($_POST["tovabb"])) {
             $coutry = ['Magyarország', 'Argentína', 'Ausztrália', 'Ausztria', 'Egyiptom', 'Franciaország', 'Horvátország', 'Japán', 'Kanada', 'Nagy-Britannia', 'Németország', 'Olaszország', 'Románia', 'Szerbia', 'Szlovákia', 'Szlovénia', 'Ukrajna'];
 
             $for_ids = [
-                "Vezetéknév" => "lname",
-                "Keresztnév" => "fname",
+                "Vezetéknév" => "first_name",
+                "Keresztnév" => "last_name",
                 "E-mail cím" => "email",
                 "Telefonszám" => "phone",
                 "Számlázási név" => "billing_name",
@@ -235,12 +317,12 @@ if (isset($_POST["tovabb"])) {
                                 echo '<h3>' . $content . '</h3>';
                             } elseif ($content === 'Ország') {
                                 echo '<div class="form-floating mb-3">
-                                    <select class="form-select" name="orszag" id="orszag" aria-label="' . $content . '">
+                                    <select class="form-select" name="country" id="country" aria-label="' . $content . '">
                                         <option selected>Ország kiválasztása</option>';
                                 foreach ($coutry as $list) {
                                     echo '<option value="' . $list . '">' . $list . '</option>';
                                 }
-                                echo '</select><label for="orszag">' . $content . '</label>
+                                echo '</select><label for="country">' . $content . '</label>
                                 </div>';
                             } else {
                                 foreach ($for_ids as $id => $forname) {

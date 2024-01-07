@@ -309,7 +309,7 @@ if (isset($_POST["reg"])) {
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger rounded-0" data-bs-dismiss="modal">Mégsem</button>
-                    <button type="submit" class="btn btn-success rounded-0" id="liveToastBtn" name="reg">Regisztrál</button>
+                    <button type="submit" class="btn btn-success rounded-0" name="reg">Regisztrál</button>
                 </div>
             </form>
         </div>
