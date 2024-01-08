@@ -1,47 +1,130 @@
+/* barna
+#E5C0B3
+#D1917A
+#AA583A
+#5F3121
+#241611
+*/
+
+/* narancsos
+#FFF5DC
+#FED777
+#FCBA12
+#A77802
+#342809
+*/
+
+/* fakó lila-zöld
+#FFFFFF
+#D6D9B0
+#964694
+#AF64AD
+#351E34
+*/
+
+/* lila-kék-narancs
+#D4E4F7
+#236AB9
+#FBA90A
+#5A18C9
+#190934
+*/
+
+:root {
+    --first: #E5C0B3;
+    --second: #D1917A;
+    --third: #AA583A;
+    --fourth: #5F3121;
+    --fifth: #241611;
+}
+
 html, body {
-    background-color: #efc998!important;
+    background-color: var(--first);
 }
 
 .nav-color {
-    background-image: linear-gradient(to right, #663322, #885544, #aa7766)!important;
+    background-image: linear-gradient(to right,var(--fifth), var(--fifth), var(--fourth))!important;
+}
+
+.nav-link, .welcome-text, .navbar-brand {
+    color: var(--first)!important;
+    transition: all 1000ms;
+}
+
+.nav-link:hover {
+    color: var(--second)!important;
+    text-decoration: underline 1px solid var(--second)!important;
+}
+
+.navbar-brand:hover {
+    color: var(--first)!important;
 }
 
 .log-name {
-    color: #efc998;
+    color: var(--third)!important;
 }
 
 .border-card {
-    border: 1px solid #efc998!important;
+    border: 1px solid var(--first)!important;
 }
 
 .border-custom {
-    border-bottom: 1px solid #efc998!important;
+    border-bottom: 1px solid var(--first)!important;
 }
 
-.termek-cim {
-    color: darkblue!important;
+.border-custom-thick {
+    border: 2px solid var(--first)!important;
 }
 
-.name-color {
-    color: #121212!important;
+.card {
+    background-color: var(--third)!important;
 }
 
-.text-color, body {
-    color: #343434!important;
+.modal-title {
+    color: var(--first)!important;
+}
+
+.termek-cim, .name-color, .text-color, body, h1, h2, h3, h4, h5, h6 {
+    color: var(--fifth)!important;
 }
 
 .modal-custom {
-    background-color: #885544!important;
+    background-color: var(--fifth)!important;
 }
 
 .modal-text-custom {
-    color: #dedede!important;
+    color: var(--first)!important;
 }
 
 input:focus {
-    border-color: #121212!important;
-    box-shadow: 1px 1px 1px #121212 inset, 0 0 8px #343434!important;
+    border-color: var(--fifth)!important;
+    box-shadow: 1px 1px 1px var(--fifth) inset, 0 0 8px var(--fourth)!important;
     outline: 0 none!important;
+}
+
+/* fizetes.php btn-primary? active? */
+/* kosar.php törlés gombok? active? */
+
+.navbar-toggler {
+    background-color: var(--fourth)!important;
+    border-color: var(--first)!important;
+    color: var(--fifth)!important;
+}
+
+.btn-dark {
+    background-color: var(--fifth);
+    color: var(--first);
+    transition: all 800ms;
+}
+
+.btn-dark:hover {
+    background-color: var(--fifth);
+    opacity: 0.7;
+}
+
+.btn-dark:active {
+    background-color: var(--fifth)!important;
+    transform: scale(0.9);
 }
 
 /* új bootstrap verzió után szükséges, a táblázatok fehér háttérrel rendelkeznek enélkül */
@@ -50,7 +133,6 @@ table > thead > tr > th, table > tbody > tr > td {
 }
 
 /* ha külön td-be lesznek akkor nem kell */
-
 @media screen and (min-width: 768px) {
     .input-qtty {
         width: 4rem;

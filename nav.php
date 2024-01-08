@@ -39,7 +39,7 @@
                     <div class="d-flex flex-row align-items-center">
                         <?php
                         if (isset($_SESSION['user'])) {
-                            echo '<span class="text-light pe-3">Üdvözlünk, <span class="log-name">' . $_SESSION["user"]["first_name"] . ' ' . $_SESSION["user"]["last_name"] . '</span></span>';
+                            echo '<span class="welcome-text text-light pe-3">Üdvözlünk, <span class="log-name">' . $_SESSION["user"]["first_name"] . ' ' . $_SESSION["user"]["last_name"] . '</span></span>';
                         }
                         ?>
                         <a class="nav-link link-light" href="logout.php">Kijelentkezés</a>
@@ -79,11 +79,11 @@ if (isset($_POST["login"])) {
     }
 
     if (count($log_errors) > 0) {
-        echo '<div class="alert alert-danger" role="alert">';
+        echo '<div class="container-lg"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
         foreach ($log_errors as $log_error) {
             echo "$log_error";
         }
-        echo '</div>';
+        echo '</div></div></div></div>';
     } else {
         $sql = mysqli_query($connection, "select * from users where email = '" . $_POST['email'] . "'");
         $user = mysqli_fetch_array($sql);
@@ -97,11 +97,11 @@ if (isset($_POST["login"])) {
         }
 
         if (count($log_errors) > 0) {
-            echo '<div class="alert alert-danger" role="alert">';
+            echo '<div class="container-lg"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
             foreach ($log_errors as $log_error) {
                 echo "$log_error";
             }
-            echo '</div>';
+            echo '</div></div></div></div>';
         } else {
             // belépés
             $_SESSION["user"] = $user;
@@ -125,6 +125,15 @@ if (isset($_POST["reg"])) {
 
     if ($error) {
         echo $error;
+    }
+
+    $user_emails = mysqli_query($connection, "select * from users");
+    $talalt_email = 0;
+
+    while($user_email = mysqli_fetch_assoc($user_emails)) {
+        if ($_POST["email"] == $user_email["email"]) {
+            $talalt_email += 1;
+        }
     }
 
     $first_name = $_POST["first_name"];
@@ -153,6 +162,10 @@ if (isset($_POST["reg"])) {
 
     if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
         $reg_errors[] = "<div>Invalid e-mail címet adott meg!</div>";
+    }
+
+    if ($talalt_email > 0) {
+        $reg_errors[] = "<div>Ezen az e-mail címen már regisztráltak, kérem adjon meg egy új e-mail címet!</div>";
     }
 
     if (mb_strlen($password) < 8) {
@@ -192,20 +205,20 @@ if (isset($_POST["reg"])) {
     }
 
     if (count($reg_errors) > 0) {
-        echo '<div class="alert alert-danger" role="alert">';
+        echo '<div class="container-lg"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
         foreach ($reg_errors as $reg_error) {
             echo "$reg_error";
         }
-        echo '</div>';
+        echo '</div></div></div></div>';
     } else {
         mysqli_query($connection, "insert into users (`first_name`, `last_name`, `email`, `password`, `phone`, `billing_name`, `country`, `zip`, `city`, `street`, `nr`) values ('$first_name', '$last_name', '$email', '$password', '$phone', '$billing_name', '$country', '$zip', '$city', '$street', '$nr')");
 
         echo mysqli_error($connection);
 
         // bootstrap alert megjelenítés
-        echo '<div class="alert alert-success" role="alert">
+        echo '<div class="container-lg"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert">
             <strong>Sikeres volt a regisztráció!</strong>
-        </div>';
+        </div></div></div></div>';
         
         // a megjelenített üzenet után 5 másodperccel frissít
         header('Refresh: 5');
@@ -221,7 +234,7 @@ if (isset($_POST["reg"])) {
             <form method="post" class="row g-3 p-3">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5 text-center" id="loginModalLabel">Bejelentkezés</h1>
-                    <button type="button" class="btn-close btn-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="col py-3">
@@ -253,7 +266,7 @@ if (isset($_POST["reg"])) {
             <form method="post" class="row g-3 p-3">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5 text-center" id="regModalLabel">Regisztráció</h1>
-                    <button type="button" class="btn-close btn-light" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <div class="row g-2">

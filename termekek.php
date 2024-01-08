@@ -14,10 +14,10 @@ $_SESSION["today"] = $t["wday"];
 // offert majd lehet át kellene nevezni
 function offer($weekoffer, $price) {
   if( $_SESSION["today"] === 0 || $_SESSION["today"] === 6 ) {
-    return $weekoffer === "1" ? '<div class="text-decoration-line-through text-danger">' . $price . ' Ft</div><div>' . $price * $_SESSION["week_offer"] . ' Ft</div>' : '<div>' . $price . ' Ft</div>';
+    return $weekoffer === "1" ? '<p class="text-decoration-line-through text-danger">' . $price . ' Ft</p><div>' . $price * $_SESSION["week_offer"] . ' Ft</div>' : '<div>' . $price . ' Ft</div>';
   }
   else {
-    return '<div>' . $price . ' Ft</div>';
+    return '<p>' . $price . ' Ft</p>';
   }
 }
 
@@ -101,10 +101,10 @@ if (isset($_SESSION["user"]) == false) {
             <h6 class="fst-italic py-3 name-color">' . $termek["slug"] . '</h6>
             <h6 class="name-color">Leírás</h6>
             <p class="card-text text-color">'.$termek["description"].'</p>
-            <hr class="border-custom">
+            <hr class="border-custom-thick">
             <h6 class="name-color">Termék ára</h6>
-            <p class="card-text text-color">' . ( offer($termek["week_offer"], $termek["price"]) ) . '</p>
-            <hr class="border-custom">
+            <div class="card-text text-color">' . ( offer($termek["week_offer"], $termek["price"]) ) . '</div>
+            <hr class="border-custom-thick">
           </div>
           <div class="card-footer border-0 d-grid justify-content-center">';
           echo '<a href="termek.php?id=' . $termek["id"] . '" class="btn btn-dark" name="data" value="' . $termek["id"] . '">Megnézem</a>';
