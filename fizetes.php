@@ -31,170 +31,7 @@ if ($errors) {
     echo $errors;
 }
 
-if (isset($_POST["tovabb"])) {
 
-    // user_id *************************************
-    if (filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
-
-        $userToJSON = mysqli_query($connection, "select * from users where email='" . $_POST["email"] . "' ");
-
-        $user = mysqli_fetch_assoc($userToJSON);
-
-        // utf8 encode
-        // ez a rész akkor kell ha nem csak az id-t akarnánk kiíratni
-        $user = array_map('htmlentities', $user);
-        $userJSON = html_entity_decode(json_encode($user));
-
-        $userTest = $userJSON;
-    }
-
-    // payment_json *************************************
-    if (isset($_POST["fizetes"])) {
-
-        $fizetes = $_POST["fizetes"]; // Undefined index: fizetes
-
-        $paymentToJSON = mysqli_query($connection, "select * from payment where type='" . $fizetes . "'");
-
-        $payment = mysqli_fetch_assoc($paymentToJSON);
-
-        // utf8 encode
-        $payment = array_map('htmlentities', $payment);
-        $paymentJSON = html_entity_decode(json_encode($payment));
-
-        $paymentTest = $paymentJSON;
-    }
-
-    // shipping_json *************************************
-    if (isset($_POST["atvetel"])) {
-
-        $atvetel = $_POST["atvetel"]; // Undefined index: atvetel
-
-        $shippingToJSON = mysqli_query($connection, "select * from shipping where type='" . $atvetel . "'");
-
-        $shipping = mysqli_fetch_assoc($shippingToJSON);
-
-        // utf8 encode
-        $shipping = array_map('htmlentities', $shipping);
-        $shippingJSON = html_entity_decode(json_encode($shipping));
-
-        $shippingTest = $shippingJSON;
-    }
-
-    // vásárolni kívánt termékek
-    $total = 0;
-    // akcióhoz tartozó szorzó
-    $ertek = 1;
-    // products_json *************************************
-    $productsTest = "";
-
-    if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
-        // name, qtty, subtotal, total
-        foreach ($_SESSION["kosar"] as $id => $dbszam) {
-
-            $termekek = mysqli_query($connection, "select * from products where id = $id");
-            $termek = mysqli_fetch_assoc($termekek);
-
-            $subtotal = ($dbszam * subTotal($termek["week_offer"], $ertek) * $termek["price"]);
-            $total += $subtotal;
-
-            // products_json *************************************
-            $productsToJSON = mysqli_query($connection, "select * from products where id=$id ");
-
-            $products = mysqli_fetch_assoc($productsToJSON);
-
-            // utf8 encode
-            $products = array_map('htmlentities', $products);
-            $productsJSON = html_entity_decode(json_encode($products));
-
-            $productsTest .= $productsJSON;
-        }
-    }
-
-    // first_name, last_name, email, phone (új ~ csak magyar számokra lesz jó), billing_name (új), country (új), zip, city, street, nr
-    // feltételek hogy a küldött értékek megegyeznek-e az adatbázisban lévőkkel
-
-    $first_name = $_POST["first_name"];
-    $last_name = $_POST["last_name"];
-    $email = $_POST["email"];
-    $phone = $_POST["phone"];
-    $billing_name = $_POST["billing_name"];
-    $country = $_POST["country"];
-    $zip = $_POST["zip"];
-    $city = $_POST["city"];
-    $street = $_POST["street"];
-    $nr = $_POST["nr"];
-
-    $order_errors = [];
-
-    // hibafeltételek
-    if (mb_strlen($first_name) < 2) {
-        $order_errors[] = "<div>A vezetéknévnek minimum 2 karakternek kell lennie!</div>";
-    }
-
-    if (mb_strlen($last_name) < 3) {
-        $order_errors[] = "<div>A keresztnévnek minimum 3 karakternek kell lennie!</div>";
-    }
-
-    if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
-        $order_errors[] = "<div>Invalid e-mail címet adott meg!</div>";
-    }
-
-    if (mb_strlen($phone) != 12) {
-        $order_errors[] = "<div>A telefonszámank 12 karakternek kell lennie és +36-tal kezdődik!</div>";
-    }
-
-    if (mb_strlen($billing_name) < 6) {
-        $order_errors[] = "<div>A számlázási névnek minimum 6 karakternek kell lennie!</div>";
-    }
-
-    if (mb_strlen($country) < 3) {
-        $order_errors[] = "<div>Az országnak minimum 3 karakternek kell lennie!</div>";
-    }
-
-    if (mb_strlen($zip) != 4) {
-        $order_errors[] = "<div>Az irányítószámnak 4 karakternek kell lennie!</div>";
-    }
-
-    if (mb_strlen($city) < 3) {
-        $order_errors[] = "<div>A városnak minimum 3 karakternek kell lennie!</div>";
-    }
-
-    if (mb_strlen($street) < 3) {
-        $order_errors[] = "<div>Az utcanévnek mimimum 3 karakternek kell lennie!</div>";
-    }
-
-    if (mb_strlen($nr) < 1) {
-        $order_errors[] = "<div>A házszámnak minimum 1 karakternek kell lennie!</div>";
-    }
-
-    if (isset($atvetel) == false) {
-        $order_errors[] = "<div>Nem adott meg átvételi formát!</div>";
-    }
-
-    if (isset($fizetes) == false) {
-        $order_errors[] = "<div>Nem adott meg fizetési módot!</div>";
-    }
-
-    // kiíratás
-    /*
-    echo "<div><p>userID: " . $user["id"] . "</p></div><div>$paymentTest</div><div>$shippingTest</div><div>$productsTest</div><div><p>$total</p></div>";
-    */
-
-    if (count($order_errors) > 0) {
-        echo '<div class="alert alert-danger" role="alert">';
-        foreach ($order_errors as $order_error) {
-            echo "$order_error";
-        }
-        echo '</div>';
-    } else {
-        mysqli_query($connection, "insert into orders (`user_id`, `payment_json`, `shipping_json`, `products_json`, `total`) values ('" . $user["id"] . "', '$paymentTest', '$shippingTest', '$productsTest', '$total') ");
-
-        // sikeres üzenet
-        echo '<div class="alert alert-success" role="alert"><strong>A rendelését felvettük!</strong></div>';
-
-        // header? refrech: 5 ?
-    }
-}
 
 ?>
 <!DOCTYPE html>
@@ -219,6 +56,171 @@ if (isset($_POST["tovabb"])) {
     <?php
 
     include("nav.php");
+
+    if (isset($_POST["tovabb"])) {
+
+        // user_id *************************************
+        if (filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
+    
+            $userToJSON = mysqli_query($connection, "select * from users where email='" . $_POST["email"] . "' ");
+    
+            $user = mysqli_fetch_assoc($userToJSON);
+    
+            // utf8 encode
+            // ez a rész akkor kell ha nem csak az id-t akarnánk kiíratni
+            $user = array_map('htmlentities', $user);
+            $userJSON = html_entity_decode(json_encode($user));
+    
+            $userTest = $userJSON;
+        }
+    
+        // payment_json *************************************
+        if (isset($_POST["fizetes"])) {
+    
+            $fizetes = $_POST["fizetes"]; // Undefined index: fizetes
+    
+            $paymentToJSON = mysqli_query($connection, "select * from payment where type='" . $fizetes . "'");
+    
+            $payment = mysqli_fetch_assoc($paymentToJSON);
+    
+            // utf8 encode
+            $payment = array_map('htmlentities', $payment);
+            $paymentJSON = html_entity_decode(json_encode($payment));
+    
+            $paymentTest = $paymentJSON;
+        }
+    
+        // shipping_json *************************************
+        if (isset($_POST["atvetel"])) {
+    
+            $atvetel = $_POST["atvetel"]; // Undefined index: atvetel
+    
+            $shippingToJSON = mysqli_query($connection, "select * from shipping where type='" . $atvetel . "'");
+    
+            $shipping = mysqli_fetch_assoc($shippingToJSON);
+    
+            // utf8 encode
+            $shipping = array_map('htmlentities', $shipping);
+            $shippingJSON = html_entity_decode(json_encode($shipping));
+    
+            $shippingTest = $shippingJSON;
+        }
+    
+        // vásárolni kívánt termékek
+        $total = 0;
+        // akcióhoz tartozó szorzó
+        $ertek = 1;
+        // products_json *************************************
+        $productsTest = "";
+    
+        if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
+            // name, qtty, subtotal, total
+            foreach ($_SESSION["kosar"] as $id => $dbszam) {
+    
+                $termekek = mysqli_query($connection, "select * from products where id = $id");
+                $termek = mysqli_fetch_assoc($termekek);
+    
+                $subtotal = ($dbszam * subTotal($termek["week_offer"], $ertek) * $termek["price"]);
+                $total += $subtotal;
+    
+                // products_json *************************************
+                $productsToJSON = mysqli_query($connection, "select * from products where id=$id ");
+    
+                $products = mysqli_fetch_assoc($productsToJSON);
+    
+                // utf8 encode
+                $products = array_map('htmlentities', $products);
+                $productsJSON = html_entity_decode(json_encode($products));
+    
+                $productsTest .= $productsJSON;
+            }
+        }
+    
+        // first_name, last_name, email, phone (új ~ csak magyar számokra lesz jó), billing_name (új), country (új), zip, city, street, nr
+        // feltételek hogy a küldött értékek megegyeznek-e az adatbázisban lévőkkel
+    
+        $first_name = $_POST["first_name"];
+        $last_name = $_POST["last_name"];
+        $email = $_POST["email"];
+        $phone = $_POST["phone"];
+        $billing_name = $_POST["billing_name"];
+        $country = $_POST["country"];
+        $zip = $_POST["zip"];
+        $city = $_POST["city"];
+        $street = $_POST["street"];
+        $nr = $_POST["nr"];
+    
+        $order_errors = [];
+    
+        // hibafeltételek
+        if (mb_strlen($first_name) < 2) {
+            $order_errors[] = "<div>A vezetéknévnek minimum 2 karakternek kell lennie!</div>";
+        }
+    
+        if (mb_strlen($last_name) < 3) {
+            $order_errors[] = "<div>A keresztnévnek minimum 3 karakternek kell lennie!</div>";
+        }
+    
+        if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
+            $order_errors[] = "<div>Invalid e-mail címet adott meg!</div>";
+        }
+    
+        if (mb_strlen($phone) != 12) {
+            $order_errors[] = "<div>A telefonszámank 12 karakternek kell lennie és +36-tal kezdődik!</div>";
+        }
+    
+        if (mb_strlen($billing_name) < 6) {
+            $order_errors[] = "<div>A számlázási névnek minimum 6 karakternek kell lennie!</div>";
+        }
+    
+        if (mb_strlen($country) < 3) {
+            $order_errors[] = "<div>Az országnak minimum 3 karakternek kell lennie!</div>";
+        }
+    
+        if (mb_strlen($zip) != 4) {
+            $order_errors[] = "<div>Az irányítószámnak 4 karakternek kell lennie!</div>";
+        }
+    
+        if (mb_strlen($city) < 3) {
+            $order_errors[] = "<div>A városnak minimum 3 karakternek kell lennie!</div>";
+        }
+    
+        if (mb_strlen($street) < 3) {
+            $order_errors[] = "<div>Az utcanévnek mimimum 3 karakternek kell lennie!</div>";
+        }
+    
+        if (mb_strlen($nr) < 1) {
+            $order_errors[] = "<div>A házszámnak minimum 1 karakternek kell lennie!</div>";
+        }
+    
+        if (isset($atvetel) == false) {
+            $order_errors[] = "<div>Nem adott meg átvételi formát!</div>";
+        }
+    
+        if (isset($fizetes) == false) {
+            $order_errors[] = "<div>Nem adott meg fizetési módot!</div>";
+        }
+    
+        // kiíratás
+        /*
+        echo "<div><p>userID: " . $user["id"] . "</p></div><div>$paymentTest</div><div>$shippingTest</div><div>$productsTest</div><div><p>$total</p></div>";
+        */
+    
+        if (count($order_errors) > 0) {
+            echo '<div class="container-lg"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
+            foreach ($order_errors as $order_error) {
+                echo "$order_error";
+            }
+            echo '</div></div></div></div>';
+        } else {
+            mysqli_query($connection, "insert into orders (`user_id`, `payment_json`, `shipping_json`, `products_json`, `total`) values ('" . $user["id"] . "', '$paymentTest', '$shippingTest', '$productsTest', '$total') ");
+    
+            // sikeres üzenet
+            echo '<div class="container-lg"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert"><strong>A rendelését felvettük!</strong></div></div></div></div>';
+    
+            // header? refrech: 5 ?
+        }
+    }
 
     ?>
 

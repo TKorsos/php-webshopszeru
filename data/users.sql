@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost
--- Létrehozás ideje: 2024. Jan 06. 15:44
+-- Létrehozás ideje: 2024. Jan 08. 13:01
 -- Kiszolgáló verziója: 8.0.17
 -- PHP verzió: 7.3.10
 
@@ -69,7 +69,8 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `phon
 (20, 'Nagy', 'Zita', 'nzita@mail.com', 'nzita123', '+36105557846', 'Nagy Zita', 'Magyarország', 3348, 'Szilvásvárad', 'Hegyi utca', '10', '2023-12-12 17:58:19', NULL),
 (21, 'Szegedi', 'János', 'szegedij19@gmail.com', '12341121', '+36105597788', 'Szegedi János', 'Magyarország', 6500, 'Baja', 'Szegedi út', '129', '2022-05-23 15:34:48', '2023-12-11 21:17:52'),
 (22, 'Magyar', 'Péter', 'mpeter@teszt.dev', 'teszt222', '+36105551271', 'Magyar Péter', 'Magyarország', 1044, 'Budapest', 'Tésztaszűrő utca', '77', '2024-01-06 12:25:49', NULL),
-(23, 'Harang', 'Virág', 'haravirag@teszt.dev', 'harangvirag', '+36121794578', 'Harang Virág', 'Magyarország', 1022, 'Budapest', 'Ibolya utca', '17', '2024-01-06 12:52:55', NULL);
+(23, 'Harang', 'Virág', 'haravirag@teszt.dev', 'harangvirag', '+36121794578', 'Harang Virág', 'Magyarország', 1022, 'Budapest', 'Ibolya utca', '17', '2024-01-06 12:52:55', NULL),
+(24, 'Ügyet', 'Lenke', 'ugyet@lenke.hu', 'xyzabcde', '+36105498789', 'Ügyet Lenke', 'Magyarország', 1077, 'Budapest', 'Torna út', '127', '2024-01-08 12:57:48', NULL);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -89,7 +90,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT a táblához `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
