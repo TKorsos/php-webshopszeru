@@ -215,6 +215,8 @@ if ($errors) {
         } else {
             mysqli_query($connection, "insert into orders (`user_id`, `payment_json`, `shipping_json`, `products_json`, `total`) values ('" . $user["id"] . "', '$paymentTest', '$shippingTest', '$productsTest', '$total') ");
     
+            echo mysqli_error($connection);
+
             // sikeres üzenet
             echo '<div class="container-lg"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert"><strong>A rendelését felvettük!</strong></div></div></div></div>';
     
