@@ -19,9 +19,77 @@ session_start();
 <body>
   <!-- nav helye -->
   <?php
-  
+
   include("nav.php");
 
+  // 3 termék kiválasztása vmilyen szempont szerint és azok megjelenítése carouselbe
+  error_reporting(E_ALL);
+  ini_set("display_errors", 1);
+
+  $connection = mysqli_connect("localhost", "root", "12345", "pcshop");
+
+  $error = mysqli_error($connection);
+  mysqli_set_charset($connection, "utf8mb4");
+
+  if ($error) {
+    echo $error;
+  }
+
+  $top_brands = mysqli_query($connection, "select * from products order by price desc");
+  $top = [];
+
+  while ($top_brand = mysqli_fetch_assoc($top_brands)) {
+    if ($top_brand["top_brand_apple"] == "1") {
+      $top[] = $top_brand;
+    }
+  }
+
+  echo '
+      <div id="carouselExampleCaptions" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-indicators">
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          </div>
+          <div class="carousel-inner custom-carousel-inner">';
+
+  // ez a rész nem úgy működik ciklussal ahogy elképzeltem
+
+  echo '<div class="carousel-item custom-carousel-height active" data-bs-interval="5000">
+              <div class="custom-carousel-height custom-carousel">
+                <h5>' . $top[0]["name"] . '</h5>
+                <h6>'. $top[0]["slug"].'</h6>
+                <p>'.$top[0]["description"].'</p>
+                <p>' . $top[0]["price"] . ' Ft</p>
+              </div>
+            </div>
+            <div class="carousel-item custom-carousel-height" data-bs-interval="5000">
+              <div class="custom-carousel-height custom-carousel">
+                <h5>' . $top[1]["name"] . '</h5>
+                <h6>'.$top[1]["slug"].'</h6>
+                <p>'.$top[1]["description"].'</p>
+                <p>' . $top[1]["price"] . ' Ft</p>
+              </div>
+            </div>
+            <div class="carousel-item custom-carousel-height" data-bs-interval="5000">
+              <div class="custom-carousel-height custom-carousel">
+                <h5>' . $top[2]["name"] . '</h5>
+                <h6>'.$top[2]["slug"].'</h6>
+                <p>'.$top[2]["description"].'</p>
+                <p>' . $top[2]["price"] . ' Ft</p>
+              </div>
+            </div>
+          </div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      ';
   ?>
 
   <!-- main helye -->

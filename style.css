@@ -31,7 +31,7 @@
 */
 
 :root {
-    --first: #E5C0B3;
+    --first: #f8f3e6;
     --second: #D1917A;
     --third: #AA583A;
     --fourth: #5F3121;
@@ -78,6 +78,28 @@ html, body {
 
 .card {
     background-color: var(--third)!important;
+}
+
+/* teszt *****************************************/
+.card:hover {
+    outline: 1px solid var(--fifth);
+}
+
+.custom-carousel-inner {
+    height: 500px;
+}
+
+.custom-carousel {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--third)!important;
+}
+
+.custom-carousel-height {
+    height: 100%;
 }
 
 .modal-title {
