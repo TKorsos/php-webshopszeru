@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost
--- Létrehozás ideje: 2024. Jan 08. 13:01
+-- Létrehozás ideje: 2024. Jan 10. 13:54
 -- Kiszolgáló verziója: 8.0.17
 -- PHP verzió: 7.3.10
 
@@ -70,7 +70,7 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `phon
 (21, 'Szegedi', 'János', 'szegedij19@gmail.com', '12341121', '+36105597788', 'Szegedi János', 'Magyarország', 6500, 'Baja', 'Szegedi út', '129', '2022-05-23 15:34:48', '2023-12-11 21:17:52'),
 (22, 'Magyar', 'Péter', 'mpeter@teszt.dev', 'teszt222', '+36105551271', 'Magyar Péter', 'Magyarország', 1044, 'Budapest', 'Tésztaszűrő utca', '77', '2024-01-06 12:25:49', NULL),
 (23, 'Harang', 'Virág', 'haravirag@teszt.dev', 'harangvirag', '+36121794578', 'Harang Virág', 'Magyarország', 1022, 'Budapest', 'Ibolya utca', '17', '2024-01-06 12:52:55', NULL),
-(24, 'Ügyet', 'Lenke', 'ugyet@lenke.hu', 'xyzabcde', '+36105498789', 'Ügyet Lenke', 'Magyarország', 1077, 'Budapest', 'Torna út', '127', '2024-01-08 12:57:48', NULL);
+(24, 'Ügyet', 'Lenke', 'ugyet@lenke.hu', 'ablakzsiraf', '+36105498789', 'Ügyet Lenke Irén', 'Magyarország', 1044, 'Budapest', 'Bécsi utca', '135', '2024-01-08 12:57:48', '2024-01-10 13:39:36');
 
 --
 -- Indexek a kiírt táblákhoz

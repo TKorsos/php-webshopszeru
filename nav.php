@@ -27,24 +27,29 @@
                 </li>
                 <!-- bejelentkezés és regisztráció akkor látható ha nincs bejelentkezve a felhasználó -->
                 <?php if (isset($_SESSION['user']) == false) { ?>
-                <li class="nav-item">
-                    <a class="nav-link link-light" href="#loginModal" data-bs-toggle="modal">Bejelentkezés</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link link-light" href="#regModal" data-bs-toggle="modal">Regisztráció</a>
-                </li>
-                <!-- kijelentkezés akkor látható ha be van jelentkezve a felhasználó -->
+                    <li class="nav-item">
+                        <a class="nav-link link-light" href="#loginModal" data-bs-toggle="modal">Bejelentkezés</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link link-light" href="#regModal" data-bs-toggle="modal">Regisztráció</a>
+                    </li>
+                    <!-- kijelentkezés akkor látható ha be van jelentkezve a felhasználó -->
                 <?php } else { ?>
-                <li class="nav-item">
-                    <div class="d-flex flex-row align-items-center">
-                        <?php
-                        if (isset($_SESSION['user'])) {
-                            echo '<span class="welcome-text text-light pe-3">Üdvözlünk, <span class="log-name">' . $_SESSION["user"]["first_name"] . ' ' . $_SESSION["user"]["last_name"] . '</span></span>';
-                        }
-                        ?>
-                        <a class="nav-link link-light" href="logout.php">Kijelentkezés</a>
-                    </div>
-                </li>
+                    <li class="nav-item">
+                        <div class="d-flex flex-row align-items-center">
+                            <a class="nav-link link-light" href="profile.php">Profilom</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <div class="d-flex flex-row align-items-center">
+                            <?php
+                            if (isset($_SESSION['user'])) {
+                                echo '<span class="welcome-text text-light pe-3">Üdvözlünk, <span class="log-name">' . $_SESSION["user"]["first_name"] . ' ' . $_SESSION["user"]["last_name"] . '</span></span>';
+                            }
+                            ?>
+                            <a class="nav-link link-light" href="logout.php">Kijelentkezés</a>
+                        </div>
+                    </li>
                 <?php } ?>
             </ul>
         </div>
@@ -130,7 +135,7 @@ if (isset($_POST["reg"])) {
     $user_emails = mysqli_query($connection, "select * from users");
     $talalt_email = 0;
 
-    while($user_email = mysqli_fetch_assoc($user_emails)) {
+    while ($user_email = mysqli_fetch_assoc($user_emails)) {
         if ($_POST["email"] == $user_email["email"]) {
             $talalt_email += 1;
         }
@@ -219,7 +224,7 @@ if (isset($_POST["reg"])) {
         echo '<div class="container-lg"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert">
             <strong>Sikeres volt a regisztráció!</strong>
         </div></div></div></div>';
-        
+
         // a megjelenített üzenet után 5 másodperccel frissít
         header('Refresh: 5');
     }
