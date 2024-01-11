@@ -58,24 +58,24 @@ session_start();
   echo '<div class="carousel-item custom-carousel-height active" data-bs-interval="5000">
               <div class="custom-carousel-height custom-carousel">
                 <h5>' . $top[0]["name"] . '</h5>
-                <h6>'. $top[0]["slug"].'</h6>
-                <p>'.$top[0]["description"].'</p>
+                <h6>' . $top[0]["slug"] . '</h6>
+                <p>' . $top[0]["description"] . '</p>
                 <p>' . $top[0]["price"] . ' Ft</p>
               </div>
             </div>
             <div class="carousel-item custom-carousel-height" data-bs-interval="5000">
               <div class="custom-carousel-height custom-carousel">
                 <h5>' . $top[1]["name"] . '</h5>
-                <h6>'.$top[1]["slug"].'</h6>
-                <p>'.$top[1]["description"].'</p>
+                <h6>' . $top[1]["slug"] . '</h6>
+                <p>' . $top[1]["description"] . '</p>
                 <p>' . $top[1]["price"] . ' Ft</p>
               </div>
             </div>
             <div class="carousel-item custom-carousel-height" data-bs-interval="5000">
               <div class="custom-carousel-height custom-carousel">
                 <h5>' . $top[2]["name"] . '</h5>
-                <h6>'.$top[2]["slug"].'</h6>
-                <p>'.$top[2]["description"].'</p>
+                <h6>' . $top[2]["slug"] . '</h6>
+                <p>' . $top[2]["description"] . '</p>
                 <p>' . $top[2]["price"] . ' Ft</p>
               </div>
             </div>
@@ -90,6 +90,11 @@ session_start();
           </button>
         </div>
       ';
+
+  // alert megjelenítése
+  if (isset($_SESSION["alert"])) {
+    echo $_SESSION["alert"];
+  }
   ?>
 
   <!-- main helye -->

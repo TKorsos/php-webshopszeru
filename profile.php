@@ -1,6 +1,8 @@
 <?php
 
-session_start();
+if (!isset($_SESSION)) {
+    session_start();
+}
 
 error_reporting(E_ALL);
 ini_set("display_errors", 1);
@@ -71,16 +73,16 @@ if (isset($_POST["modosit"])) {
     }
 
     if (count($mod_errors) > 0) {
-        echo '<div class="container-lg"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
+        $uzenet = '<div class="container-lg custom-top"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
         foreach ($mod_errors as $mod_error) {
-            echo "$mod_error";
+            $uzenet .= "$mod_error";
         }
-        echo '</div></div></div></div>';
+        $uzenet .= '</div></div></div></div>';
     } else {
 
         mysqli_query($connection, "update `users` set `password` = '" . $password . "', `phone` = '" . $phone . "', `billing_name` = '" . $billing_name . "', `country` = '" . $country . "', `zip` = '" . $zip . "', `city` = '" . $city . "', `street` = '" . $street . "', `nr` = '" . $nr . "' where id = '" . $_SESSION["user"]["id"] . "' ");
 
-        $uzenet = '<div class="container-lg"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert">
+        $uzenet = '<div class="container-lg custom-top"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert">
         <strong>Sikeres volt az adatmódosítás!</strong>
         </div></div></div></div>';
 
@@ -118,7 +120,7 @@ if (isset($_POST["modosit"])) {
 
     ?>
 
-    <main class="container-lg py-5">
+    <main class="container-lg pb-5 custom-top">
         <section class="row row-cols-1 gy-3 py-3">
             <article class="col-auto p-2 mx-auto">
                 <h1>Profil adataim módosítása</h1>
