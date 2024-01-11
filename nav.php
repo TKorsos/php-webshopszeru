@@ -1,14 +1,25 @@
-<nav class="navbar navbar-expand-lg nav-color">
+<?php
+
+if (!isset($_SESSION)) {
+    session_start();
+}
+
+$_SESSION["alert"] = "";
+
+?>
+<nav class="navbar fixed-top navbar-expand-lg nav-color">
     <div class="container-fluid">
-        <a class="navbar-brand link-light" href="#">Logó</a>
+        <a class="navbar-brand link-light" href="index.php">Logó</a>
+
+        <div class="order-lg-last">
+            <div class="date" id="date-js">hétfő, 2024. január 1.</div>
+        </div>
+
         <button class="navbar-toggler border-light bg-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav d-lg-flex flex-lg-row justify-content-lg-evenly w-100">
-                <li class="nav-item">
-                    <a class="nav-link link-light" href="index.php">Kezdőlap</a>
-                </li>
                 <li class="nav-item">
                     <a class="nav-link link-light" href="termekek.php">Termékek</a>
                 </li>
@@ -53,6 +64,7 @@
                 <?php } ?>
             </ul>
         </div>
+
     </div>
 </nav>
 
@@ -84,11 +96,11 @@ if (isset($_POST["login"])) {
     }
 
     if (count($log_errors) > 0) {
-        echo '<div class="container-lg"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
+        $_SESSION["alert"] = '<div class="container-lg custom-top"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
         foreach ($log_errors as $log_error) {
-            echo "$log_error";
+            $_SESSION["alert"] .= "$log_error";
         }
-        echo '</div></div></div></div>';
+        $_SESSION["alert"] .= '</div></div></div></div>';
     } else {
         $sql = mysqli_query($connection, "select * from users where email = '" . $_POST['email'] . "'");
         $user = mysqli_fetch_array($sql);
@@ -102,11 +114,11 @@ if (isset($_POST["login"])) {
         }
 
         if (count($log_errors) > 0) {
-            echo '<div class="container-lg"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
+            $_SESSION["alert"] = '<div class="container-lg custom-top"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
             foreach ($log_errors as $log_error) {
-                echo "$log_error";
+                $_SESSION["alert"] .= "$log_error";
             }
-            echo '</div></div></div></div>';
+            $_SESSION["alert"] .= '</div></div></div></div>';
         } else {
             // belépés
             $_SESSION["user"] = $user;
@@ -210,18 +222,18 @@ if (isset($_POST["reg"])) {
     }
 
     if (count($reg_errors) > 0) {
-        echo '<div class="container-lg"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
+        $_SESSION["alert"] = '<div class="container-lg custom-top"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
         foreach ($reg_errors as $reg_error) {
-            echo "$reg_error";
+            $_SESSION["alert"] .= "$reg_error";
         }
-        echo '</div></div></div></div>';
+        $_SESSION["alert"] .= '</div></div></div></div>';
     } else {
         mysqli_query($connection, "insert into users (`first_name`, `last_name`, `email`, `password`, `phone`, `billing_name`, `country`, `zip`, `city`, `street`, `nr`) values ('$first_name', '$last_name', '$email', '$password', '$phone', '$billing_name', '$country', '$zip', '$city', '$street', '$nr')");
 
         echo mysqli_error($connection);
 
         // bootstrap alert megjelenítés
-        echo '<div class="container-lg"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert">
+        $_SESSION["alert"] = '<div class="container-lg custom-top"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert">
             <strong>Sikeres volt a regisztráció!</strong>
         </div></div></div></div>';
 

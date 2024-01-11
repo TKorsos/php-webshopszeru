@@ -12,20 +12,14 @@ $_SESSION["today"] = $t["wday"];
 // $termek["week_offer"] -> $weekoffer
 // $termek["price"] -> $price
 // offert majd lehet át kellene nevezni
-function offer($weekoffer, $price) {
-  if( $_SESSION["today"] === 0 || $_SESSION["today"] === 6 ) {
+function offer($weekoffer, $price)
+{
+  if ($_SESSION["today"] === 0 || $_SESSION["today"] === 6) {
     return $weekoffer === "1" ? '<p class="text-decoration-line-through text-danger">' . $price . ' Ft</p><div>' . $price * $_SESSION["week_offer"] . ' Ft</div>' : '<div>' . $price . ' Ft</div>';
-  }
-  else {
+  } else {
     return '<p>' . $price . ' Ft</p>';
   }
 }
-
-/*
-if (isset($_SESSION["user"]) == false) {
-  exit('Csak bejelenkezett felhasználók részére!');
-}
-*/
 
 ?>
 <!DOCTYPE html>
@@ -40,10 +34,6 @@ if (isset($_SESSION["user"]) == false) {
   <title>PHP gyakorlás</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
-<!--
-  fenti tíltás beállítása
--->
 
 <body>
   <!-- nav helye -->
@@ -65,10 +55,15 @@ if (isset($_SESSION["user"]) == false) {
 
   $termekek = mysqli_query($connection, "select * from products");
 
+  // alert megjelenítése
+  if (isset($_SESSION["alert"])) {
+    echo $_SESSION["alert"];
+  }
+
   ?>
 
   <!-- main helye -->
-  <main class="container-lg py-5">
+  <main class="container-lg pb-5 custom-top">
     <section class="row row-cols-1 gy-3 py-3">
       <article class="col-auto p-2 mx-auto">
         <h1>Termékek</h1>
@@ -88,7 +83,7 @@ if (isset($_SESSION["user"]) == false) {
         // season_offer
         // melyik hónap/nap legyen akciós
         // majd ha itt jó a feltétel akkor legyen a többibe is átvive!!!********
-        
+
         while ($termek = mysqli_fetch_array($termekek)) {
           echo '
         <article class="col p-2">
@@ -100,10 +95,10 @@ if (isset($_SESSION["user"]) == false) {
             <h5 class="card-title termek-cim">' . $termek["name"] . '</h5>
             <h6 class="fst-italic py-3 name-color">' . $termek["slug"] . '</h6>
             <h6 class="name-color">Leírás</h6>
-            <p class="card-text text-color">'.$termek["description"].'</p>
+            <p class="card-text text-color">' . $termek["description"] . '</p>
             <hr class="border-custom-thick">
             <h6 class="name-color">Termék ára</h6>
-            <div class="card-text text-color">' . ( offer($termek["week_offer"], $termek["price"]) ) . '</div>
+            <div class="card-text text-color">' . (offer($termek["week_offer"], $termek["price"])) . '</div>
             <hr class="border-custom-thick">
           </div>
           <div class="card-footer border-0 d-grid justify-content-center">';

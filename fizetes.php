@@ -224,9 +224,14 @@ if ($errors) {
         }
     }
 
+    // alert megjelenítése
+    if(isset($_SESSION["alert"])) {
+        echo $_SESSION["alert"];
+    }
+
     ?>
 
-    <main class="container-lg py-5">
+    <main class="container-lg pb-5 custom-top">
         <form method="post">
 
             <?php

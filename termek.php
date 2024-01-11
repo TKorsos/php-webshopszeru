@@ -5,26 +5,35 @@ session_start();
 // $termek["week_offer"] -> $weekoffer
 // $termek["price"] -> $price
 // offert majd lehet át kellene nevezni
-function offer($weekoffer, $price) {
-  if( $_SESSION["today"] === 0 || $_SESSION["today"] === 6 ) {
-    return $weekoffer === "1" ? '<div class="text-decoration-line-through text-danger">' . $price . ' Ft</div><div>' . $price * $_SESSION["week_offer"] . ' Ft</div>' : '<div>' . $price . ' Ft</div>';
-  }
-  else {
-    return '<div>' . $price . ' Ft</div>';
-  }
+function offer($weekoffer, $price)
+{
+    if ($_SESSION["today"] === 0 || $_SESSION["today"] === 6) {
+        return $weekoffer === "1" ? '<div class="text-decoration-line-through text-danger">' . $price . ' Ft</div><div>' . $price * $_SESSION["week_offer"] . ' Ft</div>' : '<div>' . $price . ' Ft</div>';
+    } else {
+        return '<div>' . $price . ' Ft</div>';
+    }
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // termek_id és termek_db létrehozása id alapján lesz azonosítva majd a kosárban, így ha újra be lesz helyezve a kosárba ugyanaz az id már megtalálja és az ott lévő értéket módosítja vagy ad hozzá
-    $termek_id = $_POST["data"];
-    $termek_db = is_numeric($_POST["darabszam"]) && $_POST["darabszam"] > 0 ? $_POST["darabszam"] : 1;
+    if (isset($_POST["send_comment"])) {
+        // echo 'komment';
+        // exit;
+    } else {
+        // else ág kezdete
 
-    if (!isset($_SESSION["kosar"])) {
-        $_SESSION["kosar"] = [];
+        // termek_id és termek_db létrehozása id alapján lesz azonosítva majd a kosárban, így ha újra be lesz helyezve a kosárba ugyanaz az id már megtalálja és az ott lévő értéket módosítja vagy ad hozzá
+        $termek_id = $_POST["data"];
+        $termek_db = is_numeric($_POST["darabszam"]) && $_POST["darabszam"] > 0 ? $_POST["darabszam"] : 1;
+
+        if (!isset($_SESSION["kosar"])) {
+            $_SESSION["kosar"] = [];
+        }
+        // ahányszor nyomjuk meg a "kosárba tesz" gombot annyiszor adja hozzá a darabszámot
+        $_SESSION["kosar"][$termek_id] += $termek_db;
+
+        // else ág vége
     }
-    // ahányszor nyomjuk meg a "kosárba tesz" gombot annyiszor adja hozzá a darabszámot
-    $_SESSION["kosar"][$termek_id] += $termek_db;
 
     header('location: ' . $_SERVER['REQUEST_URI']);
 }
@@ -63,9 +72,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $termekek = mysqli_query($connection, "select * from products where id = '" . $_GET["id"] . "'");
 
+    // alert megjelenítése
+    if (isset($_SESSION["alert"])) {
+        echo $_SESSION["alert"];
+    }
+
     ?>
 
-    <main class="container-lg py-5">
+    <main class="container-lg pb-5 custom-top">
         <section class="row row-cols-1 gy-3 py-3">
             <article class="col-auto p-2 mx-auto">
                 <h1>Termék</h1>
@@ -73,14 +87,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         </section>
 
         <form method="post">
-        <?php
+            <?php
 
             // ( offer($termek["week_offer"], $termek["price"]) )
             // csak itt $termek helyett $data
             // egységesítés? $termek/$data
 
-                    while ($data = mysqli_fetch_array($termekek)) {
-                        echo '<section class="row p-2 g-3">
+            while ($data = mysqli_fetch_array($termekek)) {
+                echo '<section class="row p-2 g-3">
                         <article class="col-sm-6 col-md-8 d-flex flex-column gap-3">
                             <article>
                                 <h5 class="card-title termek-cim">' . $data["name"] . ' - ' . $data["slug"] . '</h5>
@@ -90,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </article>
                         </article>
                         <article class="col-sm-6 col-md-4 d-flex flex-column gap-3">
-                            <h2 class="card-text text-color">' . ( offer($data["week_offer"], $data["price"]) ) . '</h2>
+                            <h2 class="card-text text-color">' . (offer($data["week_offer"], $data["price"])) . '</h2>
                             <article><a href="termekek.php" class="btn btn-dark w-100">Vissza a vásárláshoz</a></article>
                             <article><a href="kosar.php" class="btn btn-dark w-100">Tovább a kosárhoz</a></article>
                             <article class="row gap-3 gap-lg-0">
@@ -107,10 +121,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <article class="col">
                             <p class="card-text text-color">' . $data["description"] . '</p>
                         </article>
-                    </section>';
-                    }
+                    </section>
+                    <hr>';
 
-                    ?>
+                // kommentek helye ( írás, módosítás, törlés ) - egy formon belül
+                // egyelőre regisztráció nélkül lehet kommentelni
+                // később ha regisztrációhoz kötött akkor az adott user adataival töltse ki ahol szükséges
+                // mysql id, termek_id, name, email, comment, created_at, update_at
+                echo '
+            <section class="row">
+                <article class="col">
+                    <h2>Vélemények</h2>
+                </article>
+            </section>
+            <section class="row">
+                <article class="col">
+                    <div>
+                        <div>Név</div>
+                        <div>E-mail</div>
+                    </div>
+                    <div>
+                        <textarea class="form-control" name="comment"></textarea>
+                    </div>
+                    <div>
+                        <button type="submit" class="btn btn-dark" name="send_comment" value="teszt">Üzenet elküldése</button>
+                    </div>
+                </article>
+            </section>
+            <hr>
+            <section class="row row-cols-1">';
+                for ($i = 0; $i < 3; $i++) {
+                    echo '<article class="col">
+                            <div>A megjelenített kommentek</div>
+                        </article>';
+                }
+                echo '</section>';
+            }
+
+            ?>
 
         </form>
 
