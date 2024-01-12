@@ -27,11 +27,13 @@ $_SESSION["alert"] = "";
                     <a class="nav-link link-light" href="kosar.php">
                         <span class="position-relative pt-1 pe-1">Kosár tartalma
                             <?php
-                            echo '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">';
-                            if (count($_SESSION["kosar"]) > 0) {
+
+                            if (isset($_SESSION["kosar"]) &&  count($_SESSION["kosar"]) > 0) {
+                                echo '<span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">';
                                 echo array_sum($_SESSION["kosar"]) . 'db';
+                                echo '</span>';
                             }
-                            echo '</span>';
+                            
                             ?>
                         </span>
                     </a>
