@@ -1,4 +1,9 @@
 <?php
+/*
+if (!isset($_SESSION)) {
+    session_start();
+}
+*/
 
 session_start();
 
@@ -14,14 +19,52 @@ function offer($weekoffer, $price)
     }
 }
 
+error_reporting(E_ALL);
+ini_set("display_errors", 1);
+
+$connection = mysqli_connect("localhost", "root", "12345", "pcshop");
+
+$errors = mysqli_error($connection);
+mysqli_set_charset($connection, "utf8mb4");
+
+if ($errors) {
+    echo $errors;
+}
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if (isset($_POST["send_comment"])) {
-        // echo 'komment';
-        // exit;
-    } else {
-        // else ág kezdete
+        // termek_id, comment_name, comment_email, comment_message
+        $termek_id = $_GET["id"];
+        $comment_name = $_POST["comment_name"];
+        $comment_email = $_POST["comment_email"];
+        $comment_message = $_POST["comment_message"];
 
+        $comment_errors = [];
+
+        if (mb_strlen($comment_name) < 3) {
+            $comment_errors[] = "<div>A névnek minimum 3 karakternek kell lennie!</div>";
+        }
+
+        if (filter_var($comment_email, FILTER_VALIDATE_EMAIL) == false) {
+            $comment_errors[] = "<div>Invalid e-mail címet adott meg!</div>";
+        }
+
+        if (mb_strlen($comment_message) < 10) {
+            $comment_errors[] = "<div>Az üzenetnek minimum 10 karakternek kell lennie!</div>";
+        }
+
+        // $_SESSION["alert"]
+        if (count($comment_errors) > 0) {
+            $_SESSION["alert"] = '<div class="container-lg custom-top"><div class="row pt-5"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
+            foreach ($comment_errors as $comment_error) {
+                $_SESSION["alert"] .= "$comment_error";
+            }
+            $_SESSION["alert"] .= '</div></div></div></div>';
+        } else {
+            mysqli_query($connection, "insert into comment (`termek_id`, `comment_name`, `comment_email`, `comment_message`) values ('$termek_id', '$comment_name', '$comment_email', '$comment_message') ");
+        }
+    } else {
         // termek_id és termek_db létrehozása id alapján lesz azonosítva majd a kosárban, így ha újra be lesz helyezve a kosárba ugyanaz az id már megtalálja és az ott lévő értéket módosítja vagy ad hozzá
         $termek_id = $_POST["data"];
         $termek_db = is_numeric($_POST["darabszam"]) && $_POST["darabszam"] > 0 ? $_POST["darabszam"] : 1;
@@ -31,8 +74,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
         // ahányszor nyomjuk meg a "kosárba tesz" gombot annyiszor adja hozzá a darabszámot
         $_SESSION["kosar"][$termek_id] += $termek_db;
-
-        // else ág vége
     }
 
     header('location: ' . $_SERVER['REQUEST_URI']);
@@ -58,23 +99,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     include("nav.php");
 
-    error_reporting(E_ALL);
-    ini_set("display_errors", 1);
-
-    $connection = mysqli_connect("localhost", "root", "12345", "pcshop");
-
-    $errors = mysqli_error($connection);
-    mysqli_set_charset($connection, "utf8mb4");
-
-    if ($errors) {
-        echo $errors;
-    }
-
     $termekek = mysqli_query($connection, "select * from products where id = '" . $_GET["id"] . "'");
 
     // alert megjelenítése
     if (isset($_SESSION["alert"])) {
         echo $_SESSION["alert"];
+    }
+
+    $comments_display = mysqli_query($connection, "select * from comment where termek_id = ' " . $_GET["id"] . " ' order by created_at desc ");
+
+    while ($comment_db = mysqli_fetch_assoc($comments_display)) {
+        if (!isset($comments_qtty)) {
+            $comments_qtty = [];
+        }
+
+        $comments_qtty[] = $comment_db["comment_message"];
     }
 
     ?>
@@ -85,14 +124,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 <h1>Termék</h1>
             </article>
         </section>
-
         <form method="post">
             <?php
 
             // ( offer($termek["week_offer"], $termek["price"]) )
             // csak itt $termek helyett $data
             // egységesítés? $termek/$data
-
             while ($data = mysqli_fetch_array($termekek)) {
                 echo '<section class="row p-2 g-3">
                         <article class="col-sm-6 col-md-8 d-flex flex-column gap-3">
@@ -123,45 +160,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </article>
                     </section>
                     <hr>';
+            }
 
-                // kommentek helye ( írás, módosítás, törlés ) - egy formon belül
-                // egyelőre regisztráció nélkül lehet kommentelni
-                // később ha regisztrációhoz kötött akkor az adott user adataival töltse ki ahol szükséges
-                // mysql id, termek_id, name, email, comment, created_at, update_at
-                echo '
+            // kommentek helye ( írás, módosítás (content_editable?), törlés ) - lehet kezdetben csak írás többi admin szükséges
+            // egyelőre regisztráció nélkül lehet kommentelni
+            // később ha regisztrációhoz kötött akkor az adott user adataival töltse ki ahol szükséges
+            // mysql id, termek_id, comment_name, comment_email, comment_message, created_at, updated_at
+            echo '
             <section class="row">
-                <article class="col">
-                    <h2>Vélemények</h2>
+                <article class="col pb-3">
+                    <h2>Üzenet küldése</h2>
                 </article>
             </section>
             <section class="row">
                 <article class="col">
-                    <div>
-                        <div>Név</div>
-                        <div>E-mail</div>
-                    </div>
-                    <div>
-                        <textarea class="form-control" name="comment"></textarea>
-                    </div>
-                    <div>
-                        <button type="submit" class="btn btn-dark" name="send_comment" value="teszt">Üzenet elküldése</button>
+                    <div class="row row-cols-1 gap-3">
+                        <div class="col">
+                            <div class="row gap-3 gap-lg-0">
+                                <div class="col-lg-6">
+                                    <label for="comment_name">Név</label>
+                                    <input type="text" class="form-control" id="comment_name" name="comment_name">
+                                </div>
+                                <div class="col-lg-6">
+                                    <label for="comment_email">E-mail</label>
+                                    <input type="email" class="form-control" id="comment_email" name="comment_email">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label for="comment_message">Üzenet</label>
+                            <textarea class="form-control" id="comment_message" name="comment_message"></textarea>
+                        </div>
+                        <div class="col">
+                            <button type="submit" class="btn btn-dark" name="send_comment">Üzenet elküldése</button>
+                        </div>
                     </div>
                 </article>
             </section>
             <hr>
-            <section class="row row-cols-1">';
-                for ($i = 0; $i < 3; $i++) {
-                    echo '<article class="col">
-                            <div>A megjelenített kommentek</div>
-                        </article>';
-                }
-                echo '</section>';
+            <section class="row">
+                <article class="col pb-3">
+                    <h2>
+                        Vélemények | ' . (isset($comments_qtty) && count($comments_qtty) > 0 ? count($comments_qtty) : '0') . ' db
+                    </h2>
+                </article>
+            </section>
+            <section class="row row-cols-1 gy-3">';
+            // id, termek_id, comment_name, comment_email, comment_message, created_at, updated_at
+            // kiírat, időrendi sorrend felül a legfrissebb, created_at alapján
+            $comments_display = mysqli_query($connection, "select * from comment where termek_id = ' " . $_GET["id"] . " ' order by created_at desc ");
+
+            while ($product_comment = mysqli_fetch_assoc($comments_display)) {
+                echo '<article class="col-md-9"><h5>' . $product_comment["comment_name"] . ' (<a class="comment_mail" href="mailto: kjanos@mail.com">' . $product_comment["comment_email"] . '</a>)</h5></article>
+                <article class="col-md-3 d-flex justify-content-md-end"><span class="message_date">' . $product_comment["created_at"] . '</span></article>
+                <article class="col"><span class="message_text">' . $product_comment["comment_message"] . '</span></article>';
+                echo '<hr>';
             }
+            echo '</section>';
 
             ?>
-
         </form>
-
     </main>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>

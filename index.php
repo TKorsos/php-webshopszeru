@@ -92,6 +92,7 @@ session_start();
       ';
 
   // alert megjelenítése
+  // mb_strlen() > 0
   if (isset($_SESSION["alert"])) {
     echo $_SESSION["alert"];
   }

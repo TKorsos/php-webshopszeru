@@ -129,10 +129,28 @@ html, body {
     color: var(--first)!important;
 }
 
-input:focus {
+input:focus, textarea:focus {
     border-color: var(--fifth)!important;
     box-shadow: 1px 1px 1px var(--fifth) inset, 0 0 8px var(--fourth)!important;
     outline: 0 none!important;
+}
+
+.comment_mail {
+    color: var(--fourth)!important;
+    transition: all var(--transition)!important;
+}
+
+.comment_mail:hover {
+    color: var(--fifth)!important;
+    text-decoration: 1px solid var(--fifth)!important;
+}
+
+.message_date {
+    color: var(--fourth)!important;
+}
+
+.message_text {
+    color: var(--third)!important;
 }
 
 /* fizetes.php btn-primary? active? */
