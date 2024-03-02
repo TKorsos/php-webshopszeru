@@ -133,8 +133,8 @@ echo '</div>
     <form method="get">
       <!-- asus -->
       <section class="row row-cols-1 gy-3 py-3">
-        <article class="col p-2">
-          <h2>Top Asus termékeink</h2>
+        <article class="col-auto p-2">
+          <h2 class="p-2 rounded-2 bg-light">Top Asus termékeink</h2>
         </article>
         <article class="col p-2">
           <div id="carouselTopAsus" class="carousel slide" data-bs-ride="carousel">
@@ -196,14 +196,14 @@ echo '</div>
             </button>
           </div>
         </article>
-        <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
+        <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3 p-2">
           <a href="?page=termekekView" class="btn btn-dark">Tovább a teljes listához</a>
         </article>
       </section>
       <!-- dell -->
       <section class="row row-cols-1 gy-3 py-3">
-        <article class="col p-2">
-          <h2>Top Dell termékeink</h2>
+        <article class="col-auto p-2">
+          <h2 class="p-2 rounded-2 bg-light">Top Dell termékeink</h2>
         </article>
         <article class="col p-2">
           <div id="carouselTopDell" class="carousel slide" data-bs-ride="carousel">
@@ -265,14 +265,14 @@ echo '</div>
             </button>
           </div>
         </article>
-        <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
+        <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3 p-2">
           <a href="?page=termekekView" class="btn btn-dark">Tovább a teljes listához</a>
         </article>
       </section>
       <!-- hp -->
       <section class="row row-cols-1 gy-3 py-3">
-        <article class="col p-2">
-          <h2>Top HP termékeink</h2>
+        <article class="col-auto p-2">
+          <h2 class="p-2 rounded-2 bg-light">Top HP termékeink</h2>
         </article>
         <article class="col p-2">
           <div id="carouselTopHp" class="carousel slide" data-bs-ride="carousel">
@@ -334,14 +334,14 @@ echo '</div>
             </button>
           </div>
         </article>
-        <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
+        <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3 p-2">
           <a href="?page=termekekView" class="btn btn-dark">Tovább a teljes listához</a>
         </article>
       </section>
       <!-- lenovo -->
       <section class="row row-cols-1 gy-3 py-3">
-        <article class="col p-2">
-          <h2>Top Lenovo termékeink</h2>
+        <article class="col-auto p-2">
+          <h2 class="p-2 rounded-2 bg-light">Top Lenovo termékeink</h2>
         </article>
         <article class="col p-2">
           <div id="carouselTopLenovo" class="carousel slide" data-bs-ride="carousel">
@@ -403,14 +403,14 @@ echo '</div>
             </button>
           </div>
         </article>
-        <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
+        <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3 p-2">
           <a href="?page=termekekView" class="btn btn-dark">Tovább a teljes listához</a>
         </article>
       </section>
       <!-- apple -->
       <section class="row row-cols-1 gy-3 py-3">
-        <article class="col p-2">
-          <h2>Top Apple termékeink</h2>
+        <article class="col-auto p-2">
+          <h2 class="p-2 rounded-2 bg-light">Top Apple termékeink</h2>
         </article>
         <article class="col p-2">
           <div id="carouselTopApple" class="carousel slide" data-bs-ride="carousel">
@@ -472,7 +472,7 @@ echo '</div>
             </button>
           </div>
         </article>
-        <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
+        <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3 p-2">
           <a href="?page=termekekView" class="btn btn-dark">Tovább a teljes listához</a>
         </article>
       </section>

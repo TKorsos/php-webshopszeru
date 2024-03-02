@@ -29,7 +29,7 @@
         }
     ?>
     <section class="row row-cols-1 gy-3 py-3">
-      <article class="col-auto p-2 mx-auto text-center">
+      <article class="col-auto p-2 mx-auto text-center rounded-2 bg-light">
         <h1>Minden ami számítástechnika</h1>
         <h5>Termékek, szolgáltatások és tanácsadás</h5>
       </article>

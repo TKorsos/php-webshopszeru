@@ -55,13 +55,13 @@ if (isset($_SESSION["user"]) == false) {
                     $subtotal = ($dbszam * $page->subTotal($termek["week_offer"], $ertek) * $termek["price"]);
                     $total += $subtotal;
 
-                    echo '<section class="row p-1"><article class="col border p-3">';
+                    echo '<section class="row p-1"><article class="col border p-3 rounded-2 bg-light">';
                     echo '<article><h4>Termék neve: ' . $termek["name"] . '</h4></article>';
                     echo '<article><h4>Darabszám: ' . $dbszam . '</h4></article>';
                     echo '<article><h4>Termék ára: ' . $subtotal . ' Ft</h4></article>';
                     echo '</article></section>';
                 }
-                echo '<section class="row p-2"><article class="col"><h4>Végösszeg: ' . $total . ' Ft</h4></article></section>';
+                echo '<section class="row p-1"><article class="col-auto rounded-2 bg-light"><h4 class="m-0 p-2">Végösszeg: ' . $total . ' Ft</h4></article></section>';
             }
 
             // űrlap kiíratáshoz
@@ -110,7 +110,7 @@ if (isset($_SESSION["user"]) == false) {
             // űrlap kiíratás ciklussal eleje
             echo '<section class="row p-2">';
             foreach ($urlap as $ocol) {
-                echo '<article class="col-md-6">';
+                echo '<article class="col-md-6 rounded-2 bg-light">';
                 foreach ($ocol as $row_id => $row) {
                     echo ($row_id === 0 ? '<article class="row pb-4">' : '<article class="row">');
                     foreach ($row as $icol) {
