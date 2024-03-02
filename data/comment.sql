@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost
--- Létrehozás ideje: 2024. Jan 12. 13:24
+-- Létrehozás ideje: 2024. Már 02. 15:40
 -- Kiszolgáló verziója: 8.0.17
 -- PHP verzió: 7.3.10
 
@@ -49,7 +49,19 @@ INSERT INTO `comment` (`id`, `termek_id`, `comment_name`, `comment_email`, `comm
 (4, 2, 'Molnár István', 'imolnar@mail.com', 'Ez a termék pont jó nekem.', '2024-01-12 11:54:58', NULL),
 (5, 1, 'Kincses József', 'kjoseph@mail.com', 'Sajnos a kapott termék hibás volt.', '2024-01-12 11:56:33', NULL),
 (6, 2, 'Kovács János', 'kjanos@mail.com', 'Ez az amit szerettem volna megvásárolni.', '2024-01-12 12:18:08', NULL),
-(7, 3, 'Vörös Mihály', 'vmihaly@mail.com', 'Tetszik a színválaszték bősége és megfelelő a munkámhoz.', '2024-01-12 13:21:33', NULL);
+(7, 3, 'Vörös Mihály', 'vmihaly@mail.com', 'Tetszik a színválaszték bősége és megfelelő a munkámhoz.', '2024-01-12 13:21:33', NULL),
+(8, 1, 'Teszt Elek', 'teszt@elek.hu', 'Teszt üzenet!', '2024-01-12 19:22:03', NULL),
+(9, 3, 'Nagy János', 'njanos@mail.com', 'Teszt üzenet2!', '2024-02-16 14:54:07', NULL),
+(10, 4, 'Gipsz Jakab', 'gjakab@gmail.com', 'Teszt üzenet3!', '2024-02-16 14:59:30', NULL),
+(11, 2, 'Nagy Mária', 'mary@gmail.com', 'Teszt üzenet4!', '2024-02-16 15:01:52', NULL),
+(12, 5, 'Nagy László', 'nlaci@email.hu', 'Teszt üzenet xy.', '2024-02-16 18:55:42', NULL),
+(13, 5, 'Hajós Nóra', 'hnora@mail.com', 'Teszt üzenet xyz.', '2024-02-16 19:09:00', NULL),
+(14, 5, 'Pintér Ákos', 'pakos@gmail.com', 'Teszt üzenet folytatása.', '2024-02-16 19:13:33', NULL),
+(15, 5, 'Molnár Péter', 'pmolnar@email.hu', 'Teszt üzenet.', '2024-02-16 19:24:05', NULL),
+(16, 6, 'Bagó Ilona', 'bilona@mail.com', 'Teszt üzenet.', '2024-02-16 19:24:50', NULL),
+(17, 1, 'Váradi Bence', 'vbence@gmail.com', 'Teszt üzenet folytatása 2.', '2024-02-18 11:34:45', NULL),
+(18, 2, 'Pici Mici', 'pmici@gmail.com', 'Ez egy teszt üzenet Picitől!', '2024-02-18 22:40:30', NULL),
+(19, 7, 'Teszt Elek', 'tesztelek@info.hu', 'Nagyon meg vagyok vele elégedve.', '2024-02-19 14:45:55', NULL);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -69,7 +81,7 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT a táblához `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

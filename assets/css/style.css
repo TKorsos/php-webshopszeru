@@ -1,5 +1,5 @@
 /* barna
-#E5C0B3
+#F8F3E6
 #D1917A
 #AA583A
 #5F3121
@@ -30,6 +30,10 @@
 #190934
 */
 
+* {
+    box-sizing: border-box;
+}
+
 :root {
     --first: #f8f3e6;
     --second: #D1917A;
@@ -37,15 +41,12 @@
     --fourth: #5F3121;
     --fifth: #241611;
     --transition: 800ms;
+    --bs-body-color-rgb: #fff;
 }
 
 html, body {
     background-color: var(--first);
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-}
-
-.custom-top {
-    margin-top: 5rem;
 }
 
 .nav-color {
@@ -66,34 +67,82 @@ html, body {
     color: var(--first)!important;
 }
 
+
+
+
+.main-custom-top {
+    margin-top: 3.5rem;
+}
+
+/* tesztelés */
+@media screen and (max-width: 330px) {
+    .main-custom-top {
+        margin-top: 10rem;
+    }
+}
+
+
+
+
 .log-name {
     color: var(--third)!important;
 }
 
+
+.week-color {
+    background-color: var(--first);
+    z-index: 50!important;
+}
+
+/* dolgozni kell még rajta MINDKÉT css-be */
+.week-offer {
+    animation-name: week-offer!important;
+    animation-duration: 4s!important;
+    animation-iteration-count: infinite!important;
+}
+
+@keyframes week-offer {
+    from { opacity: 0; };
+    to { opacity: 1; };
+}
+
 .border-card {
-    border: 1px solid var(--first)!important;
+    border: 1px transparent;
 }
 
 .border-custom {
-    border-bottom: 1px solid var(--first)!important;
+    border-bottom: 1px solid var(--fifth)!important;
 }
 
 .border-custom-thick {
-    border: 2px solid var(--first)!important;
+    border: 2px solid var(--fifth)!important;
 }
 
-.card {
-    background-color: var(--third)!important;
+/* .card */
+.offer-card {
+    background-color: var(--first)!important;
     transition: all var(--transition) ease-out;
 }
 
-.card:hover {
+/* .card:hover */
+.offer-card:hover {
     box-shadow: 0 0 1rem var(--fifth)!important;
     transform: translateY(-.3rem);
 }
 
-.carousel {
-    margin-top: 3.5rem;
+.products-card {
+    background-color: var(--first)!important;
+    transform: skewY(1deg);
+    transition: all var(--transition) ease-out;
+}
+
+.products-card:hover {
+    box-shadow: 0 0 1rem var(--fifth)!important;
+    transform: skewY(0);
+}
+
+.custom-top-carousel {
+    margin-top: 2.5rem;
 }
 
 .custom-carousel-inner {
@@ -106,11 +155,28 @@ html, body {
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
+    text-align: center;
     background-color: var(--third)!important;
 }
 
 .custom-carousel-height {
     height: 100%;
+}
+
+.contact-main {
+    display: flex;
+    justify-content: center;
+}
+
+.contact-list {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+    width: 100%;
+    padding: 0;
+    text-align: center;
+    list-style-type: none;
+    font-weight: bold;
 }
 
 .modal-title {
@@ -129,7 +195,7 @@ html, body {
     color: var(--first)!important;
 }
 
-input:focus, textarea:focus {
+input:focus, textarea:focus, select:focus {
     border-color: var(--fifth)!important;
     box-shadow: 1px 1px 1px var(--fifth) inset, 0 0 8px var(--fourth)!important;
     outline: 0 none!important;
