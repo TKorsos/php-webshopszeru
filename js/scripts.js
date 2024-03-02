@@ -3,6 +3,7 @@ const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]
 const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl))
 
 // password megjelenítése, elrejtése, dátum
+// #passwordLog és #passBtn helyett .password-log-js és .pass-btn-js elhelyezve modalba
 let passInput = document.querySelector('#passwordLog');
 let passBtn = document.querySelector('#passBtn');
 let dateDayArea = document.querySelector('#date-js');
