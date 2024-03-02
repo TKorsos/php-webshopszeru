@@ -27,13 +27,13 @@
             }
         ?>
         <section class="row row-cols-1 gy-3 py-3">
-            <article class="col-auto p-2 mx-auto">
+            <article class="col-auto p-2 mx-auto rounded-2 bg-light">
                 <h1>A kosár taralma</h1>
             </article>
         </section>
         <section class="row row-cols-1 gy-3 py-3">
             <?php
-            echo '<article class="col p-2"><table class="table table-responsive align-middle">';
+            echo '<article class="col p-2"><table class="table table-responsive align-middle rounded-2 bg-light">';
 
             $total = 0;
 
@@ -78,21 +78,26 @@
                     echo '</tr>';
                 }
             } else {
-                echo '<h4>Nincs termék a kosárban</h4>';
+                echo '
+                    <h4 class="p-2 rounded-2 bg-light">Nincs termék a kosárban</h4>';
             }
 
-            echo '</tbody></table></article>';
-            echo '<h3>Összesen: ' . $total . ' Ft</h3>';
+            echo '</tbody></table></article>
+                <article class="col-auto p-2">
+                    <h3 class="p-2 rounded-2 bg-light">Összesen: ' . $total . ' Ft</h3>
+                </article>';
 
             // kosár kiürítése
             if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
 
                 echo '
-                    <article class="col p-2">
+                <section class="row justify-content-center justify-content-md-between gap-2">
+                    <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
                         <form action="?page=clearCartProcess" method="post">
-                            <input type="submit" class="btn btn-danger" name="torolmind" id="torolmind" value="Kosár törlése">
+                            <input type="submit" class="btn btn-danger w-100" name="torolmind" id="torolmind" value="Kosár törlése">
                         </form>
-                    </article>';
+                    </article>
+                </section>';
             }
 
             echo '<hr>';
