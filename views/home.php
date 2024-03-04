@@ -1,10 +1,3 @@
-<?php
-
-// ezt hol kell definiálni? index.php vagy minden php-ba?
-define('CSS_PATH', 'http://localhost/php/webshopszeru/assets/css/');
-define('JS_PATH', 'http://localhost/php/webshopszeru/assets/js/');
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -14,9 +7,9 @@ define('JS_PATH', 'http://localhost/php/webshopszeru/assets/js/');
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <title>PHP gyakorlás</title>
+  <title><?php echo $this->pageTitle() ?></title>
   <!-- <link rel="stylesheet" href="./css/style.css"> -->
-  <link rel="stylesheet" href="<?= CSS_PATH ?>style.css">
+  <link rel="stylesheet" href="<?php echo $this->getCssFile() ?>">
 
 </head>
 
@@ -44,8 +37,8 @@ define('JS_PATH', 'http://localhost/php/webshopszeru/assets/js/');
           }
         }
              
-echo '</div>
-      <div class="carousel-inner custom-carousel-inner">';
+  echo '</div>
+        <div class="carousel-inner custom-carousel-inner">';
            
         $top_brand_main = mysqli_query($page->connectProcess(), "select * from products order by price desc");
         $i = 0;
@@ -71,16 +64,16 @@ echo '</div>
           }
         }
     
-echo '</div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselTopMain" data-bs-slide="prev">
-          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselTopMain" data-bs-slide="next">
-          <span class="carousel-control-next-icon" aria-hidden="true"></span>
-          <span class="visually-hidden">Next</span>
-        </button>
-    </div>';
+  echo '</div>
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselTopMain" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselTopMain" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+      </div>';
   ?>
 
   <!-- main helye -->
@@ -127,9 +120,54 @@ echo '</div>
         <a href="?page=termekekView" class="btn btn-dark">Tovább a teljes listához</a>
       </article>
     </section>
-    <!--
-      - carouselbe ( gomb (kosárba helyez gomb)?? )
-    -->
+
+    <!-- teszt anim kezdete -->
+
+
+    <section class="row row-cols-1 gy-3 py-3 bg-warning">
+      <article class="col p-2">
+        <h2>Hétvégi akciók!</h2>
+        <h4>Ezen a hétvégén különgleges ajánlatunk van: 10% kedvezmény a kiválasztott termékeinkre!</h4>
+      </article>
+      <article class="col p-2">
+        <?php
+        $termekekAkcio2 = mysqli_query($page->connectProcess(), "select * from products");
+        ?>
+        <div class="container-lg">
+          <section class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 gy-3 py-3">
+            <?php
+            while ($termek = mysqli_fetch_array($termekekAkcio2)) {
+              if ($termek["week_offer"] === "1") {
+                echo '
+                    <article class="col p-2">
+                      <div class="card border-card h-100 card-border-anim">
+                        <div class="card-inner">
+                          <div class="card-header text-center border-custom">
+                            <span><strong>Kép helye</strong></span>
+                          </div>
+                          <div class="card-body">
+                            <h5 class="card-title termek-cim">' . $termek["name"] . '</h5>
+                            <h6 class="name-color">Leírás</h6>
+                            <p class="card-text text-color">' . $termek["description"] . '</p>
+                          </div>
+                        </div>
+                      </div>
+                    </article>';
+              }
+            }
+            ?>
+          </section>
+        </div>
+      </article>
+      <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
+        <a href="?page=termekekView" class="btn btn-dark">Tovább a teljes listához</a>
+      </article>
+    </section>
+
+
+    <!-- teszt anim vége -->
+    
+
     <form method="get">
       <!-- asus -->
       <section class="row row-cols-1 gy-3 py-3">
@@ -492,7 +530,7 @@ echo '</div>
   </main>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-  <script src="<?= JS_PATH ?>scripts.js"></script>
+  <script src="<?php echo $this->getJsFile() ?>"></script>
 </body>
 
 </html>

@@ -49,17 +49,6 @@ class UserController
         }
     }
 
-    // ezen még dolgozni kell
-    function title() {
-        $pages = ["Termékek" => "termekekView", "Termék" => "termekView"];
-        $getpage = $_GET["page"];
-        foreach($pages as $key => $page) {
-            if($page === $getpage) {
-                return "PC Shop - $key";
-            }
-        }
-    }
-
     function connectProcess()
     {
         $connection = mysqli_connect("localhost", "root", "12345", "pcshop");
@@ -70,8 +59,6 @@ class UserController
 
     function loginProcess()
     {
-        // $_SESSION["alert"] = "";
-
         if (isset($_POST["login"])) {
             // login kezdete
             $log_errors = [];
@@ -125,6 +112,7 @@ class UserController
                 - form action esetén a bejelntkezés megtörténik, de adatok megadása nélkül nem jelenik meg a hibaüzenet
                 - form action nélkül a bejelentkezés megtörténik, adatok megadása nélkül a hibaüzenet is megjelenik
             */
+            // index.php, termekekView, termekView&id=, kosarView
             header("location: ?page=termekekView");
             exit;
         }
@@ -163,7 +151,7 @@ class UserController
                 $reg_errors[] = "<div>A vezetéknévnek minimum 2 karakternek kell lennie!</div>";
             }
 
-            // nem lehet Admin vagy admin
+            // nem lehet Admin vagy admin ( 3-at egybe? )
 
             if (mb_strlen($last_name) < 3) {
                 $reg_errors[] = "<div>A keresztnévnek minimum 3 karakternek kell lennie!</div>";
@@ -195,7 +183,7 @@ class UserController
                 $reg_errors[] = "<div>A számlázási névnek minimum 6 karakternek kell lennie!</div>";
             }
 
-            // nem lehet Admin Admin vagy admin admin
+            // nem lehet Admin Admin vagy admin admin ( update-be billing_name! )
 
             if (mb_strlen($country) < 3) {
                 $reg_errors[] = "<div>Az országnak minimum 3 karakternek kell lennie!</div>";
@@ -325,7 +313,7 @@ class UserController
                 //header('Refresh: 5');
             }
             // profilmódosítás vége
-            header("location: ?page=profileView");
+            header("location: ?page=profileView&id=".$_SESSION["user"]["id"]."");
             exit;
         }
     }

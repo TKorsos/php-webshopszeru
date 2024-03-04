@@ -15,7 +15,7 @@ if (isset($_SESSION["user"]) == false) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title>PHP gyakorlás</title>
+    <title><?php echo $this->pageTitle() ?></title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
@@ -37,9 +37,12 @@ if (isset($_SESSION["user"]) == false) {
     if (isset($_SESSION["user"]) == false) {
         // nem bejelenkezett ág
         echo '
-        <main class="container-lg py-5">
-            <section class="row row-cols-1 gy-3 py-3">
-                <article class="col-auto p-2 mx-auto">
+        <main class="container-lg py-5 main-custom-top">';
+            if (isset($_SESSION["alert"])) {
+                echo '<section class="row row-cols-1 gy-3 py-3"><article class="col p-2">'.$_SESSION["alert"].'</article></section>';
+            }
+        echo '<section class="row row-cols-1 gy-3 py-3">
+                <article class="col-auto p-2 mx-auto rounded-2 bg-light">
                     <h1>Ez az oldal bejelentkezést igényel!</h1>
                 </article>
             </section>
@@ -63,11 +66,11 @@ if (isset($_SESSION["user"]) == false) {
             ?>
             <section class="row row-cols-1 gy-3 py-3">
                 <article class="col-auto p-2 mx-auto">
-                    <h1>Profil adataim módosítása</h1>
+                    <h1 class="p-2 rounded-2 bg-light">Profil adataim módosítása</h1>
                 </article>
                 <article class="col-lg-8 p-2 mx-auto">
-                    <form action="?page=updateProcess" method="post" class="container">
-                        <div class="row gy-3">
+                    <form action="?page=updateProcess" method="post" class="container rounded-2 bg-light">
+                        <div class="row gy-3 justify-content-center">
                             <div class="col-lg-6">
                                 <label for="first_name">Vezetéknév</label>
                                 <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo $user["first_name"] ?>" disabled>
@@ -116,8 +119,11 @@ if (isset($_SESSION["user"]) == false) {
                                 <label for="nr">Házszám</label>
                                 <input type="text" class="form-control" id="nr" name="nr" value="<?php echo $user["nr"] ?>">
                             </div>
-                            <div class="col-12 py-5 d-flex justify-content-center">
-                                <button type="submit" class="btn btn-primary" name="modosit">Módosítás</button>
+                            <div class="col-12 col-sm-8 col-md-6 col-lg-5 pt-5 pb-3">
+                                <button type="submit" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3" name="modosit">
+                                    <div>Módosítás</div>
+                                    <i class="bi bi-pencil-square"></i>
+                                </button>
                             </div>
                         </div>
                     </form>
