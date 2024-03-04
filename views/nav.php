@@ -1,7 +1,5 @@
 <?php
 
-// use \traits\Utilities;
-
 use controllers\UserController;
 
 $page = new UserController;
@@ -48,7 +46,7 @@ $page = new UserController;
                 <?php } else { ?>
                     <li class="nav-item">
                         <div class="d-flex flex-row align-items-center">
-                            <a class="nav-link link-light" href="?page=profileView">Profilom</a>
+                            <a class="nav-link link-light" href="?page=profileView&id=<?php echo $_SESSION["user"]["id"] ?>">Profilom</a>
                         </div>
                     </li>
                     <li class="nav-item">
@@ -93,9 +91,9 @@ echo $page->navOffer();
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger rounded-0" data-bs-dismiss="modal">Mégsem</button>
-                    <button type="submit" class="btn btn-success rounded-0" name="login">Belépés</button>
+                <div class="modal-footer d-flex flex-nowrap justify-content-between gap-2">
+                    <button type="button" class="btn btn-danger w-50 m-0" data-bs-dismiss="modal">Mégsem</button>
+                    <button type="submit" class="btn btn-success w-50 m-0" name="login">Belépés</button>
                 </div>
             </form>
         </div>
@@ -105,7 +103,6 @@ echo $page->navOffer();
 <!-- regisztráció -->
 <!-- value értékei nem maradnak benne hibás kitöltés esetén! -->
 <div class="modal fade" id="regModal" tabindex="-1" aria-labelledby="regModalLabel" aria-hidden="true">
-    <!-- modal-fullscreen teszt? -->
     <div class="modal-dialog">
         <div class="modal-content modal-custom modal-text-custom">
             <form action="?page=registerProcess" method="post" class="row g-3 p-3">
@@ -165,9 +162,9 @@ echo $page->navOffer();
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger rounded-0" data-bs-dismiss="modal">Mégsem</button>
-                    <button type="submit" class="btn btn-success rounded-0" name="reg">Regisztrál</button>
+                <div class="modal-footer d-flex flex-nowrap justify-content-between gap-2">
+                    <button type="button" class="btn btn-danger w-50 m-0" data-bs-dismiss="modal">Mégsem</button>
+                    <button type="submit" class="btn btn-success w-50 m-0" name="reg">Regisztrál</button>
                 </div>
             </form>
         </div>

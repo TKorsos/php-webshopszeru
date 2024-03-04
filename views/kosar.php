@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title>PHP gyakorlás</title>
+    <title><?php echo $this->pageTitle() ?></title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
@@ -39,7 +39,7 @@
 
             if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
 
-                echo '<thead><tr><th>Leírás</th><th>Ár</th><th colspan="2">Darabszám</th><th>Összeg (Ft)</th></tr></thead><tbody>';
+                echo '<thead><tr><th>Leírás</th><th>Ár</th><th>Darabszám</th><th>Eltávolítás a kosárból</th><th>Összeg (Ft)</th></tr></thead><tbody>';
 
                 foreach ($_SESSION["kosar"] as $product_id => $qtty) {
 
@@ -60,17 +60,23 @@
                         <form action="?page=cartProcess" method="post">
                             <td>
                                 <article class="row gap-3 justify-content-center justify-content-md-start">
-                                    <article class="col-12 col-md-auto">
-                                        <input type="number" class="form-control input-qtty" max="99" value="' . $qtty . '" name="qtty">
+                                    <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
+                                        <input type="number" class="form-control input-qtty w-100" max="99" value="' . $qtty . '" name="qtty">
                                         <input type="hidden" name="id" value="' . $product_id . '">
                                     </article>
-                                    <article class="col-12 col-md-auto">
-                                        <button class="btn btn-dark w-100">Módosít</button>
+                                    <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
+                                        <button class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                                            <div>Módosít</div>
+                                            <i class="bi bi-pencil-square"></i>
+                                        </button>
                                     </article>
                                 </article>
                             </td>
                             <td>
-                                <button class="btn btn-danger" name="torol" value="' . $product_id . '">Eltávolítás a kosárból</button>
+                                <button class="btn btn-danger d-flex justify-content-center align-items-center gap-3" name="torol" value="' . $product_id . '">
+                                    
+                                    <i class="bi bi-trash3"></i>
+                                </button>
                             </td>
                         </form>';
 
@@ -94,7 +100,10 @@
                 <section class="row justify-content-center justify-content-md-between gap-2">
                     <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
                         <form action="?page=clearCartProcess" method="post">
-                            <input type="submit" class="btn btn-danger w-100" name="torolmind" id="torolmind" value="Kosár törlése">
+                            <button class="btn btn-danger w-100 d-flex justify-content-center align-items-center gap-3" name="torolmind" id="torolmind">
+                                <div>Kosár törlése</div>
+                                <i class="bi bi-trash3"></i>
+                            </button>
                         </form>
                     </article>
                 </section>';
@@ -107,10 +116,16 @@
             echo '
                 <section class="row justify-content-center justify-content-md-between gap-2">
                     <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
-                        <a href="?page=termekekView" class="btn btn-dark w-100">Vissza a vásárláshoz</a>
+                        <a href="?page=termekekView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                            <i class="bi bi-arrow-left-circle"></i>
+                            <div>Vissza a vásárláshoz</div>
+                        </a>
                     </article>
                     <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
-                        <a href="?page=rendelesView" class="btn btn-dark w-100">Tovább a rendeléshez</a>
+                        <a href="?page=rendelesView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                            <div>Tovább a rendeléshez</div>
+                            <i class="bi bi-arrow-right-circle"></i>
+                        </a>
                     </article>
                 </section>';
             ?>

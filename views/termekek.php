@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-  <title>PHP gyakorlás</title>
+  <title><?php echo $this->pageTitle() ?></title>
   <link rel="stylesheet" href="./css/style.css">
 </head>
 
@@ -64,11 +64,17 @@
             </div>
             <div class="card-footer border-0 d-grid justify-content-center gap-2">
               <form method="get">
-                <a href="?page=termekView&id=' . $termek["id"] . '" class="btn btn-dark w-100" name="data" value="' . $termek["id"] . '">Megnézem</a>
+                <a href="?page=termekView&id=' . $termek["id"] . '" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3" name="data" value="' . $termek["id"] . '">
+                  <div>Megnézem</div>
+                  <i class="bi bi-arrow-right-circle"></i>
+                </a>
               </form>
               <form action="?page=productCartProcess" method="post">
                 <input type="hidden" name="id" value="' . $termek["id"] . '">
-                  <button class="btn btn-dark w-100">Kosárba tesz</button> 
+                <button class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                  <div>Kosárba tesz</div>
+                  <i class="bi bi-cart4"></i>
+                </button>
               </form>
             </div>
           </div>

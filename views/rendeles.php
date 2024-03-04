@@ -16,7 +16,7 @@ if (isset($_SESSION["user"]) == false) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-    <title>PHP gyakorlás</title>
+    <title><?php echo $this->pageTitle() ?></title>
     <link rel="stylesheet" href="./css/style.css">
 </head>
 
@@ -161,7 +161,10 @@ if (isset($_SESSION["user"]) == false) {
 
             echo '<section class="row py-2 justify-content-center">
                 <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
-                    <button class="btn btn-dark w-100" id="rendeles" name="rendeles">Rendelés elküldése</button>
+                    <button class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3" id="rendeles" name="rendeles">
+                        <div>Rendelés elküldése</div>
+                        <i class="bi bi-send"></i>
+                    </button>
                 </article>
             </section>';
 
@@ -169,10 +172,16 @@ if (isset($_SESSION["user"]) == false) {
 
             echo '<section class="row justify-content-center justify-content-md-between gap-2">
                 <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
-                    <a href="?page=termekekView" class="btn btn-dark w-100">Vissza a vásárláshoz</a>
+                    <a href="?page=termekekView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                        <i class="bi bi-arrow-left-circle"></i>
+                        <div>Vissza a vásárláshoz</div>
+                    </a>
                 </article>
                 <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
-                    <a href="?page=kosarView" class="btn btn-dark w-100">Vissza a kosárhoz</a>
+                    <a href="?page=kosarView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                        <i class="bi bi-arrow-left-circle"></i>
+                        <div>Vissza a kosárhoz</div>
+                    </a>
                 </article>
             </section>';
 
