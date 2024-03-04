@@ -98,8 +98,6 @@ class UserController
                 } else {
                     // belépés
                     $_SESSION["user"] = $user;
-
-                    // header("location: index.php");
                 }
             }
 
@@ -112,8 +110,9 @@ class UserController
                 - form action esetén a bejelntkezés megtörténik, de adatok megadása nélkül nem jelenik meg a hibaüzenet
                 - form action nélkül a bejelentkezés megtörténik, adatok megadása nélkül a hibaüzenet is megjelenik
             */
+            // header("location: ?page=termekekView");
             // index.php, termekekView, termekView&id=, kosarView
-            header("location: ?page=termekekView");
+            header($this->landingUrl());
             exit;
         }
     }
@@ -147,17 +146,19 @@ class UserController
             // feltételek, hibaüzenetek, feltöltés
             $reg_errors = [];
 
+            $admin = "admin";
+
+            if ($first_name === $admin || $last_name === $admin || $first_name === ucfirst($admin) || $last_name === ucfirst($admin)) {
+                $reg_errors[] = "<div>Az Admin név fentartott név, nem használható!</div>";
+            }
+
             if (mb_strlen($first_name) < 2) {
                 $reg_errors[] = "<div>A vezetéknévnek minimum 2 karakternek kell lennie!</div>";
             }
 
-            // nem lehet Admin vagy admin ( 3-at egybe? )
-
             if (mb_strlen($last_name) < 3) {
                 $reg_errors[] = "<div>A keresztnévnek minimum 3 karakternek kell lennie!</div>";
             }
-
-            // nem lehet Admin vagy admin
 
             if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
                 $reg_errors[] = "<div>Invalid e-mail címet adott meg!</div>";
@@ -182,8 +183,6 @@ class UserController
             if (mb_strlen($billing_name) < 6) {
                 $reg_errors[] = "<div>A számlázási névnek minimum 6 karakternek kell lennie!</div>";
             }
-
-            // nem lehet Admin Admin vagy admin admin ( update-be billing_name! )
 
             if (mb_strlen($country) < 3) {
                 $reg_errors[] = "<div>Az országnak minimum 3 karakternek kell lennie!</div>";
@@ -322,6 +321,7 @@ class UserController
     {
         if (isset($_POST["send_comment"])) {
             // comment kezdet
+            $getpage = $_GET["page"];
 
             // termek_id, comment_name, comment_email, comment_message
             $termek_id = $_GET["id"];

@@ -88,13 +88,6 @@ html, body {
     margin-top: 3.5rem;
 }
 
-/* tesztelés */
-@media screen and (max-width: 330px) {
-    .main-custom-top {
-        margin-top: 10rem;
-    }
-}
-
 .log-name {
     color: var(--third)!important;
 }
@@ -116,27 +109,16 @@ html, body {
     to { opacity: 1; };
 }
 
-
-
-
-/* 1. rész */
-/* teszt akciós termékekre */
 .offer-card {
     background-color: var(--first)!important;
     transition: all var(--transition) ease-out;
 }
 
-/* .card:hover */
 .offer-card:hover {
     box-shadow: 0 0 1rem var(--fifth)!important;
     transform: translateY(-.3rem);
 }
 
-
-
-
-/* 2. rész */
-/* új teszt akciós termékekre */
 .card-border-anim {
     background-color: var(--fifth);
     transition: all .5s;
@@ -155,10 +137,6 @@ html, body {
 .card-border-anim:hover {
     box-shadow: 0px 0px 30px 1px var(--fifth);
 }
-
-
-
-
 
 .border-card {
     border: 1px transparent;
@@ -181,6 +159,19 @@ html, body {
 .products-card:hover {
     box-shadow: 0 0 1rem var(--fifth)!important;
     transform: skewY(0);
+}
+
+.btn-dark .bi {
+    transition: all .5s ease-in-out;
+}
+
+.btn-dark:hover .bi {
+    transform: translateX(.5rem);
+}
+
+/* felülírja az alap mozgást a vissza nyíl miatt */
+.btn-dark:hover .bi-arrow-left-circle {
+    transform: translateX(-.5rem);
 }
 
 .custom-top-carousel {
@@ -293,4 +284,10 @@ table > thead > tr > th, table > tbody > tr > td {
     .input-qtty {
         width: 4rem;
     }    
+}
+
+@media screen and (max-width: 330px) {
+    .main-custom-top {
+        margin-top: 10rem;
+    }
 }
