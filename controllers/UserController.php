@@ -39,13 +39,25 @@ class UserController
         $_SESSION["today"] = $t["wday"];
 
         if ($_SESSION["today"] === 0 || $_SESSION["today"] === 6) {
-            return '<header class="position-fixed w-100 week-color"><div class="container-fluid"><div class="col py-2 d-flex justify-content-center align-items-center">
-                        <span class="week-offer text-danger"><strong>Ne hagyd ki a kiváló lehetőségeket, hiszen már elindultak hétvégi akcióink!</strong></span>
-                    </div></div></header>';
+            return '<header class="position-fixed w-100 week-color">
+                        <div class="container-fluid">
+                            <div class="col py-2 d-flex justify-content-center align-items-center">
+                                <span class="week-offer-animation text-danger">
+                                    <strong>Ne hagyd ki a kiváló lehetőségeket, hiszen már elindultak hétvégi akcióink!</strong>
+                                </span>
+                            </div>
+                        </div>
+                    </header>';
         } else {
-            return '<header class="position-fixed w-100 week-color"><div class="container-fluid"><div class="col py-2 d-flex justify-content-center align-items-center">
-                        <span class="week-offer text-danger"><strong>Hétvégi különleges ajánlatainkban a kiemelt termékeink akár 10%-kal kezdvezőbb áron elérhetők!</strong></span>
-                    </div></div></header>';
+            return '<header class="position-fixed w-100 week-color">
+                        <div class="container-fluid">
+                            <div class="col py-2 d-flex justify-content-center align-items-center">
+                                <span class="week-offer-animation text-danger">
+                                    <strong>Hétvégi különleges ajánlatainkban a kiemelt termékeink akár 10%-kal kezdvezőbb áron elérhetők!</strong>
+                                </span>
+                            </div>
+                        </div>
+                    </header>';
         }
     }
 
@@ -58,7 +70,7 @@ class UserController
     }   
 
     function loginProcess()
-    {
+    {   
         if (isset($_POST["login"])) {
             // login kezdete
             $log_errors = [];
@@ -103,16 +115,9 @@ class UserController
 
             // login vége
 
-            /*
-            - modal ablakban van a login
-            - vagy külön oldalt csinálunk a loginnak
-            - vagy form action nélkül ( úgy működik, persze kívülálló teszt is kell )
-                - form action esetén a bejelntkezés megtörténik, de adatok megadása nélkül nem jelenik meg a hibaüzenet
-                - form action nélkül a bejelentkezés megtörténik, adatok megadása nélkül a hibaüzenet is megjelenik
-            */
             // header("location: ?page=termekekView");
-            // index.php, termekekView, termekView&id=, kosarView
-            header($this->landingUrl());
+            // index.php, termekekView, termekView&id=, kosarView, profileView&id=
+            header("location: ?page=".$this->landingUrl());
             exit;
         }
     }

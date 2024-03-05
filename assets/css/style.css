@@ -31,6 +31,7 @@
 */
 
 :root {
+    --hover: #F8F3E6;
     --first: #fff;
     --second: #D1917A;
     --third: #AA583A;
@@ -55,16 +56,16 @@ html, body {
     border-color: var(--fifth)!important;
 }
 
-
-
-
-/* hover nem működik */
-.form-select option:checked, .form-select option:hover, .form-select option:focus {
-    background-color: green!important;
+/* ebben az esetben lenyílik a lista, amire rákattintok annak jó lesz a színe, a focusnál is, de a hover részénél már nem */
+.form-select option:checked, .form-select option:hover {
+    background-color: var(--fifth)!important;
+    color: var(--first);
+    box-shadow: 0 0 10px 10px var(--fifth) inset;
 }
 
-
-
+.form-control:hover, .form-select:hover, .form-check-input:hover {
+    background-color: var(--hover)!important;
+}
 
 .nav-color {
     background-image: linear-gradient(to right,var(--fifth), var(--fifth), var(--fourth))!important;
@@ -98,13 +99,13 @@ html, body {
 }
 
 /* dolgozni kell még rajta MINDKÉT css-be */
-.week-offer {
-    animation-name: week-offer!important;
+.week-offer-animation {
+    animation-name: week-offer-animation!important;
     animation-duration: 4s!important;
     animation-iteration-count: infinite!important;
 }
 
-@keyframes week-offer {
+@keyframes week-offer-animation {
     from { opacity: 0; };
     to { opacity: 1; };
 }
@@ -161,17 +162,25 @@ html, body {
     transform: skewY(0);
 }
 
-.btn-dark .bi {
-    transition: all .5s ease-in-out;
-}
-
-.btn-dark:hover .bi {
-    transform: translateX(.5rem);
+.btn-dark:hover .bi, .btn-trash:hover .bi {
+    animation: animate-right .8s infinite;
 }
 
 /* felülírja az alap mozgást a vissza nyíl miatt */
 .btn-dark:hover .bi-arrow-left-circle {
-    transform: translateX(-.5rem);
+    animation: animate-left .8s infinite;
+}
+
+@keyframes animate-left {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(-.4rem); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes animate-right {
+    0% { transform: translateX(0); }
+    50% { transform: translateX(.4rem); }
+    100% { transform: translateX(0); }
 }
 
 .custom-top-carousel {
