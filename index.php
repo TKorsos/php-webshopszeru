@@ -19,4 +19,4 @@ else {
 }
 
 // ami kell még session, helyezd ide
-unset($_SESSION["alert"]);
+unset($_SESSION["alert"], $_SESSION["getpage"]);

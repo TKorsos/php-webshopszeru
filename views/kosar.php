@@ -100,7 +100,7 @@
                 <section class="row justify-content-center justify-content-md-between gap-2">
                     <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
                         <form action="?page=clearCartProcess" method="post">
-                            <button class="btn btn-danger w-100 d-flex justify-content-center align-items-center gap-3" name="torolmind" id="torolmind">
+                            <button class="btn btn-danger btn-trash w-100 d-flex justify-content-center align-items-center gap-3" name="torolmind" id="torolmind">
                                 <div>Kosár törlése</div>
                                 <i class="bi bi-trash3"></i>
                             </button>
