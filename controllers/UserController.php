@@ -10,7 +10,8 @@ class UserController
 {
     use \traits\Utilities;
 
-    // másik classbe tegyem kezdet
+    // másik classbe tegyem kezdet *********************************************
+    // először csak html mentesítsük
     function offer($weekoffer, $price)
     {
         $val = 0.9;
@@ -63,7 +64,9 @@ class UserController
                     </header>';
         }
     }
-    // másik classbe tegyem kezdet
+    // másik classbe tegyem vége ***********************************************
+
+
 
     function connectProcess()
     {
@@ -88,11 +91,11 @@ class UserController
             }
 
             if (count($log_errors) > 0) {
-                $_SESSION["alert"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
+                $_SESSION["errors"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
                 foreach ($log_errors as $log_error) {
-                    $_SESSION["alert"] .= "$log_error";
+                    $_SESSION["errors"] .= "$log_error";
                 }
-                $_SESSION["alert"] .= '</div></div></div></div>';
+                $_SESSION["errors"] .= '</div></div></div></div>';
             } else {
                 $sql = mysqli_query($this->connectProcess(), "select * from users where email = '" . $_POST['email'] . "'");
                 $user = mysqli_fetch_array($sql);
@@ -106,11 +109,11 @@ class UserController
                 }
 
                 if (count($log_errors) > 0) {
-                    $_SESSION["alert"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
+                    $_SESSION["errors"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
                     foreach ($log_errors as $log_error) {
-                        $_SESSION["alert"] .= "$log_error";
+                        $_SESSION["errors"] .= "$log_error";
                     }
-                    $_SESSION["alert"] .= '</div></div></div></div>';
+                    $_SESSION["errors"] .= '</div></div></div></div>';
                 } else {
                     // belépés
                     $_SESSION["user"] = $user;
@@ -244,17 +247,17 @@ class UserController
             }
 
             if (count($reg_errors) > 0) {
-                $_SESSION["alert"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
+                $_SESSION["errors"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
                 foreach ($reg_errors as $reg_error) {
-                    $_SESSION["alert"] .= "$reg_error";
+                    $_SESSION["errors"] .= "$reg_error";
                 }
-                $_SESSION["alert"] .= '</div></div></div></div>';
+                $_SESSION["errors"] .= '</div></div></div></div>';
 
             } else {
                 mysqli_query($this->connectProcess(), "insert into users (`first_name`, `last_name`, `email`, `password`, `phone`, `billing_name`, `country`, `zip`, `city`, `street`, `nr`) values ('$first_name', '$last_name', '$email', '$password', '$phone', '$billing_name', '$country', '$zip', '$city', '$street', '$nr')");
 
                 // bootstrap alert megjelenítés
-                $_SESSION["alert"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert">
+                $_SESSION["success"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert">
                     <strong>Sikeres volt a regisztráció!</strong>
                 </div></div></div></div>';
             }
@@ -323,11 +326,11 @@ class UserController
             }
 
             if (count($mod_errors) > 0) {
-                $_SESSION["alert"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
+                $_SESSION["errors"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
                 foreach ($mod_errors as $mod_error) {
-                    $_SESSION["alert"] .= "$mod_error";
+                    $_SESSION["errors"] .= "$mod_error";
                 }
-                $_SESSION["alert"] .= '</div></div></div></div>';
+                $_SESSION["errors"] .= '</div></div></div></div>';
             } else {
 
                 mysqli_query($this->connectProcess(), "update `users` set 
@@ -341,7 +344,7 @@ class UserController
                 `nr` = '" . $nr . "'
                 where id = '" . $_SESSION["user"]["id"] . "' ");
 
-                $_SESSION["alert"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert">
+                $_SESSION["success"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert">
                 <strong>Sikeres volt az adatmódosítás!</strong>
                 </div></div></div></div>';
 
@@ -377,13 +380,12 @@ class UserController
                 $comment_errors[] = "<div>Az üzenetnek minimum 10 karakternek kell lennie!</div>";
             }
 
-            // $_SESSION["alert"]
             if (count($comment_errors) > 0) {
-                $_SESSION["alert"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
+                $_SESSION["errors"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
                 foreach ($comment_errors as $comment_error) {
-                    $_SESSION["alert"] .= "$comment_error";
+                    $_SESSION["errors"] .= "$comment_error";
                 }
-                $_SESSION["alert"] .= '</div></div></div></div>';
+                $_SESSION["errors"] .= '</div></div></div></div>';
             } else {
                 mysqli_query($this->connectProcess(), "insert into comment (`termek_id`, `comment_name`, `comment_email`, `comment_message`) values ('$termek_id', '$comment_name', '$comment_email', '$comment_message') ");
             }
@@ -540,16 +542,16 @@ class UserController
             }
     
             if (count($order_errors) > 0) {
-                $_SESSION["alert"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
+                $_SESSION["errors"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
                 foreach ($order_errors as $order_error) {
-                    $_SESSION["alert"] .= "$order_error";
+                    $_SESSION["errors"] .= "$order_error";
                 }
-                $_SESSION["alert"] .= '</div></div></div></div>';
+                $_SESSION["errors"] .= '</div></div></div></div>';
             } else {
                 mysqli_query($this->connectProcess(), "insert into orders (`user_id`, `payment_json`, `shipping_json`, `products_json`, `total`) values ('" . $user["id"] . "', '$paymentTest', '$shippingTest', '$productsTest', '$total') ");
     
                 // sikeres üzenet
-                $_SESSION["alert"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert"><strong>A rendelését felvettük!</strong></div></div></div></div>';
+                $_SESSION["success"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert"><strong>A rendelését felvettük!</strong></div></div></div></div>';
     
             }
 

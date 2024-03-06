@@ -74,9 +74,7 @@
   <!-- main helye -->
   <main class="container-lg py-5">
     <?php
-    if (isset($_SESSION["alert"])) {
-      echo '<section class="row row-cols-1 gy-3 py-3"><article class="col p-2">' . $_SESSION["alert"] . '</article></section>';
-    }
+      include("alert.php");
     ?>
     <section class="row row-cols-1 gy-3 py-3 bg-danger">
       <article class="col p-2">
