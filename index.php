@@ -18,5 +18,5 @@ else {
   $page->$getpage();
 }
 
-// ami kell még session, helyezd ide
-unset($_SESSION["alert"], $_SESSION["getpage"]);
+// ami kell még session, helyezd ide, error, success, sendig_data
+unset($_SESSION["alert"], $_SESSION["post_user"]);

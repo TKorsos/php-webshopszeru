@@ -2,12 +2,15 @@
 
 namespace controllers;
 
+// a szerepek ne keveredjenek
+// itt csak a működés legyen míg a views oldalain belül a megjelenítés
+// usercontroller átdolgozás/ csak view és process
+
 class UserController
 {
     use \traits\Utilities;
 
-    // vagy ezt már esetleg egy másik class-be kellene tenni?
-    // itt vagy inkább Utilities?
+    // másik classbe tegyem kezdet
     function offer($weekoffer, $price)
     {
         $val = 0.9;
@@ -60,6 +63,7 @@ class UserController
                     </header>';
         }
     }
+    // másik classbe tegyem kezdet
 
     function connectProcess()
     {
@@ -114,10 +118,7 @@ class UserController
             }
 
             // login vége
-
-            // header("location: ?page=termekekView");
-            // index.php, termekekView, termekView&id=, kosarView, profileView&id=
-            header("location: ?page=".$this->landingUrl());
+            header("location: ".$this->landingUrl());
             exit;
         }
     }
@@ -153,6 +154,9 @@ class UserController
 
             $admin = "admin";
 
+            // session adatok ahonnan hiba esetén bentmaradnak azok az adatok amik nem hibásak
+            $_SESSION["post_user"] = [];
+
             if ($first_name === $admin || $last_name === $admin || $first_name === ucfirst($admin) || $last_name === ucfirst($admin)) {
                 $reg_errors[] = "<div>Az Admin név fentartott név, nem használható!</div>";
             }
@@ -160,17 +164,26 @@ class UserController
             if (mb_strlen($first_name) < 2) {
                 $reg_errors[] = "<div>A vezetéknévnek minimum 2 karakternek kell lennie!</div>";
             }
+            else {
+                $_SESSION["post_user"]["first_name"] = $first_name;
+            }
 
             if (mb_strlen($last_name) < 3) {
                 $reg_errors[] = "<div>A keresztnévnek minimum 3 karakternek kell lennie!</div>";
+            }
+            else {
+                $_SESSION["post_user"]["last_name"] = $last_name;
             }
 
             if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
                 $reg_errors[] = "<div>Invalid e-mail címet adott meg!</div>";
             }
-
+          
             if ($talalt_email > 0) {
                 $reg_errors[] = "<div>Ezen az e-mail címen már regisztráltak, kérem adjon meg egy új e-mail címet!</div>";
+            }
+            else {
+                $_SESSION["post_user"]["email"] = $email;
             }
 
             if (mb_strlen($password) < 8) {
@@ -184,29 +197,50 @@ class UserController
             if (mb_strlen($phone) != 12) {
                 $reg_errors[] = "<div>A telefonszámank 12 karakternek kell lennie és +36-tal kezdődik!</div>";
             }
+            else {
+                $_SESSION["post_user"]["phone"] = $phone;
+            }
 
             if (mb_strlen($billing_name) < 6) {
                 $reg_errors[] = "<div>A számlázási névnek minimum 6 karakternek kell lennie!</div>";
+            }
+            else {
+                $_SESSION["post_user"]["billing_name"] = $billing_name;
             }
 
             if (mb_strlen($country) < 3) {
                 $reg_errors[] = "<div>Az országnak minimum 3 karakternek kell lennie!</div>";
             }
+            else {
+                $_SESSION["post_user"]["country"] = $country;
+            }
 
             if (mb_strlen($zip) != 4) {
                 $reg_errors[] = "<div>Az irányítószámnak 4 karakternek kell lennie!</div>";
+            }
+            else {
+                $_SESSION["post_user"]["zip"] = $zip;
             }
 
             if (mb_strlen($city) < 3) {
                 $reg_errors[] = "<div>A városnak minimum 3 karakternek kell lennie!</div>";
             }
+            else {
+                $_SESSION["post_user"]["city"] = $city;
+            }
 
             if (mb_strlen($street) < 3) {
                 $reg_errors[] = "<div>Az utcanévnek minimum 3 karakternek kell lennie!</div>";
             }
+            else {
+                $_SESSION["post_user"]["street"] = $street;
+            }
 
             if (mb_strlen($nr) < 1) {
                 $reg_errors[] = "<div>A házszámnak minimum 1 karakternek kell lennie!</div>";
+            }
+            else {
+                $_SESSION["post_user"]["nr"] = $nr;
             }
 
             if (count($reg_errors) > 0) {
@@ -215,6 +249,7 @@ class UserController
                     $_SESSION["alert"] .= "$reg_error";
                 }
                 $_SESSION["alert"] .= '</div></div></div></div>';
+
             } else {
                 mysqli_query($this->connectProcess(), "insert into users (`first_name`, `last_name`, `email`, `password`, `phone`, `billing_name`, `country`, `zip`, `city`, `street`, `nr`) values ('$first_name', '$last_name', '$email', '$password', '$phone', '$billing_name', '$country', '$zip', '$city', '$street', '$nr')");
 
@@ -222,14 +257,10 @@ class UserController
                 $_SESSION["alert"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert">
                     <strong>Sikeres volt a regisztráció!</strong>
                 </div></div></div></div>';
-
-                // a megjelenített üzenet után 5 másodperccel frissít
-                // header('Refresh: 5');
             }
 
             // reg vége
-
-            header("location: ?page=termekekView");
+            header("location: ".$this->landingUrl());
             exit;
         }
     }
@@ -314,7 +345,6 @@ class UserController
                 <strong>Sikeres volt az adatmódosítás!</strong>
                 </div></div></div></div>';
 
-                //header('Refresh: 5');
             }
             // profilmódosítás vége
             header("location: ?page=profileView&id=".$_SESSION["user"]["id"]."");
@@ -326,7 +356,6 @@ class UserController
     {
         if (isset($_POST["send_comment"])) {
             // comment kezdet
-            $getpage = $_GET["page"];
 
             // termek_id, comment_name, comment_email, comment_message
             $termek_id = $_GET["id"];
@@ -522,7 +551,6 @@ class UserController
                 // sikeres üzenet
                 $_SESSION["alert"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert"><strong>A rendelését felvettük!</strong></div></div></div></div>';
     
-                // header? refrech: 5 ?
             }
 
             header("location: ?page=rendelesView");

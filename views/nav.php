@@ -73,7 +73,7 @@ echo $page->navOffer();
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content modal-custom modal-text-custom">
-            <form action="?page=loginProcess" method="post" class="row g-3 p-3">
+            <form action="?page=loginProcess&backUrl=<?php echo $_SERVER["REQUEST_URI"] ?>" method="post" class="row g-3 p-3">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5 text-center" id="loginModalLabel">Bejelentkezés</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -101,11 +101,10 @@ echo $page->navOffer();
 </div>
 
 <!-- regisztráció -->
-<!-- value értékei nem maradnak benne hibás kitöltés esetén! -->
 <div class="modal fade" id="regModal" tabindex="-1" aria-labelledby="regModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content modal-custom modal-text-custom">
-            <form action="?page=registerProcess" method="post" class="row g-3 p-3">
+            <form action="?page=registerProcess&backUrl=<?php echo $_SERVER["REQUEST_URI"] ?>" method="post" class="row g-3 p-3">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5 text-center" id="regModalLabel">Regisztráció</h1>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -114,15 +113,15 @@ echo $page->navOffer();
                     <div class="row g-2">
                         <div class="col-6">
                             <label for="firstNameReg" class="form-label">Vezetéknév</label>
-                            <input type="text" class="form-control" id="firstNameReg" name="first_name" value="<?php echo $_POST["first_name"] ?? ''; ?>">
+                            <input type="text" class="form-control" id="firstNameReg" name="first_name" value="<?php echo $_SESSION["post_user"]["first_name"] ?? ''; ?>">
                         </div>
                         <div class="col-6">
                             <label for="lastNameReg" class="form-label">Keresztnév</label>
-                            <input type="text" class="form-control" id="lastNameReg" name="last_name" value="<?php echo $_POST["last_name"] ?? ''; ?>">
+                            <input type="text" class="form-control" id="lastNameReg" name="last_name" value="<?php echo $_SESSION["post_user"]["last_name"] ?? ''; ?>">
                         </div>
                         <div class="col-12">
                             <label for="emailReg" class="form-label">E-mail cím</label>
-                            <input type="email" class="form-control" id="emailReg" name="email" value="<?php echo $_POST["email"] ?? ''; ?>">
+                            <input type="email" class="form-control" id="emailReg" name="email" value="<?php echo $_SESSION["post_user"]["email"] ?? ''; ?>">
                         </div>
                         <div class="col-6">
                             <label for="passwordReg" class="form-label">Jelszó</label>
@@ -134,31 +133,31 @@ echo $page->navOffer();
                         </div>
                         <div class="col-12">
                             <label for="billingNameReg" class="form-label">Számlázási név</label>
-                            <input type="text" class="form-control" id="billingNameReg" name="billing_name" value="<?php echo $_POST["billing_name"] ?? ''; ?>">
+                            <input type="text" class="form-control" id="billingNameReg" name="billing_name" value="<?php echo $_SESSION["post_user"]["billing_name"] ?? ''; ?>">
                         </div>
                         <div class="col-6">
                             <label for="phoneReg" class="form-label">Telefon</label>
-                            <input type="text" class="form-control" id="phoneReg" name="phone" value="<?php echo $_POST["phone"] ?? ''; ?>">
+                            <input type="text" class="form-control" id="phoneReg" name="phone" value="<?php echo $_SESSION["post_user"]["phone"] ?? ''; ?>">
                         </div>
                         <div class="col-6">
                             <label for="countryReg" class="form-label">Ország</label>
-                            <input type="text" class="form-control" id="countryReg" name="country" value="<?php echo $_POST["country"] ?? ''; ?>">
+                            <input type="text" class="form-control" id="countryReg" name="country" value="<?php echo $_SESSION["post_user"]["country"] ?? ''; ?>">
                         </div>
                         <div class="col-4">
                             <label for="zipReg" class="form-label">Irányítószám</label>
-                            <input type="text" class="form-control" id="zipReg" name="zip" value="<?php echo $_POST["zip"] ?? ''; ?>">
+                            <input type="text" class="form-control" id="zipReg" name="zip" value="<?php echo $_SESSION["post_user"]["zip"] ?? ''; ?>">
                         </div>
                         <div class="col-8">
                             <label for="cityReg" class="form-label">Város</label>
-                            <input type="text" class="form-control" id="cityReg" name="city" value="<?php echo $_POST["city"] ?? ''; ?>">
+                            <input type="text" class="form-control" id="cityReg" name="city" value="<?php echo $_SESSION["post_user"]["city"] ?? ''; ?>">
                         </div>
                         <div class="col-8">
                             <label for="streetReg" class="form-label">Utca</label>
-                            <input type="text" class="form-control" id="streetReg" name="street" value="<?php echo $_POST["street"] ?? ''; ?>">
+                            <input type="text" class="form-control" id="streetReg" name="street" value="<?php echo $_SESSION["post_user"]["street"] ?? ''; ?>">
                         </div>
                         <div class="col-4">
                             <label for="nrReg" class="form-label">Házszám</label>
-                            <input type="text" class="form-control" id="nrReg" name="nr" value="<?php echo $_POST["nr"] ?? ''; ?>">
+                            <input type="text" class="form-control" id="nrReg" name="nr" value="<?php echo $_SESSION["post_user"]["nr"] ?? ''; ?>">
                         </div>
                     </div>
                 </div>
