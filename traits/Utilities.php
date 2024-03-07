@@ -8,13 +8,13 @@ trait Utilities {
     }
 
     function pageTitle() {
-        $pages = ["Termékek" => "termekekView", "Kosár" => "kosarView", "Rendelés" => "rendelesView" ];
+        $pages = ["Termékek" => "productsView", "Kosár" => "cartView", "Rendelés" => "orderView" ];
         $getpage = $_GET["page"];
         foreach($pages as $key => $page) {
             if($page === $getpage) {
                 return "PC Shop - $key";
             }
-            elseif($getpage === "termekView") {
+            elseif($getpage === "productView") {
                 $termekek = mysqli_query($this->connectProcess(), "select * from products where id = '" . $_GET["id"] . "'");
                 $getId = $_GET["id"];
                 while ($termek = mysqli_fetch_array($termekek)) {
@@ -52,7 +52,7 @@ trait Utilities {
         }
         else {
             // mikor fordulhat elő?
-            return "?page=termekekView";
+            return "?page=productsView";
         }
     }
 }

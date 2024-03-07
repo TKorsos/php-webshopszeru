@@ -41,12 +41,28 @@
                     // akcióhoz tartozó szorzó
                     $ertek = 1;
 
-                    $subtotal = ($qtty * $page->subTotal($termek["week_offer"], $ertek) * $termek["price"]);
+                    $subtotal = ($qtty * $week->subTotal($termek["week_offer"], $ertek) * $termek["price"]);
                     $total += $subtotal;
 
                     echo '<tr>';
                     echo '<td>' . $termek["name"] . '</td>';
-                    echo '<td class="text-center text-md-start">' . ($page->offer($termek["week_offer"], $termek["price"])) . '</td>';
+                    echo '<td class="text-center text-md-start">';
+                    // érdemes lenne külön fájlba rakni
+                    $weekArr = $week->offer($termek["week_offer"], $termek["price"]);
+                    for($i = 0; $i < count($weekArr); $i++) {
+                    if(count($weekArr) === 1) {
+                        echo '<p>'.$weekArr[$i].' Ft</p>';
+                    }
+                    else {
+                        if($i === 0) {
+                        echo '<p class="text-decoration-line-through text-danger">'.$weekArr[$i].' Ft</p>';
+                        }
+                        else {
+                        echo '<p>'.$weekArr[$i].' Ft</p>';
+                        }
+                    }
+                    }
+                    echo '</td>';
 
                     echo '
                         <form action="?page=cartProcess" method="post">
@@ -66,7 +82,6 @@
                             </td>
                             <td>
                                 <button class="btn btn-danger d-flex justify-content-center align-items-center gap-3" name="torol" value="' . $product_id . '">
-                                    
                                     <i class="bi bi-trash3"></i>
                                 </button>
                             </td>
@@ -108,13 +123,13 @@
             echo '
                 <section class="row justify-content-center justify-content-md-between gap-2">
                     <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
-                        <a href="?page=termekekView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                        <a href="?page=productsView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
                             <i class="bi bi-arrow-left-circle"></i>
                             <div>Vissza a vásárláshoz</div>
                         </a>
                     </article>
                     <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
-                        <a href="?page=rendelesView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                        <a href="?page=orderView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
                             <div>Tovább a rendeléshez</div>
                             <i class="bi bi-arrow-right-circle"></i>
                         </a>

@@ -38,27 +38,43 @@
             </article>
         </section>
 
-        <form action="?page=termekAddToCartProcess&id=<?php echo $_GET["id"] ?>" method="post" class="rounded-2 bg-light">
+        <form action="?page=productAddToCartProcess&id=<?php echo $_GET["id"] ?>" method="post" class="rounded-2 bg-light">
             <?php
 
             $termekek = mysqli_query($page->connectProcess(), "select * from products where id = '" . $_GET["id"] . "'");
-            while ($data = mysqli_fetch_array($termekek)) {
+            while ($termek = mysqli_fetch_array($termekek)) {
                 echo '<section class="row p-2 g-3">
                         <article class="col-sm-6 col-md-8 d-flex flex-column gap-3">
                             <article>
-                                <h5 class="card-title termek-cim">' . $data["slug"] . '</h5>
+                                <h5 class="card-title">' . $termek["slug"] . '</h5>
                             </article>
                             <article class="d-flex justify-content-center align-items-center h-100 border">
                                 <span><strong>Kép helye</strong></span>
                             </article>
                         </article>
                         <article class="col-sm-6 col-md-4 d-flex flex-column gap-3">
-                            <h2 class="card-text text-color">' . ($page->offer($data["week_offer"], $data["price"])) . '</h2>
-                            <article><a href="?page=termekekView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3"><i class="bi bi-arrow-left-circle"></i><div>Vissza a vásárláshoz</div></a></article>
-                            <article><a href="?page=kosarView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3"><div>Tovább a kosárhoz</div><i class="bi bi-arrow-right-circle"></i></a></article>
+                            <h2 class="card-text text-color">';
+                            // érdemes lenne külön fájlba rakni
+                            $weekArr = $week->offer($termek["week_offer"], $termek["price"]);
+                            for($i = 0; $i < count($weekArr); $i++) {
+                            if(count($weekArr) === 1) {
+                                echo '<p>'.$weekArr[$i].' Ft</p>';
+                            }
+                            else {
+                                if($i === 0) {
+                                echo '<p class="text-decoration-line-through text-danger">'.$weekArr[$i].' Ft</p>';
+                                }
+                                else {
+                                echo '<p>'.$weekArr[$i].' Ft</p>';
+                                }
+                            }
+                            }
+                            echo '</h2>
+                            <article><a href="?page=productsView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3"><i class="bi bi-arrow-left-circle"></i><div>Vissza a vásárláshoz</div></a></article>
+                            <article><a href="?page=cartView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3"><div>Tovább a kosárhoz</div><i class="bi bi-arrow-right-circle"></i></a></article>
                             <article class="row gap-3 gap-lg-0">
                                 <article class="col-lg-4 col-xl-3"><input type="number" class="form-control" name="darabszam" value="1"></article>
-                                <article class="col-lg-8 col-xl-9"><button type="submit" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3" name="data" value="' . $data["id"] . '"><div>Kosárba tesz</div><i class="bi bi-cart4"></i></button></article>
+                                <article class="col-lg-8 col-xl-9"><button type="submit" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3" name="data" value="' . $termek["id"] . '"><div>Kosárba tesz</div><i class="bi bi-cart4"></i></button></article>
                             </article>
                         </article>
                     </section>
@@ -68,7 +84,7 @@
                             <h2 class="card-text text-color">Leírás</h2>
                         </article>
                         <article class="col">
-                            <p class="card-text text-color">' . $data["description"] . '</p>
+                            <p class="card-text text-color">' . $termek["description"] . '</p>
                         </article>
                     </section>';
             }

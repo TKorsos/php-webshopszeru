@@ -20,4 +20,4 @@ else {
 
 // ami kell még session, helyezd ide, error, success, sendig_data
 // alert ha már nem kell töröld
-unset($_SESSION["post_user"], $_SESSION["success"], $_SESSION["errors"]);
+unset($_SESSION["post_user"], $_SESSION["success"], $_SESSION["errors"], $_SESSION["clear"]);
