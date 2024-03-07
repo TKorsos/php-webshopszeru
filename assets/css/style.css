@@ -1,44 +1,42 @@
-/* barna
-#F8F3E6
-#D1917A
-#AA583A
-#5F3121
-#241611
-*/
-
-/* narancsos
-#FFF5DC
-#FED777
-#FCBA12
-#A77802
-#342809
-*/
-
-/* fakó lila-zöld
-#FFFFFF
-#D6D9B0
-#964694
-#AF64AD
-#351E34
-*/
-
-/* lila-kék-narancs
-#D4E4F7
-#236AB9
-#FBA90A
-#5A18C9
-#190934
-*/
-
 :root {
-    --hover: #F8F3E6;
-    --first: #fff;
-    --second: #D1917A;
-    --third: #AA583A;
-    --fourth: #5F3121;
-    --fifth: #241611;
-    --transition: 800ms;
+    --form-hover: #F8F3E6;
+    --color-1: #fff;
+    --color-2: #D1917A;
+    --color-3: #AA583A;
+    --color-4: #5F3121;
+    --color-5: #241611;
     --bs-body-color-rgb: #fff;
+    --week-header-z: 50;
+    --btn-dark-opacity: .7;
+    --transition-800: 800ms;
+    --transition-500: 500ms;
+    --transition-400: 400ms;
+    --anim-duration: 4s;
+    --anim-iteration: infinite;
+    --main-margin-top: 3.5rem;
+    --main-margin-top-mobile: 10rem;
+    --offer-card-translate-y: translateY(-.3rem);
+    --btn-anim-translate-x-base: translateX(0);
+    --btn-anim-translate-xl-mod: translateX(-.4rem);
+    --btn-anim-translate-xr-mod: translateX(.4rem);
+    --custom-carousel-height: 500px;
+    --custom-carousel-margin-top: 2.5rem;
+    --contact-list-gap: .5rem;
+    --cart-input-qtty: 4rem;
+    --comment-mail-hover: 1px solid var(--color-5);
+    --nav-link-hover: underline 1px solid var(--color-2);
+    --offer-card-hover: 0 0 1rem var(--color-5);
+    --card-border-anim: 0px 0px 30px 1px var(--color-5);
+    --products-card-hover: 0 0 1rem var(--color-5);
+    --focus-shadow-1: 1px 1px 1px var(--color-5) inset;
+    --focus-shadow-2: 0 0 8px var(--color-4);
+    --card-scale-hover: scale(.98);
+    --products-card-skewY: skewY(1deg);
+    --products-card-skewY-hover: skewY(0);
+    --btn-dark-active: scale(0.9);
+    --border-card: 1px transparent;
+    --border-card-thick: 2px solid var(--color-5);
+    --border-card-thin: 1px solid var(--color-5);
 }
 
 * {
@@ -52,57 +50,56 @@ html, body {
 }
 
 .form-check-input:checked {
-    background-color: var(--fifth)!important;
-    border-color: var(--fifth)!important;
+    background-color: var(--color-5)!important;
+    border-color: var(--color-5)!important;
 }
 
 /* ebben az esetben lenyílik a lista, amire rákattintok annak jó lesz a színe, a focusnál is, de a hover részénél már nem */
 .form-select option:checked, .form-select option:hover {
-    background-color: var(--fifth)!important;
-    color: var(--first);
-    box-shadow: 0 0 10px 10px var(--fifth) inset;
+    background-color: var(--color-5)!important;
+    color: var(--color-1);
 }
 
 .form-control:hover, .form-select:hover, .form-check-input:hover {
-    background-color: var(--hover)!important;
+    background-color: var(--form-hover)!important;
 }
 
 .nav-color {
-    background-image: linear-gradient(to right,var(--fifth), var(--fifth), var(--fourth))!important;
+    background-image: linear-gradient(to right,var(--color-5), var(--color-5), var(--color-4))!important;
 }
 
 .nav-link, .welcome-text, .navbar-brand {
-    color: var(--first)!important;
-    transition: all var(--transition);
+    color: var(--color-1)!important;
+    transition: all var(--transition-800);
 }
 
 .nav-link:hover {
-    color: var(--second)!important;
-    text-decoration: underline 1px solid var(--second)!important;
+    color: var(--color-2)!important;
+    text-decoration: var(--nav-link-hover)!important;
 }
 
 .navbar-brand:hover {
-    color: var(--first)!important;
+    color: var(--color-1)!important;
 }
 
+/* main-custom-top home.php kivételével mindegyik oldalon ott van */
 .main-custom-top {
-    margin-top: 3.5rem;
+    margin-top: var(--main-margin-top);
 }
 
 .log-name {
-    color: var(--third)!important;
+    color: var(--color-3)!important;
 }
 
 .week-color {
-    background-color: var(--first);
-    z-index: 50!important;
+    background-color: var(--color-1);
+    z-index: var(--week-header-z)!important;
 }
 
-/* dolgozni kell még rajta MINDKÉT css-be */
 .week-offer-animation {
     animation-name: week-offer-animation!important;
-    animation-duration: 4s!important;
-    animation-iteration-count: infinite!important;
+    animation-duration: var(--anim-duration)!important;
+    animation-iteration-count: var(--anim-iteration)!important;
 }
 
 @keyframes week-offer-animation {
@@ -110,85 +107,86 @@ html, body {
     to { opacity: 1; };
 }
 
+/* offer-card jelenleg csak opcionális, alkalmazható */
 .offer-card {
-    background-color: var(--first)!important;
-    transition: all var(--transition) ease-out;
+    background-color: var(--color-1)!important;
+    transition: all var(--transition-800) ease-out;
 }
 
 .offer-card:hover {
-    box-shadow: 0 0 1rem var(--fifth)!important;
-    transform: translateY(-.3rem);
+    box-shadow: var(--offer-card-hover)!important;
+    transform: var(--offer-card-translate-y);
 }
 
 .card-border-anim {
-    background-color: var(--fifth);
-    transition: all .5s;
+    background-color: var(--color-5);
+    transition: all var(--transition-500);
 }
 
 .card-inner {
-    background-color: var(--first);
+    background-color: var(--color-1);
     border-radius: var(--bs-card-inner-border-radius);
-    transition: all .4s;
+    transition: all var(--transition-400);
 }
 
 .card-inner:hover {
-    transform: scale(.98);
+    transform: var(--card-scale-hover);
 }
 
 .card-border-anim:hover {
-    box-shadow: 0px 0px 30px 1px var(--fifth);
+    box-shadow: var(--card-border-anim);
 }
 
 .border-card {
-    border: 1px transparent;
+    border: var(--border-card);
 }
 
 .border-custom {
-    border-bottom: 1px solid var(--fifth)!important;
+    border-bottom: var(--border-card-thin)!important;
 }
 
 .border-custom-thick {
-    border: 2px solid var(--fifth)!important;
+    border: var(--border-card-thick)!important;
 }
 
 .products-card {
-    background-color: var(--first)!important;
-    transform: skewY(1deg);
-    transition: all var(--transition) ease-out;
+    background-color: var(--color-1)!important;
+    transform: var(--products-card-skewY);
+    transition: all var(--transition-800) ease-out;
 }
 
 .products-card:hover {
-    box-shadow: 0 0 1rem var(--fifth)!important;
-    transform: skewY(0);
+    box-shadow: var(--products-card-hover)!important;
+    transform: var(--products-card-skewY-hover);
 }
 
 .btn-dark:hover .bi, .btn-trash:hover .bi {
-    animation: animate-right .8s infinite;
+    animation: animate-right var(--transition-800) var(--anim-iteration);
 }
 
 /* felülírja az alap mozgást a vissza nyíl miatt */
 .btn-dark:hover .bi-arrow-left-circle {
-    animation: animate-left .8s infinite;
+    animation: animate-left var(--transition-800) var(--anim-iteration);
 }
 
-@keyframes animate-left {
-    0% { transform: translateX(0); }
-    50% { transform: translateX(-.4rem); }
-    100% { transform: translateX(0); }
+@keyframes animate-left {    
+    0% { transform: var(--btn-anim-translate-x-base); }
+    50% { transform: var(--btn-anim-translate-xl-mod); }
+    100% { transform: var(--btn-anim-translate-x-base); }
 }
 
 @keyframes animate-right {
-    0% { transform: translateX(0); }
-    50% { transform: translateX(.4rem); }
-    100% { transform: translateX(0); }
+    0% { transform: var(--btn-anim-translate-x-base); }
+    50% { transform: var(--btn-anim-translate-xr-mod); }
+    100% { transform: var(--btn-anim-translate-x-base); }
 }
 
 .custom-top-carousel {
-    margin-top: 2.5rem;
+    margin-top: var(--custom-carousel-margin-top);
 }
 
 .custom-carousel-inner {
-    height: 500px;
+    height: var(--custom-carousel-height);
 }
 
 .custom-carousel {
@@ -198,7 +196,7 @@ html, body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    background-color: var(--third)!important;
+    background-color: var(--color-3)!important;
 }
 
 .custom-carousel-height {
@@ -213,7 +211,7 @@ html, body {
 .contact-list {
     display: flex;
     flex-direction: column;
-    gap: .5rem;
+    gap: var(--contact-list-gap);
     width: 100%;
     padding: 0;
     text-align: center;
@@ -222,65 +220,65 @@ html, body {
 }
 
 .modal-title {
-    color: var(--first)!important;
+    color: var(--color-1)!important;
 }
 
-.termek-cim, .name-color, .text-color, body, h1, h2, h3, h4, h5, h6 {
-    color: var(--fifth)!important;
+.name-color, .text-color, body, h1, h2, h3, h4, h5, h6 {
+    color: var(--color-5)!important;
 }
 
 .modal-custom {
-    background-color: var(--fifth)!important;
+    background-color: var(--color-5)!important;
 }
 
 .modal-text-custom, .date {
-    color: var(--first)!important;
+    color: var(--color-1)!important;
 }
 
 input:focus, textarea:focus, .form-select:focus {
-    border-color: var(--fifth)!important;
-    box-shadow: 1px 1px 1px var(--fifth) inset, 0 0 8px var(--fourth)!important;
+    border-color: var(--color-5)!important;
+    box-shadow: var(--focus-shadow-1), var(--focus-shadow-2)!important;
     outline: 0 none!important;
 }
 
 .comment_mail {
-    color: var(--fourth)!important;
-    transition: all var(--transition)!important;
+    color: var(--color-4)!important;
+    transition: all var(--transition-800)!important;
 }
 
 .comment_mail:hover {
-    color: var(--fifth)!important;
-    text-decoration: 1px solid var(--fifth)!important;
+    color: var(--color-5)!important;
+    text-decoration: var(--comment-mail-hover)!important;
 }
 
 .message_date {
-    color: var(--fourth)!important;
+    color: var(--color-4)!important;
 }
 
 .message_text {
-    color: var(--third)!important;
+    color: var(--color-3)!important;
 }
 
 .navbar-toggler {
-    background-color: var(--fourth)!important;
-    border-color: var(--first)!important;
-    color: var(--fifth)!important;
+    background-color: var(--color-4)!important;
+    border-color: var(--color-1)!important;
+    color: var(--color-5)!important;
 }
 
 .btn-dark {
-    background-color: var(--fifth);
-    color: var(--first);
-    transition: all var(--transition);
+    background-color: var(--color-5);
+    color: var(--color-1);
+    transition: all var(--transition-800);
 }
 
 .btn-dark:hover {
-    background-color: var(--fifth);
-    opacity: 0.7;
+    background-color: var(--color-5);
+    opacity: var(--btn-dark-opacity);
 }
 
 .btn-dark:active {
-    background-color: var(--fifth)!important;
-    transform: scale(0.9);
+    background-color: var(--color-5)!important;
+    transform: var(--btn-dark-active);
 }
 
 /* új bootstrap verzió után szükséges, a táblázatok fehér háttérrel rendelkeznek enélkül */
@@ -291,12 +289,13 @@ table > thead > tr > th, table > tbody > tr > td {
 /* ha külön td-be lesznek akkor nem kell */
 @media screen and (min-width: 768px) {
     .input-qtty {
-        width: 4rem;
+        width: var(--cart-input-qtty);
     }    
 }
 
 @media screen and (max-width: 330px) {
+    /* main-custom-top home.php kivételével mindegyik oldalon ott van */
     .main-custom-top {
-        margin-top: 10rem;
+        margin-top: var(--main-margin-top-mobile);
     }
 }

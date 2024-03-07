@@ -48,7 +48,7 @@
                       <p class="w-75">' . $top_brand["description"] . '</p>
                       <p>' . $top_brand["price"] . ' Ft</p>
                       <div class="card-footer border-0 d-grid justify-content-center">
-                        <a href="?page=termekView&id=' . $top_brand["id"] . '" class="btn btn-dark d-flex justify-content-center align-items-center gap-3" name="data" value="' . $top_brand["id"] . '">
+                        <a href="?page=productView&id=' . $top_brand["id"] . '" class="btn btn-dark d-flex justify-content-center align-items-center gap-3" name="data" value="' . $top_brand["id"] . '">
                           <div>Megnézem</div>
                           <i class="bi bi-arrow-right-circle"></i>
                         </a>
@@ -98,7 +98,7 @@
                             <span><strong>Kép helye</strong></span>
                           </div>
                           <div class="card-body">
-                            <h5 class="card-title termek-cim">' . $termek["name"] . '</h5>
+                            <h5 class="card-title">' . $termek["name"] . '</h5>
                             <h6 class="name-color">Leírás</h6>
                             <p class="card-text text-color">' . $termek["description"] . '</p>
                           </div>
@@ -112,7 +112,7 @@
         </div>
       </article>
       <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
-        <a href="?page=termekekView" class="btn btn-dark d-flex justify-content-center align-items-center gap-3">
+        <a href="?page=productsView" class="btn btn-dark d-flex justify-content-center align-items-center gap-3">
           <div>Tovább a teljes listához</div>
           <i class="bi bi-arrow-right-circle"></i>
         </a>
@@ -164,7 +164,7 @@
                             <p>' . $top_brand["description"] . '</p>
                             <p>' . $top_brand["price"] . ' Ft</p>
                             <div class="card-footer border-0 d-grid justify-content-center">
-                              <a href="?page=termekView&id=' . $top_brand["id"] . '" class="btn btn-dark d-flex justify-content-center align-items-center gap-3" name="data" value="' . $top_brand["id"] . '">
+                              <a href="?page=productView&id=' . $top_brand["id"] . '" class="btn btn-dark d-flex justify-content-center align-items-center gap-3" name="data" value="' . $top_brand["id"] . '">
                                 <div>Megnézem</div>
                                 <i class="bi bi-arrow-right-circle"></i>
                               </a>
@@ -188,7 +188,7 @@
           </div>
         </article>
         <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3 p-2">
-          <a href="?page=termekekView" class="btn btn-dark d-flex justify-content-center align-items-center gap-3">
+          <a href="?page=productsView" class="btn btn-dark d-flex justify-content-center align-items-center gap-3">
             <div>Tovább a teljes listához</div>
             <i class="bi bi-arrow-right-circle"></i>
           </a>
@@ -239,7 +239,7 @@
                             <p>' . $top_brand["description"] . '</p>
                             <p>' . $top_brand["price"] . ' Ft</p>
                             <div class="card-footer border-0 d-grid justify-content-center">
-                              <a href="?page=termekView&id=' . $top_brand["id"] . '" class="btn btn-dark d-flex justify-content-center align-items-center gap-3" name="data" value="' . $top_brand["id"] . '">
+                              <a href="?page=productView&id=' . $top_brand["id"] . '" class="btn btn-dark d-flex justify-content-center align-items-center gap-3" name="data" value="' . $top_brand["id"] . '">
                                 <div>Megnézem</div>
                                 <i class="bi bi-arrow-right-circle"></i>
                               </a>
@@ -263,7 +263,7 @@
           </div>
         </article>
         <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3 p-2">
-          <a href="?page=termekekView" class="btn btn-dark d-flex justify-content-center align-items-center gap-3">
+          <a href="?page=productsView" class="btn btn-dark d-flex justify-content-center align-items-center gap-3">
             <div>Tovább a teljes listához</div>
             <i class="bi bi-arrow-right-circle"></i>
           </a>
@@ -314,7 +314,7 @@
                             <p>' . $top_brand["description"] . '</p>
                             <p>' . $top_brand["price"] . ' Ft</p>
                             <div class="card-footer border-0 d-grid justify-content-center">
-                              <a href="?page=termekView&id=' . $top_brand["id"] . '" class="btn btn-dark d-flex justify-content-center align-items-center gap-3" name="data" value="' . $top_brand["id"] . '">
+                              <a href="?page=productView&id=' . $top_brand["id"] . '" class="btn btn-dark d-flex justify-content-center align-items-center gap-3" name="data" value="' . $top_brand["id"] . '">
                                 <div>Megnézem</div>
                                 <i class="bi bi-arrow-right-circle"></i>
                               </a>
@@ -338,7 +338,7 @@
           </div>
         </article>
         <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3 p-2">
-          <a href="?page=termekekView" class="btn btn-dark d-flex justify-content-center align-items-center gap-3">
+          <a href="?page=productsView" class="btn btn-dark d-flex justify-content-center align-items-center gap-3">
             <div>Tovább a teljes listához</div>
             <i class="bi bi-arrow-right-circle"></i>
           </a>
@@ -389,7 +389,7 @@
                             <p>' . $top_brand["description"] . '</p>
                             <p>' . $top_brand["price"] . ' Ft</p>
                             <div class="card-footer border-0 d-grid justify-content-center">
-                              <a href="?page=termekView&id=' . $top_brand["id"] . '" class="btn btn-dark d-flex justify-content-center align-items-center gap-3" name="data" value="' . $top_brand["id"] . '">
+                              <a href="?page=productView&id=' . $top_brand["id"] . '" class="btn btn-dark d-flex justify-content-center align-items-center gap-3" name="data" value="' . $top_brand["id"] . '">
                                 <div>Megnézem</div>
                                 <i class="bi bi-arrow-right-circle"></i>
                               </a>
@@ -413,7 +413,7 @@
           </div>
         </article>
         <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3 p-2">
-          <a href="?page=termekekView" class="btn btn-dark d-flex justify-content-center align-items-center gap-3">
+          <a href="?page=productsView" class="btn btn-dark d-flex justify-content-center align-items-center gap-3">
             <div>Tovább a teljes listához</div>
             <i class="bi bi-arrow-right-circle"></i>
           </a>
@@ -464,7 +464,7 @@
                             <p>' . $top_brand["description"] . '</p>
                             <p>' . $top_brand["price"] . ' Ft</p>
                             <div class="card-footer border-0 d-grid justify-content-center">
-                              <a href="?page=termekView&id=' . $top_brand["id"] . '" class="btn btn-dark d-flex justify-content-center align-items-center gap-3" name="data" value="' . $top_brand["id"] . '">
+                              <a href="?page=productView&id=' . $top_brand["id"] . '" class="btn btn-dark d-flex justify-content-center align-items-center gap-3" name="data" value="' . $top_brand["id"] . '">
                                 <div>Megnézem</div>
                                 <i class="bi bi-arrow-right-circle"></i>
                               </a>
@@ -488,7 +488,7 @@
           </div>
         </article>
         <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3 p-2">
-          <a href="?page=termekekView" class="btn btn-dark d-flex justify-content-center align-items-center gap-3">
+          <a href="?page=productsView" class="btn btn-dark d-flex justify-content-center align-items-center gap-3">
             <div>Tovább a teljes listához</div>
             <i class="bi bi-arrow-right-circle"></i>
           </a>

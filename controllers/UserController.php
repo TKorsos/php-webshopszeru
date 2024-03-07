@@ -2,16 +2,12 @@
 
 namespace controllers;
 
-// a szerepek ne keveredjenek
-// itt csak a működés legyen míg a views oldalain belül a megjelenítés
-// usercontroller átdolgozás/ csak view és process
+class WeekOffer {
 
-class UserController
-{
     use \traits\Utilities;
-
-    // másik classbe tegyem kezdet *********************************************
-    // először csak html mentesítsük
+   
+    // cart, product, products fájlokban van
+    // külön fájlba kidolgozni és úgy beilleszteni?
     function offer($weekoffer, $price)
     {
         $val = 0.9;
@@ -21,19 +17,14 @@ class UserController
         $_SESSION["today"] = $t["wday"];
 
         if ($_SESSION["today"] === 0 || $_SESSION["today"] === 6) {
-            return $weekoffer === "1" ? '<p class="text-decoration-line-through text-danger">' . $price . ' Ft</p><div>' . $price * $_SESSION["week_offer"] . ' Ft</div>' : '<div>' . $price . ' Ft</div>';
+            if($weekoffer === "1") {
+                return [$price, $price * $_SESSION["week_offer"]];
+            }
+            else {
+                return [$price];
+            }
         } else {
-            return '<p>' . $price . ' Ft</p>';
-        }
-    }
-
-    // vagy ezt már esetleg egy másik class-be kellene tenni?
-    function subTotal($week, $ertek)
-    {
-        if ($_SESSION["today"] === 0 || $_SESSION["today"] === 6) {
-            return $week === "1" ? ($ertek *= $_SESSION["week_offer"]) : $ertek;
-        } else {
-            return $ertek = 1;
+            return [$price];
         }
     }
 
@@ -43,30 +34,25 @@ class UserController
         $_SESSION["today"] = $t["wday"];
 
         if ($_SESSION["today"] === 0 || $_SESSION["today"] === 6) {
-            return '<header class="position-fixed w-100 week-color">
-                        <div class="container-fluid">
-                            <div class="col py-2 d-flex justify-content-center align-items-center">
-                                <span class="week-offer-animation text-danger">
-                                    <strong>Ne hagyd ki a kiváló lehetőségeket, hiszen már elindultak hétvégi akcióink!</strong>
-                                </span>
-                            </div>
-                        </div>
-                    </header>';
+            return 'Ne hagyd ki a kiváló lehetőségeket, hiszen már elindultak hétvégi akcióink!';
         } else {
-            return '<header class="position-fixed w-100 week-color">
-                        <div class="container-fluid">
-                            <div class="col py-2 d-flex justify-content-center align-items-center">
-                                <span class="week-offer-animation text-danger">
-                                    <strong>Hétvégi különleges ajánlatainkban a kiemelt termékeink akár 10%-kal kezdvezőbb áron elérhetők!</strong>
-                                </span>
-                            </div>
-                        </div>
-                    </header>';
+            return 'Hétvégi különleges ajánlatainkban a kiemelt termékeink akár 10%-kal kezdvezőbb áron elérhetők!';
         }
     }
-    // másik classbe tegyem vége ***********************************************
 
+    function subTotal($week, $ertek)
+    {
+        if ($_SESSION["today"] === 0 || $_SESSION["today"] === 6) {
+            return $week === "1" ? ($ertek *= $_SESSION["week_offer"]) : $ertek;
+        } else {
+            return $ertek = 1;
+        }
+    }
+}
 
+class UserController extends WeekOffer
+{
+    use \traits\Utilities;
 
     function connectProcess()
     {
@@ -76,6 +62,7 @@ class UserController
         return $connection;
     }   
 
+    // nav.php
     function loginProcess()
     {   
         if (isset($_POST["login"])) {
@@ -83,37 +70,33 @@ class UserController
             $log_errors = [];
 
             if (empty($_POST["email"])) {
-                $log_errors[] = "<div>Az e-mail cím megadása kötelező!</div>";
+                $log_errors[] = "Az e-mail cím megadása kötelező!";
             }
 
             if (empty($_POST["password"])) {
-                $log_errors[] = "<div>A jelszó megadása kötelező!</div>";
+                $log_errors[] = "A jelszó megadása kötelező!";
             }
 
             if (count($log_errors) > 0) {
-                $_SESSION["errors"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
                 foreach ($log_errors as $log_error) {
-                    $_SESSION["errors"] .= "$log_error";
+                    $_SESSION["errors"][] = "$log_error";
                 }
-                $_SESSION["errors"] .= '</div></div></div></div>';
             } else {
                 $sql = mysqli_query($this->connectProcess(), "select * from users where email = '" . $_POST['email'] . "'");
                 $user = mysqli_fetch_array($sql);
 
                 if (isset($user["email"]) === false) {
-                    $log_errors[] = '<div>A megadott e-mail cím nem létezik!</div>';
+                    $log_errors[] = 'A megadott e-mail cím nem létezik!';
                 } else {
                     if ($_POST["password"] !== $user["password"]) {
-                        $log_errors[] = '<div>Hibás jelszót adott meg!</div>';
+                        $log_errors[] = 'Hibás jelszót adott meg!';
                     }
                 }
 
                 if (count($log_errors) > 0) {
-                    $_SESSION["errors"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
                     foreach ($log_errors as $log_error) {
-                        $_SESSION["errors"] .= "$log_error";
+                        $_SESSION["errors"][] = "$log_error";
                     }
-                    $_SESSION["errors"] .= '</div></div></div></div>';
                 } else {
                     // belépés
                     $_SESSION["user"] = $user;
@@ -126,6 +109,7 @@ class UserController
         }
     }
 
+    // nav.php
     function registerProcess()
     {
         if (isset($_POST["reg"])) {
@@ -161,105 +145,100 @@ class UserController
             $_SESSION["post_user"] = [];
 
             if ($first_name === $admin || $last_name === $admin || $first_name === ucfirst($admin) || $last_name === ucfirst($admin)) {
-                $reg_errors[] = "<div>Az Admin név fentartott név, nem használható!</div>";
+                $reg_errors[] = "Az Admin név fentartott név, nem használható!";
             }
 
             if (mb_strlen($first_name) < 2) {
-                $reg_errors[] = "<div>A vezetéknévnek minimum 2 karakternek kell lennie!</div>";
+                $reg_errors[] = "A vezetéknévnek minimum 2 karakternek kell lennie!";
             }
             else {
                 $_SESSION["post_user"]["first_name"] = $first_name;
             }
 
             if (mb_strlen($last_name) < 3) {
-                $reg_errors[] = "<div>A keresztnévnek minimum 3 karakternek kell lennie!</div>";
+                $reg_errors[] = "A keresztnévnek minimum 3 karakternek kell lennie!";
             }
             else {
                 $_SESSION["post_user"]["last_name"] = $last_name;
             }
 
             if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
-                $reg_errors[] = "<div>Invalid e-mail címet adott meg!</div>";
+                $reg_errors[] = "Invalid e-mail címet adott meg!";
             }
           
             if ($talalt_email > 0) {
-                $reg_errors[] = "<div>Ezen az e-mail címen már regisztráltak, kérem adjon meg egy új e-mail címet!</div>";
+                $reg_errors[] = "Ezen az e-mail címen már regisztráltak, kérem adjon meg egy új e-mail címet!";
             }
             else {
                 $_SESSION["post_user"]["email"] = $email;
             }
 
             if (mb_strlen($password) < 8) {
-                $reg_errors[] = "<div>A jelszónak minimum 8 karakternek kell lennie!</div>";
+                $reg_errors[] = "A jelszónak minimum 8 karakternek kell lennie!";
             }
 
             if ($password != $password_confirmation) {
-                $reg_errors[] = "<div>A két jelszó nem azonos!</div>";
+                $reg_errors[] = "A két jelszó nem azonos!";
             }
 
             if (mb_strlen($phone) != 12) {
-                $reg_errors[] = "<div>A telefonszámank 12 karakternek kell lennie és +36-tal kezdődik!</div>";
+                $reg_errors[] = "A telefonszámank 12 karakternek kell lennie és +36-tal kezdődik!";
             }
             else {
                 $_SESSION["post_user"]["phone"] = $phone;
             }
 
             if (mb_strlen($billing_name) < 6) {
-                $reg_errors[] = "<div>A számlázási névnek minimum 6 karakternek kell lennie!</div>";
+                $reg_errors[] = "A számlázási névnek minimum 6 karakternek kell lennie!";
             }
             else {
                 $_SESSION["post_user"]["billing_name"] = $billing_name;
             }
 
             if (mb_strlen($country) < 3) {
-                $reg_errors[] = "<div>Az országnak minimum 3 karakternek kell lennie!</div>";
+                $reg_errors[] = "Az országnak minimum 3 karakternek kell lennie!";
             }
             else {
                 $_SESSION["post_user"]["country"] = $country;
             }
 
             if (mb_strlen($zip) != 4) {
-                $reg_errors[] = "<div>Az irányítószámnak 4 karakternek kell lennie!</div>";
+                $reg_errors[] = "Az irányítószámnak 4 karakternek kell lennie!";
             }
             else {
                 $_SESSION["post_user"]["zip"] = $zip;
             }
 
             if (mb_strlen($city) < 3) {
-                $reg_errors[] = "<div>A városnak minimum 3 karakternek kell lennie!</div>";
+                $reg_errors[] = "A városnak minimum 3 karakternek kell lennie!";
             }
             else {
                 $_SESSION["post_user"]["city"] = $city;
             }
 
             if (mb_strlen($street) < 3) {
-                $reg_errors[] = "<div>Az utcanévnek minimum 3 karakternek kell lennie!</div>";
+                $reg_errors[] = "Az utcanévnek minimum 3 karakternek kell lennie!";
             }
             else {
                 $_SESSION["post_user"]["street"] = $street;
             }
 
             if (mb_strlen($nr) < 1) {
-                $reg_errors[] = "<div>A házszámnak minimum 1 karakternek kell lennie!</div>";
+                $reg_errors[] = "A házszámnak minimum 1 karakternek kell lennie!";
             }
             else {
                 $_SESSION["post_user"]["nr"] = $nr;
             }
 
             if (count($reg_errors) > 0) {
-                $_SESSION["errors"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
                 foreach ($reg_errors as $reg_error) {
-                    $_SESSION["errors"] .= "$reg_error";
+                    $_SESSION["errors"][] = "$reg_error";
                 }
-                $_SESSION["errors"] .= '</div></div></div></div>';
-
             } else {
                 mysqli_query($this->connectProcess(), "insert into users (`first_name`, `last_name`, `email`, `password`, `phone`, `billing_name`, `country`, `zip`, `city`, `street`, `nr`) values ('$first_name', '$last_name', '$email', '$password', '$phone', '$billing_name', '$country', '$zip', '$city', '$street', '$nr')");
 
                 // bootstrap alert megjelenítés
-                $_SESSION["success"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert">
-                    <strong>Sikeres volt a regisztráció!</strong>
-                </div></div></div></div>';
+                $_SESSION["success"] = 'Sikeres volt a regisztráció!';
             }
 
             // reg vége
@@ -268,6 +247,7 @@ class UserController
         }
     }
 
+    // profile.php
     function updateProcess()
     {
         if (isset($_POST["modosit"])) {
@@ -290,47 +270,45 @@ class UserController
             $mod_errors = [];
 
             if (mb_strlen($password) < 8) {
-                $mod_errors[] = "<div>A jelszónak minimum 8 karakternek kell lennie!</div>";
+                $mod_errors[] = "A jelszónak minimum 8 karakternek kell lennie!";
             }
 
             if ($password != $password_confirmation) {
-                $mod_errors[] = "<div>A két jelszó nem azonos!</div>";
+                $mod_errors[] = "A két jelszó nem azonos!";
             }
 
             if (mb_strlen($phone) != 12) {
-                $mod_errors[] = "<div>A telefonszámank 12 karakternek kell lennie és +36-tal kezdődik!</div>";
+                $mod_errors[] = "A telefonszámank 12 karakternek kell lennie és +36-tal kezdődik!";
             }
 
             if (mb_strlen($billing_name) < 6) {
-                $mod_errors[] = "<div>A számlázási névnek minimum 6 karakternek kell lennie!</div>";
+                $mod_errors[] = "A számlázási névnek minimum 6 karakternek kell lennie!";
             }
 
             if (mb_strlen($country) < 3) {
-                $mod_errors[] = "<div>Az országnak minimum 3 karakternek kell lennie!</div>";
+                $mod_errors[] = "Az országnak minimum 3 karakternek kell lennie!";
             }
 
             if (mb_strlen($zip) != 4) {
-                $mod_errors[] = "<div>Az irányítószámnak 4 karakternek kell lennie!</div>";
+                $mod_errors[] = "Az irányítószámnak 4 karakternek kell lennie!";
             }
 
             if (mb_strlen($city) < 3) {
-                $mod_errors[] = "<div>A városnak minimum 3 karakternek kell lennie!</div>";
+                $mod_errors[] = "A városnak minimum 3 karakternek kell lennie!";
             }
 
             if (mb_strlen($street) < 3) {
-                $mod_errors[] = "<div>Az utcanévnek minimum 3 karakternek kell lennie!</div>";
+                $mod_errors[] = "Az utcanévnek minimum 3 karakternek kell lennie!";
             }
 
             if (mb_strlen($nr) < 1) {
-                $mod_errors[] = "<div>A házszámnak minimum 1 karakternek kell lennie!</div>";
+                $mod_errors[] = "A házszámnak minimum 1 karakternek kell lennie!";
             }
 
             if (count($mod_errors) > 0) {
-                $_SESSION["errors"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
                 foreach ($mod_errors as $mod_error) {
-                    $_SESSION["errors"] .= "$mod_error";
+                    $_SESSION["errors"][] = "$mod_error";
                 }
-                $_SESSION["errors"] .= '</div></div></div></div>';
             } else {
 
                 mysqli_query($this->connectProcess(), "update `users` set 
@@ -344,9 +322,7 @@ class UserController
                 `nr` = '" . $nr . "'
                 where id = '" . $_SESSION["user"]["id"] . "' ");
 
-                $_SESSION["success"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert">
-                <strong>Sikeres volt az adatmódosítás!</strong>
-                </div></div></div></div>';
+                $_SESSION["success"] = 'Sikeres volt az adatmódosítás!';
 
             }
             // profilmódosítás vége
@@ -355,6 +331,7 @@ class UserController
         }
     }
 
+    // product.php
     function commentProcess()
     {
         if (isset($_POST["send_comment"])) {
@@ -369,35 +346,36 @@ class UserController
             $comment_errors = [];
 
             if (mb_strlen($comment_name) < 3) {
-                $comment_errors[] = "<div>A névnek minimum 3 karakternek kell lennie!</div>";
+                $comment_errors[] = "A névnek minimum 3 karakternek kell lennie!";
             }
 
             if (filter_var($comment_email, FILTER_VALIDATE_EMAIL) == false) {
-                $comment_errors[] = "<div>Invalid e-mail címet adott meg!</div>";
+                $comment_errors[] = "Invalid e-mail címet adott meg!";
             }
 
             if (mb_strlen($comment_message) < 10) {
-                $comment_errors[] = "<div>Az üzenetnek minimum 10 karakternek kell lennie!</div>";
+                $comment_errors[] = "Az üzenetnek minimum 10 karakternek kell lennie!";
             }
 
             if (count($comment_errors) > 0) {
-                $_SESSION["errors"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
                 foreach ($comment_errors as $comment_error) {
-                    $_SESSION["errors"] .= "$comment_error";
+                    $_SESSION["errors"][] = "$comment_error";
                 }
-                $_SESSION["errors"] .= '</div></div></div></div>';
             } else {
                 mysqli_query($this->connectProcess(), "insert into comment (`termek_id`, `comment_name`, `comment_email`, `comment_message`) values ('$termek_id', '$comment_name', '$comment_email', '$comment_message') ");
+
+                $_SESSION["success"] = "Az üzenetedet sikeresen elküldtük!";
             }
 
             // comment vége
 
-            header("location: ?page=termekView&id=$termek_id");
+            header("location: ?page=productView&id=$termek_id");
             exit;
         }
     }
 
-    function rendelesProcess() {
+    // order.php
+    function orderProcess() {
         if (isset($_POST["rendeles"])) {
 
             // user_id
@@ -494,74 +472,72 @@ class UserController
     
             // hibafeltételek
             if (mb_strlen($first_name) < 2) {
-                $order_errors[] = "<div>A vezetéknévnek minimum 2 karakternek kell lennie!</div>";
+                $order_errors[] = "A vezetéknévnek minimum 2 karakternek kell lennie!";
             }
     
             if (mb_strlen($last_name) < 3) {
-                $order_errors[] = "<div>A keresztnévnek minimum 3 karakternek kell lennie!</div>";
+                $order_errors[] = "A keresztnévnek minimum 3 karakternek kell lennie!";
             }
     
             if (filter_var($email, FILTER_VALIDATE_EMAIL) == false) {
-                $order_errors[] = "<div>Invalid e-mail címet adott meg!</div>";
+                $order_errors[] = "Invalid e-mail címet adott meg!";
             }
     
             if (mb_strlen($phone) != 12) {
-                $order_errors[] = "<div>A telefonszámank 12 karakternek kell lennie és +36-tal kezdődik!</div>";
+                $order_errors[] = "A telefonszámank 12 karakternek kell lennie és +36-tal kezdődik!";
             }
     
             if (mb_strlen($billing_name) < 6) {
-                $order_errors[] = "<div>A számlázási névnek minimum 6 karakternek kell lennie!</div>";
+                $order_errors[] = "A számlázási névnek minimum 6 karakternek kell lennie!";
             }
     
             if (mb_strlen($country) < 3) {
-                $order_errors[] = "<div>Az országnak minimum 3 karakternek kell lennie!</div>";
+                $order_errors[] = "Az országnak minimum 3 karakternek kell lennie!";
             }
     
             if (mb_strlen($zip) != 4) {
-                $order_errors[] = "<div>Az irányítószámnak 4 karakternek kell lennie!</div>";
+                $order_errors[] = "Az irányítószámnak 4 karakternek kell lennie!";
             }
     
             if (mb_strlen($city) < 3) {
-                $order_errors[] = "<div>A városnak minimum 3 karakternek kell lennie!</div>";
+                $order_errors[] = "A városnak minimum 3 karakternek kell lennie!";
             }
     
             if (mb_strlen($street) < 3) {
-                $order_errors[] = "<div>Az utcanévnek mimimum 3 karakternek kell lennie!</div>";
+                $order_errors[] = "Az utcanévnek mimimum 3 karakternek kell lennie!";
             }
     
             if (mb_strlen($nr) < 1) {
-                $order_errors[] = "<div>A házszámnak minimum 1 karakternek kell lennie!</div>";
+                $order_errors[] = "A házszámnak minimum 1 karakternek kell lennie!";
             }
     
             if (isset($atvetel) == false) {
-                $order_errors[] = "<div>Nem adott meg átvételi formát!</div>";
+                $order_errors[] = "Nem adott meg átvételi formát!";
             }
     
             if (isset($fizetes) == false) {
-                $order_errors[] = "<div>Nem adott meg fizetési módot!</div>";
+                $order_errors[] = "Nem adott meg fizetési módot!";
             }
     
             if (count($order_errors) > 0) {
-                $_SESSION["errors"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-danger" role="alert">';
                 foreach ($order_errors as $order_error) {
-                    $_SESSION["errors"] .= "$order_error";
+                    $_SESSION["errors"][] = "$order_error";
                 }
-                $_SESSION["errors"] .= '</div></div></div></div>';
             } else {
                 mysqli_query($this->connectProcess(), "insert into orders (`user_id`, `payment_json`, `shipping_json`, `products_json`, `total`) values ('" . $user["id"] . "', '$paymentTest', '$shippingTest', '$productsTest', '$total') ");
     
                 // sikeres üzenet
-                $_SESSION["success"] = '<div class="container-lg"><div class="row"><div class="col-sm-10 col-md-8 col-xl-6 mx-auto"><div class="alert alert-success" role="alert"><strong>A rendelését felvettük!</strong></div></div></div></div>';
+                $_SESSION["success"] = 'A rendelését felvettük!';
     
             }
 
-            header("location: ?page=rendelesView");
+            header("location: ?page=orderView");
             exit;
         }
     }
 
-    // termek.php
-    function termekAddToCartProcess() {
+    // product.php
+    function productAddToCartProcess() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
  
             if (isset($_POST["data"])) {
@@ -574,29 +550,42 @@ class UserController
                 }
                 // ahányszor nyomjuk meg a "kosárba tesz" gombot annyiszor adja hozzá a darabszámot
                 $_SESSION["kosar"][$termek_id] += $termek_db;
+
+                // kiíratás
+                $productToCart = mysqli_query($this->connectProcess(), "select * from products where id = '".$termek_id."' ");
+                $productName = mysqli_fetch_assoc($productToCart);
+                $_SESSION["success"] = $productName["name"]." bekerült a kosárba!";
             }
         
-            // header('location: ' . $_SERVER['REQUEST_URI']);
-            header("location: ?page=termekView&id=$termek_id");
+            header("location: ?page=productView&id=$termek_id");
             exit;
         }
     }
 
-    // termekek.php
+    // products.php
     function productCartProcess() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
             $termek_id = $_POST["id"];
             $termek_db = 1;
+
+            if (!isset($_SESSION["kosar"])) {
+                $_SESSION["kosar"] = [];
+            }
         
             $_SESSION["kosar"][$termek_id] = $termek_db;
+
+            // kiíratás
+            $productToCart =  mysqli_query($this->connectProcess(), "select * from products where id = '".$termek_id."'");
+            $productName = mysqli_fetch_assoc($productToCart);
+            $_SESSION["success"] = $productName["name"]." bekerült a kosárba!";
         
-            header("location: ?page=termekekView");
+            header("location: ?page=productsView");
             exit;
         }
     }
 
-    // kosar.php
+    // cart.php
     function cartProcess() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
@@ -609,19 +598,31 @@ class UserController
             // termék törlése
             $product_id = $_POST["torol"];
             unset($_SESSION["kosar"][$product_id]);
+
+            // kiíratás
+            $productToCart = mysqli_query($this->connectProcess(), "select * from products where id = '".$termek_id."' ");
+            $productName = mysqli_fetch_assoc($productToCart);
+            // feltétel
+            if(isset($_POST["torol"])) {
+                $_SESSION["success"] = $productName["name"]." sikeresen el lett távolítva a kosárból!";
+            }
+            else {
+                $_SESSION["success"] = "A kosármódosítás sikeres!";
+            }
         
-            // header('location: ' . $_SERVER['REQUEST_URI']);
-            header("location: ?page=kosarView");
+            header("location: ?page=cartView");
             exit;
         }
     }
 
-    // kosar.php
+    // cart.php
     function clearCartProcess() {
         if (isset($_POST["torolmind"])) {
             unset($_SESSION["kosar"]);
 
-            header("location: ?page=kosarView");
+            $_SESSION["clear"] = "A kosarad kiürült!";
+
+            header("location: ?page=cartView");
             exit;
         }
     }
@@ -633,24 +634,24 @@ class UserController
         $this->getViewFile("home");
     }
 
-    function termekekView()
+    function productsView()
     {
-        $this->getViewFile("termekek");
+        $this->getViewFile("products");
     }
 
-    function termekView()
+    function productView()
     {
-        $this->getViewFile("termek");
+        $this->getViewFile("product");
     }
 
-    function kosarView()
+    function cartView()
     {
-        $this->getViewFile("kosar");
+        $this->getViewFile("cart");
     }
 
-    function rendelesView()
+    function orderView()
     {
-        $this->getViewFile("rendeles");
+        $this->getViewFile("order");
     }
 
     function profileView()
@@ -665,3 +666,4 @@ class UserController
         header("location: index.php");
     }
 }
+

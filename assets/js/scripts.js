@@ -4,8 +4,8 @@ const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstra
 
 // password megjelenítése, elrejtése, dátum
 // #passwordLog és #passBtn helyett .password-log-js és .pass-btn-js elhelyezve modalba
-let passInput = document.querySelector('#passwordLog');
-let passBtn = document.querySelector('#passBtn');
+let passInput = document.querySelector('.js-password-log');
+let passBtn = document.querySelector('.js-password-btn');
 let dateDayArea = document.querySelector('#date-js');
 const dayOfWeek = ["vasárnap", "hétfő", "kedd", "szerda", "csütörtök", "péntek", "szombat"];
 const monthOfYear = ["január", "február", "március", "június", "július", "augusztus", "szeptember", "október", "november", "december"];

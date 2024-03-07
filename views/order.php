@@ -30,7 +30,7 @@ if (isset($_SESSION["user"]) == false) {
         <?php
             include("alert.php");
         ?>
-        <form action="?page=rendelesProcess" method="post">
+        <form action="?page=orderProcess" method="post">
 
             <?php
 
@@ -44,7 +44,7 @@ if (isset($_SESSION["user"]) == false) {
 
                     $termek = mysqli_fetch_assoc(mysqli_query($page->connectProcess(), "select * from products where id = $id"));
 
-                    $subtotal = ($dbszam * $page->subTotal($termek["week_offer"], $ertek) * $termek["price"]);
+                    $subtotal = ($dbszam * $week->subTotal($termek["week_offer"], $ertek) * $termek["price"]);
                     $total += $subtotal;
 
                     echo '<section class="row p-1"><article class="col border p-3 rounded-2 bg-light">';
@@ -164,13 +164,13 @@ if (isset($_SESSION["user"]) == false) {
 
             echo '<section class="row justify-content-center justify-content-md-between gap-2">
                 <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
-                    <a href="?page=termekekView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                    <a href="?page=productsView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
                         <i class="bi bi-arrow-left-circle"></i>
                         <div>Vissza a vásárláshoz</div>
                     </a>
                 </article>
                 <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
-                    <a href="?page=kosarView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                    <a href="?page=cartView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
                         <i class="bi bi-arrow-left-circle"></i>
                         <div>Vissza a kosárhoz</div>
                     </a>

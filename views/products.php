@@ -45,18 +45,43 @@
               <span><strong>Kép helye</strong></span>
             </div>
             <div class="card-body">
-              <h5 class="card-title termek-cim">' . $termek["name"] . '</h5>
+              <h5 class="card-title">' . $termek["name"] . '</h5>
               <h6 class="fst-italic py-3 name-color">' . $termek["slug"] . '</h6>
               <h6 class="name-color">Leírás</h6>
               <p class="card-text text-color">' . $termek["description"] . '</p>
               <hr class="border-custom-thick">
               <h6 class="name-color">Termék ára</h6>
-              <div class="card-text text-color">' . ($page->offer($termek["week_offer"], $termek["price"])) . '</div>
+              <div class="card-text text-color">';
+                // érdemes lenne külön fájlba rakni
+                $weekArr = $week->offer($termek["week_offer"], $termek["price"]);
+                for($i = 0; $i < count($weekArr); $i++) {
+                  if(count($weekArr) === 1) {
+                    echo '<p>'.$weekArr[$i].' Ft</p>';
+                  }
+                  else {
+                    if($i === 0) {
+                      echo '<p class="text-decoration-line-through text-danger">'.$weekArr[$i].' Ft</p>';
+                    }
+                    else {
+                      echo '<p>'.$weekArr[$i].' Ft</p>';
+                    }
+                  }
+                }
+                /*
+                  if(count($weekArr) === 1) {
+                    echo '<p>'.$weekArr[0].' Ft</p>';
+                  }
+                  else {
+                    echo '<p class="text-decoration-line-through text-danger">'.$weekArr[0].' Ft</p>';
+                    echo '<p>'.$weekArr[1].' Ft</p>';
+                  }
+                  */
+              echo '</div>
               <hr class="border-custom-thick">
             </div>
             <div class="card-footer border-0 d-grid justify-content-center gap-2">
               <form method="get">
-                <a href="?page=termekView&id=' . $termek["id"] . '" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3" name="data" value="' . $termek["id"] . '">
+                <a href="?page=productView&id=' . $termek["id"] . '" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3" name="data" value="' . $termek["id"] . '">
                   <div>Megnézem</div>
                   <i class="bi bi-arrow-right-circle"></i>
                 </a>

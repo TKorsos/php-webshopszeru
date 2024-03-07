@@ -4,6 +4,10 @@ use controllers\UserController;
 
 $page = new UserController;
 
+use controllers\WeekOffer;
+
+$week = new WeekOffer;
+
 ?>
 <nav class="navbar sticky-top navbar-expand-lg nav-color">
     <div class="container-fluid">
@@ -17,10 +21,10 @@ $page = new UserController;
         <div class="collapse navbar-collapse w-100" id="navbarNav">
             <ul class="navbar-nav d-lg-flex flex-lg-row justify-content-lg-evenly w-100">
                 <li class="nav-item">
-                    <a class="nav-link link-light" href="?page=termekekView">Termékek</a>
+                    <a class="nav-link link-light" href="?page=productsView">Termékek</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link link-light" href="?page=kosarView">
+                    <a class="nav-link link-light" href="?page=cartView">
                         <span class="position-relative pt-1 pe-1">Kosár tartalma
                             <?php
 
@@ -65,9 +69,17 @@ $page = new UserController;
     </div>
 </nav>
 <!-- akciók ha minden oldalon szeretnénk szerepeltetni -->
-<?php
-echo $page->navOffer();
-?>
+<header class="position-fixed w-100 week-color">
+    <div class="container-fluid">
+        <div class="col py-2 d-flex justify-content-center align-items-center">
+            <span class="week-offer-animation text-danger">
+                <strong>
+                    <?php echo $week->navOffer(); ?>
+                </strong>
+            </span>
+        </div>
+    </div>
+</header>
 
 <!-- bejelentkezés -->
 <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -86,8 +98,8 @@ echo $page->navOffer();
                     <div class="col py-3">
                         <label for="passwordLog" class="form-label">Jelszó</label>
                         <div class="input-group">
-                            <input type="password" class="form-control" id="passwordLog" name="password">
-                            <button type="button" class="btn btn-outline-light" id="passBtn" name="passBtn"><i class="bi bi-eye"></i></button>
+                            <input type="password" class="form-control js-password-log" id="passwordLog" name="password">
+                            <button type="button" class="btn btn-outline-light js-password-btn" name="passBtn"><i class="bi bi-eye"></i></button>
                         </div>
                     </div>
                 </div>
