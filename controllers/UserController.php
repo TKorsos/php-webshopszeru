@@ -627,6 +627,51 @@ class UserController extends WeekOffer
         }
     }
 
+    // contacts.php
+    function contactsProcess() {
+        if(isset($_POST["send_email"])) {
+            $contact_name = $_POST["contact_name"];
+            $contact_email = $_POST["contact_email"];
+            $contact_subject = $_POST["contact_subject"];
+            $contact_message = $_POST["contact_message"];
+
+            $contact_errors = [];
+
+            if(mb_strlen($contact_name) < 3) {
+                $contact_errors[] = "A névnek minimum 3 karakterből kell állnia!";
+            }
+
+            if(filter_var($contact_email, FILTER_VALIDATE_EMAIL) == false) {
+                $contact_errors[] = "Invalid e-mail címet adott meg!";
+            }
+
+            if(mb_strlen($contact_subject) < 5) {
+                $contact_errors[] = "A tárgynak minimum 5 karakterből kell állnia!";
+            }
+
+            if(mb_strlen($contact_message) < 10) {
+                $contact_errors[] = "Az üzenetnek minimum 10 karakterből kell állnia!";
+            }
+
+            if(count($contact_errors) > 0) {
+                foreach($contact_errors as $contact_error) {
+                    $_SESSION["errors"][] = $contact_error;
+                }
+            }
+            else {
+                mysqli_query($this->connectProcess(), "insert into emails (`contact_name`, `contact_email`, `contact_subject`, `contact_message`) values ('".$contact_name."', '".$contact_email."', '".$contact_subject."', '".$contact_message."') ");
+
+                $_SESSION["success"] = "Az üzenetedet sikeresen elküldtük!";
+            }
+
+        }
+
+        // üzenet vége
+
+        header("location: ?page=contactsView");
+        exit;
+    }
+
     // további processek
 
     function homeView()
@@ -649,6 +694,10 @@ class UserController extends WeekOffer
         $this->getViewFile("cart");
     }
 
+    function contactsView() {
+        $this->getViewFile("contacts");
+    }
+
     function orderView()
     {
         $this->getViewFile("order");
@@ -657,6 +706,10 @@ class UserController extends WeekOffer
     function profileView()
     {
         $this->getViewFile("profile");
+    }
+
+    function emailsView() {
+        $this->getViewFile("emails");
     }
 
     function logoutProcess()
