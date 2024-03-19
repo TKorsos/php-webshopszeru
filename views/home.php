@@ -501,10 +501,16 @@
       </article>
       <article class="col p-2 contact-main">
         <ul class="contact-list">
+          <li>PC Shop</li>
           <li>+36121231234</li>
           <li>admin@info.hu</li>
-          <li>PC Shop</li>
         </ul>
+      </article>
+      <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
+        <a href="?page=contactsView" class="btn btn-dark d-flex justify-content-center align-items-center gap-3">
+          <div>Üzenet küldése</div>
+          <i class="bi bi-arrow-right-circle"></i>
+        </a>
       </article>
     </section>
   </main>

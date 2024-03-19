@@ -41,6 +41,8 @@
 
 * {
     box-sizing: border-box;
+    /* tesztnek */
+    /* text-shadow: 1px 1px 1px #241611!important; */
 }
 
 html, body {
@@ -257,6 +259,14 @@ input:focus, textarea:focus, .form-select:focus {
 
 .message_text {
     color: var(--color-3)!important;
+}
+
+.collapse-email-name {
+    width: 10rem;
+}
+
+.collapse-email-title {
+    width: 15rem;
 }
 
 .navbar-toggler {

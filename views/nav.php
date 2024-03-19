@@ -38,6 +38,18 @@ $week = new WeekOffer;
                         </span>
                     </a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link link-light" href="?page=contactsView">Kapcsolat</a>
+                </li>
+
+                
+                <!-- ezt majd csak az admin láthatja!!! -->
+                <li class="nav-item">
+                    <a class="nav-link link-light" href="?page=emailsView">E-mailek</a>
+                </li>
+                <!-- rendelések listája orderlist.php? -->
+
+                
                 <!-- bejelentkezés és regisztráció akkor látható ha nincs bejelentkezve a felhasználó -->
                 <?php if (isset($_SESSION['user']) == false) { ?>
                     <li class="nav-item">
