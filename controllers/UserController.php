@@ -712,6 +712,10 @@ class UserController extends WeekOffer
         $this->getViewFile("emails");
     }
 
+    function orderlistView() {
+        $this->getViewFile("orderlist");
+    }
+
     function logoutProcess()
     {
         unset($_SESSION["user"]);

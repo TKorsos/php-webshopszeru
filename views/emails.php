@@ -1,8 +1,3 @@
-<?php
-// megjelenítés
-// név, tárgy - üzenet egy része (bootstrap), dátum
-// név popover? név + e-mail
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -31,8 +26,7 @@
         <section class="row row-cols-1 gy-3 py-3">
             <article class="col p-2">
                 <?php
-                $emails = mysqli_query($page->connectprocess(), "select * from emails");
-                // contact_name, contact_email, contact_subject, contact_message
+                $emails = mysqli_query($page->connectprocess(), "select * from emails order by created_at desc");
                 ?>                
                 <div class="accordion" id="emailsAccordion">
                     <?php
@@ -40,7 +34,7 @@
                         echo '
                         <div class="accordion-item">
                             <h2 class="accordion-header">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse'.$email["id"].'" aria-expanded="false" aria-controls="collapse'.$email["id"].'">
+                                <button class="accordion-button collapsed emails" type="button" data-bs-toggle="collapse" data-bs-target="#collapse'.$email["id"].'" aria-expanded="false" aria-controls="collapse'.$email["id"].'">
                                     <div class="col-11 d-flex justify-content-between">
                                         <span class="collapse-email-name">'.$email["contact_name"].'</span>
                                         <span class="text-truncate collapse-email-title">'.$email["contact_subject"].' - '.$email["contact_message"].'</span>

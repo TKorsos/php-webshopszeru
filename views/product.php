@@ -151,7 +151,7 @@
                 <article class="col"><span class="message_text">' . $product_comment["comment_message"] . '</span></article>';
             // új admin törlés gombja!
             // művelet még hiányzik - művelet később (form)
-            if (isset($_SESSION["user"]) && $_SESSION["user"]["billing_name"] === "Admin Admin") {
+            if (isset($_SESSION["user"]) && $_SESSION["user"]["email"] === "admin@info.hu") {
                 echo '<article class="col"><button class="btn btn-danger d-flex justify-content-center align-items-center gap-3" name="delete_comment" value="' . $product_comment["id"] . '"><div>Üzenet törlése</div><i class="bi bi-trash3"></i></button></article>';
             }
             echo '<hr>';

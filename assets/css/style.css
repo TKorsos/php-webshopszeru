@@ -62,7 +62,7 @@ html, body {
     color: var(--color-1);
 }
 
-.form-control:hover, .form-select:hover, .form-check-input:hover {
+.form-control:hover, .form-select:hover, .form-check-input:hover, .emails:hover, .order-list:hover {
     background-color: var(--form-hover)!important;
 }
 
@@ -110,12 +110,16 @@ html, body {
 }
 
 /* offer-card jelenleg csak opcionális, alkalmazható */
-.offer-card {
+.order-list {
     background-color: var(--color-1)!important;
     transition: all var(--transition-800) ease-out;
 }
 
-.offer-card:hover {
+.order-list-row:nth-child(odd) > .order-list {
+    background-color: var(--color-2)!important;
+}
+
+.order-list:hover {
     box-shadow: var(--offer-card-hover)!important;
     transform: var(--offer-card-translate-y);
 }
@@ -237,7 +241,7 @@ html, body {
     color: var(--color-1)!important;
 }
 
-input:focus, textarea:focus, .form-select:focus {
+input:focus, textarea:focus, .form-select:focus, .emails:focus {
     border-color: var(--color-5)!important;
     box-shadow: var(--focus-shadow-1), var(--focus-shadow-2)!important;
     outline: 0 none!important;
@@ -259,6 +263,11 @@ input:focus, textarea:focus, .form-select:focus {
 
 .message_text {
     color: var(--color-3)!important;
+}
+
+.accordion-button:not(.collapsed) {
+    background-color: var(--color-3)!important;
+    color: var(--color-1)!important;
 }
 
 .collapse-email-name {

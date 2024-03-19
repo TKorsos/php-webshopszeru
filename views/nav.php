@@ -41,15 +41,15 @@ $week = new WeekOffer;
                 <li class="nav-item">
                     <a class="nav-link link-light" href="?page=contactsView">Kapcsolat</a>
                 </li>
-
-                
                 <!-- ezt majd csak az admin láthatja!!! -->
+                <?php if(isset($_SESSION["user"]) == true && $_SESSION["user"]["email"] === "admin@info.hu") { ?>
                 <li class="nav-item">
                     <a class="nav-link link-light" href="?page=emailsView">E-mailek</a>
                 </li>
-                <!-- rendelések listája orderlist.php? -->
-
-                
+                <li class="nav-item">
+                    <a class="nav-link link-light" href="?page=orderlistView">Rendelések listája</a>
+                </li>
+                <?php } ?>
                 <!-- bejelentkezés és regisztráció akkor látható ha nincs bejelentkezve a felhasználó -->
                 <?php if (isset($_SESSION['user']) == false) { ?>
                     <li class="nav-item">
