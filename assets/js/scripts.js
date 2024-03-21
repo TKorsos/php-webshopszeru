@@ -10,6 +10,13 @@ let dateDayArea = document.querySelector('#date-js');
 const dayOfWeek = ["vasárnap", "hétfő", "kedd", "szerda", "csütörtök", "péntek", "szombat"];
 const monthOfYear = ["január", "február", "március", "június", "július", "augusztus", "szeptember", "október", "november", "december"];
 
+function pageActive() {
+  // .page-active osztály hozzáadása bootstrap pagination elemekhez
+  let page = document.querySelectorAll(".page-item > .page-link");
+  let bodyId = parseInt(document.body.id);
+  !Number.isNaN(bodyId) && page[bodyId].classList.add("page-active", "disabled");
+}
+
 function hideShowPass() {
     if (passInput.getAttribute("type") === "password") {
         passInput.setAttribute("type", "text");
@@ -29,6 +36,7 @@ function dateDay() {
 
 function render() {
   passBtn.addEventListener("click", hideShowPass);
+  pageActive(); 
   dateDay();
 }
 

@@ -8,6 +8,7 @@
     --bs-body-color-rgb: #fff;
     --week-header-z: 50;
     --btn-dark-opacity: .7;
+    --disabled-btn: .7;
     --transition-800: 800ms;
     --transition-500: 500ms;
     --transition-400: 400ms;
@@ -23,6 +24,8 @@
     --custom-carousel-margin-top: 2.5rem;
     --contact-list-gap: .5rem;
     --cart-input-qtty: 4rem;
+    --pagination-radius: 8px;
+    --page-link-border: 1px solid #D1917A50;
     --comment-mail-hover: 1px solid var(--color-5);
     --nav-link-hover: underline 1px solid var(--color-2);
     --offer-card-hover: 0 0 1rem var(--color-5);
@@ -30,6 +33,7 @@
     --products-card-hover: 0 0 1rem var(--color-5);
     --focus-shadow-1: 1px 1px 1px var(--color-5) inset;
     --focus-shadow-2: 0 0 8px var(--color-4);
+    --page-link-shadow: .3rem .3rem 1rem var(--color-5);
     --card-scale-hover: scale(.98);
     --products-card-skewY: skewY(1deg);
     --products-card-skewY-hover: skewY(0);
@@ -209,6 +213,35 @@ html, body {
     height: 100%;
 }
 
+.pagination {
+    border-radius: var(--pagination-radius);
+    box-shadow: var(--page-link-shadow)!important;
+}
+
+.page-active {
+    background-color: var(--color-5)!important;
+    color: var(--color-1)!important;
+    opacity: var(--btn-dark-opacity);
+}
+
+.page-link {
+    border: var(--page-link-border);
+    transition: all var(--transition-800);
+}
+
+.page-link:hover {
+    opacity: var(--btn-dark-opacity);
+}
+
+.page-link:not(.page-active) {
+    background-color: var(--color-1)!important;
+    color: var(--color-5);
+}
+
+.page-item.disabled > .page-link {
+    opacity: var(--disabled-btn);
+}
+
 .contact-main {
     display: flex;
     justify-content: center;
@@ -241,7 +274,7 @@ html, body {
     color: var(--color-1)!important;
 }
 
-input:focus, textarea:focus, .form-select:focus, .emails:focus {
+input:focus, textarea:focus, .form-select:focus, .emails:focus, .page-link:focus {
     border-color: var(--color-5)!important;
     box-shadow: var(--focus-shadow-1), var(--focus-shadow-2)!important;
     outline: 0 none!important;
