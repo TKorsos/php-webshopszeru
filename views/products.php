@@ -2,16 +2,29 @@
 <html lang="en">
 
 <head>
-  <?php include("meta.php") ?>
+  <?php
+    include("meta.php");
+
+    if(isset($_GET["id"])) {
+      $id = $_GET["id"];
+    }
+    else {
+      $id = 1;
+    }
+  ?>
 </head>
 
-<body>
+<body id="<?php echo $id ?>">
   <!-- nav helye -->
   <?php
 
   include("nav.php");
 
-  $termekek = mysqli_query($page->connectProcess(), "select * from products");
+  $stepLimit = 5;
+  $getId = isset($_GET["id"]) ? $_GET["id"] : 1;
+  $start = ($getId - 1) * $stepLimit;
+
+  $termekek = mysqli_query($page->connectProcess(), "select * from products LIMIT $start, $stepLimit");
 
   ?>
 
@@ -26,9 +39,8 @@
         <h5>Termékek, szolgáltatások és tanácsadás</h5>
       </article>
     </section>
-    
-      <section class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 gy-3 py-3">
-        <?php
+    <section class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 row-cols-xl-4 gy-3 py-3">
+      <?php
 
         /*
         - termék ár * 1 / akció mértéke attól függően van-e ill hogy melyik nap van
@@ -97,8 +109,30 @@
           </div>
         </article>';
         }
-        ?>
-      </section>
+      ?>
+    </section>
+    <section class="row row-cols-1 gy-3 py-3">
+      <article class="col-auto p-2 mx-auto text-center">
+        <nav aria-label="Oldalak közti navigálás">
+          <ul class="pagination text-center">
+            <li class="page-item <?php echo $getId == '1' ? "disabled" : "" ?>"><a class="page-link" href="?page=productsView">Első oldal</a></li>
+            <?php
+              $pagesDb = mysqli_query($page->connectProcess(), "select * from products");
+              $numsPage = mysqli_num_rows($pagesDb);
+              $pages = ceil( $numsPage / $stepLimit );
+
+              // oldalak ciklus
+              for($i = 1; $i <= $pages; $i++) {
+                echo '
+                  <li class="page-item"><a class="page-link h-100 d-flex align-items-center" href="?page=productsView&id='.$i.'">'.$i.'</a></li>
+                ';
+              }
+            ?>
+            <li class="page-item <?php echo $getId == $pages ? "disabled" : "" ?>"><a class="page-link" href="?page=productsView&id=<?php echo $pages ?>">Utolsó oldal</a></li>
+          </ul>
+        </nav>
+      </article>
+    </section>
   </main>
 
   <?php include("scripts.php") ?>

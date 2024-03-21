@@ -10,7 +10,7 @@ use controllers\UserController;
 
 $page = new UserController;
 
-if(!$_GET["page"]) {
+if(!isset($_GET["page"])) {
   $page->homeView();
 }
 else {
