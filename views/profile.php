@@ -49,75 +49,34 @@ if (isset($_SESSION["user"]) == false) {
         </main>';
     } else {
         // bejelentkezett ág
+        // itt annyival módosul hogy bekerül 3 link ahonnan lehet továbblépni, csak az ez alatti részt kell átírni
     ?>
 
         <main class="container-lg py-5 main-custom-top">
             <?php
                 include("alert.php");
             ?>
-            <section class="row row-cols-1 gy-3 py-3">
+            <section class="row d-flex flex-column gy-3 py-3">
                 <article class="col-auto p-2 mx-auto">
-                    <h1 class="p-2 rounded-2 bg-light">Profil adataim módosítása</h1>
+                    <h1 class="p-2 rounded-2 bg-light">Profil adataim</h1>
                 </article>
-                <article class="col-lg-8 p-2 mx-auto">
-                    <form action="?page=updateProcess" method="post" class="container rounded-2 bg-light">
-                        <div class="row gy-3 justify-content-center">
-                            <div class="col-lg-6">
-                                <label for="first_name">Vezetéknév</label>
-                                <input type="text" class="form-control" id="first_name" name="first_name" value="<?php echo $user["first_name"] ?>" disabled>
-                            </div>
-                            <div class="col-lg-6">
-                                <label for="last_name">Keresztnév</label>
-                                <input type="text" class="form-control" id="last_name" name="last_name" value="<?php echo $user["last_name"] ?>" disabled>
-                            </div>
-                            <div class="col-12">
-                                <label for="email">E-mail cím</label>
-                                <input type="email" class="form-control" id="email" name="email" value="<?php echo $user["email"] ?>" disabled>
-                            </div>
-                            <div class="col-lg-6">
-                                <label for="password">Jelszó</label>
-                                <input type="password" class="form-control" id="password" name="password" value="<?php echo $user["password"] ?>">
-                            </div>
-                            <div class="col-lg-6">
-                                <label for="password_confirmation">Jelszó megerősítése</label>
-                                <input type="password" class="form-control" id="password_confirmation" name="password_confirmation" value="<?php echo $user["password"] ?>">
-                            </div>
-                            <div class="col-12">
-                                <label for="phone">Telefonszám</label>
-                                <input type="text" class="form-control" id="phone" name="phone" value="<?php echo $user["phone"] ?>">
-                            </div>
-                            <div class="col-12">
-                                <label for="billing_name">Számlázási név</label>
-                                <input type="text" class="form-control" id="billing_name" name="billing_name" value="<?php echo $user["billing_name"] ?>">
-                            </div>
-                            <div class="col-12">
-                                <label for="country">Ország</label>
-                                <input type="text" class="form-control" id="country" name="country" value="<?php echo $user["country"] ?>">
-                            </div>
-                            <div class="col-lg-6">
-                                <label for="zip">Irányítószám</label>
-                                <input type="text" class="form-control" id="zip" name="zip" value="<?php echo $user["zip"] ?>">
-                            </div>
-                            <div class="col-lg-6">
-                                <label for="city">Város</label>
-                                <input type="text" class="form-control" id="city" name="city" value="<?php echo $user["city"] ?>">
-                            </div>
-                            <div class="col-lg-6">
-                                <label for="street">Utca</label>
-                                <input type="text" class="form-control" id="street" name="street" value="<?php echo $user["street"] ?>">
-                            </div>
-                            <div class="col-lg-6">
-                                <label for="nr">Házszám</label>
-                                <input type="text" class="form-control" id="nr" name="nr" value="<?php echo $user["nr"] ?>">
-                            </div>
-                            <div class="col-12 col-sm-8 col-md-6 col-lg-5 pt-5 pb-3">
-                                <button type="submit" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3" name="modosit">
-                                    <div>Módosítás</div>
-                                    <i class="bi bi-pencil-square"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </form>
+                <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3 mx-auto">
+                    <a href="?page=favListView&id=<?php echo $_SESSION["user"]["id"] ?>" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                        <div>Kedvencek listája</div>
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </a>
+                </article>
+                <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3 mx-auto">
+                    <a href="?page=profileUpdateView&id=<?php echo $_SESSION["user"]["id"] ?>" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                        <div>Profil adataim módosítása</div>
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </a>
+                </article>
+                <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3 mx-auto">
+                    <a href="?page=profileDeleteView&id=<?php echo $_SESSION["user"]["id"] ?>" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                        <div>Felhasználói fiók törlése</div>
+                        <i class="bi bi-arrow-right-circle"></i>
+                    </a>
                 </article>
             </section>
         </main>

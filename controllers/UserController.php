@@ -247,8 +247,8 @@ class UserController extends WeekOffer
         }
     }
 
-    // profile.php
-    function updateProcess()
+    // profile_edit.php
+    function profileUpdateProcess()
     {
         if (isset($_POST["modosit"])) {
             // update kezdet
@@ -326,7 +326,8 @@ class UserController extends WeekOffer
 
             }
             // profilmódosítás vége
-            header("location: ?page=profileView&id=".$_SESSION["user"]["id"]."");
+            // profileUpdateView?
+            header("location: ?page=profileUpdateView&id=".$_SESSION["user"]["id"]."");
             exit;
         }
     }
@@ -703,9 +704,79 @@ class UserController extends WeekOffer
         $this->getViewFile("order");
     }
 
+    function favListView() {
+        $this->getViewFile("fav_list");
+    }
+
+    // 2024.03.25 át kell dolgozni
+    function favAddToListProcess() {
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if(isset($_POST["fav-data"])) {
+                $add_fav_user_id = $_POST["user-id"];
+                $add_fav_termek_id = $_POST["add-fav-data"];
+
+                // adatbázsiba illesztés
+            }
+
+            header("location: ?page=productView&id=$add_fav_termek_id");
+            exit;
+        }
+    }
+
+    function favRemoveFromListProcess() {
+        if($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if(isset($_POST["fav-data"])) {
+                $remove_fav_user_id = $_POST["user-id"];
+                $remove_fav_termek_id = $_POST["remove-fav-data"];
+
+                // törlés az adatbázisból
+            }
+
+        
+
+        header("location: ?page=productView&id=$remove_fav_termek_id");
+        exit;
+        }
+    }
+
+    // átdolgozás? egyelőre sehol sincs használva!
+    function favListCheckProcess() {
+        if(isset($_SESSION["user"]["id"]) && isset($_SESSION["fav"])) {
+            foreach($_SESSION["fav"] as $fav_key => $favs) {
+                if($fav_key === intval($_SESSION["user"]["id"]) && array_key_exists(0, $_SESSION["fav"][$fav_key])) {
+                    foreach($favs as $fav) {
+                        $_SESSION["fav_success"][] = $fav;
+                    }
+                }
+            }
+        }
+    }
+
     function profileView()
     {
         $this->getViewFile("profile");
+    }
+
+    function profileUpdateView() {
+        $this->getViewFile("profile_edit");
+    }
+
+    function profileDeleteView() {
+        // lehet szükségtelen és csak egy process is elég lenne (profileDeleteProcess)
+        // helyette lehetne olyan mint a logout
+
+        // új profile_del.php - (profileDeleteView) account törlése ekkor törlődne az adatbázisból és a session is megszünne hogy automatikusan kilépjen ill az index.php-ra kell vezetnie
+        $this->getViewFile("profile_delete");
+    }
+
+    function profileDeleteProcess() {
+        // lehet szükségtelen és csak egy process is elég lenne (profileDeleteProcess)
+        // helyette lehetne olyan mint a logout
+
+        // tényleges törlés még nem történik
+        unset($_SESSION["user"]);
+
+        header("location: index.php");
     }
 
     function emailsView() {

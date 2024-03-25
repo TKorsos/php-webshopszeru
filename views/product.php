@@ -38,12 +38,14 @@
             </article>
         </section>
 
-        <form action="?page=productAddToCartProcess&id=<?php echo $_GET["id"] ?>" method="post" class="rounded-2 bg-light">
+        <!-- rounded-2 bg-light -->
+        <!-- section? -->
+        
             <?php
 
             $termekek = mysqli_query($page->connectProcess(), "select * from products where id = '" . $_GET["id"] . "'");
             while ($termek = mysqli_fetch_array($termekek)) {
-                echo '<section class="row p-2 g-3">
+                echo '<section class="row p-2 g-3 mx-0 rounded-2 bg-light">
                         <article class="col-sm-6 col-md-8 d-flex flex-column gap-3">
                             <article>
                                 <h5 class="card-title">' . $termek["slug"] . '</h5>
@@ -69,12 +71,74 @@
                                 }
                             }
                             }
-                            echo '</h2>
-                            <article><a href="?page=productsView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3"><i class="bi bi-arrow-left-circle"></i><div>Vissza a vásárláshoz</div></a></article>
-                            <article><a href="?page=cartView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3"><div>Tovább a kosárhoz</div><i class="bi bi-arrow-right-circle"></i></a></article>
-                            <article class="row gap-3 gap-lg-0">
-                                <article class="col-lg-4 col-xl-3"><input type="number" class="form-control" name="darabszam" value="1"></article>
-                                <article class="col-lg-8 col-xl-9"><button type="submit" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3" name="data" value="' . $termek["id"] . '"><div>Kosárba tesz</div><i class="bi bi-cart4"></i></button></article>
+                            echo '</h2>';
+                            // form?
+                            // input text session user id hidden?
+                            if(isset($_SESSION["user"])) {
+
+                                $favlist = mysqli_query($page->connectProcess(), "select * from favlist");
+
+                                while($favs = mysqli_fetch_assoc($favlist)) {
+
+                                    if($favs["productid"] === $termek["id"] && $favs["userid"] === $_SESSION["user"]["id"]) {
+                                        $fav_success = $favs["userid"].'<br>';
+                                    }
+                                }
+                                
+                                if(mb_strlen($fav_success) > 0) {
+                                    echo '
+                                            <form action="?page=favRemoveFromListProcess&id='.$_GET["id"].'" method="post" class="d-flex flex-column gap-3 gap-lg-0">
+                                                <article class="col-lg-4 col-xl-3">
+                                                    <input type="text" class="form-control" name="user-id" value="'.$_SESSION["user"]["id"].'">
+                                                </article>
+                                                <article>
+                                                    <button type="submit" class="btn btn-danger btn-favs w-100 d-flex justify-content-center align-items-center gap-3" name="remove-fav-data" value="' . $termek["id"] . '">
+                                                        <div>Törlés a kedvencekből</div>
+                                                        <i class="bi bi-bookmark-dash"></i>
+                                                    </button>
+                                                </article>
+                                            </form>
+                                        ';
+                                }
+                                else {
+                                    echo '
+                                        <form action="?page=favAddToListProcess&id='.$_GET["id"].'" method="post" class="d-flex flex-column gap-3 gap-lg-0">
+                                            <article class="col-lg-4 col-xl-3">
+                                                <input type="text" class="form-control" name="user-id" value="'.$_SESSION["user"]["id"].'">
+                                            </article>
+                                            <article>
+                                                <button type="submit" class="btn btn-success btn-favs w-100 d-flex justify-content-center align-items-center gap-3" name="add-fav-data" value="' . $termek["id"] . '">
+                                                    <div>Kedvencekhez ad</div>
+                                                    <i class="bi bi-bookmark-plus"></i>
+                                                </button>
+                                            </article>
+                                        </form>
+                                    ';
+                                }
+
+                            }
+                            // form vége
+                            echo '<article>
+                                <a href="?page=productsView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3"><i class="bi bi-arrow-left-circle"></i><div>Vissza a vásárláshoz</div></a>
+                            </article>
+                            <article>
+                                <a href="?page=cartView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                                    <div>Tovább a kosárhoz</div>
+                                    <i class="bi bi-arrow-right-circle"></i>
+                                </a>
+                            </article>
+                            <article class="row">
+                                <form action="?page=productAddToCartProcess&id='.$_GET["id"].'" method="post" class="d-flex flex-column gap-3 gap-lg-0">
+                                    <article class="col-lg-4 col-xl-3">
+                                        <input type="number" class="form-control" name="darabszam" value="1">
+                                    </article>
+                                    <article class="col-lg-8 col-xl-9">
+                                        <button type="submit" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3" name="data" value="' . $termek["id"] . '">
+                                            <div>Kosárba tesz</div>
+                                            <i class="bi bi-cart4"></i>
+                                        </button>
+                                    </article>
+                                </form>
                             </article>
                         </article>
                     </section>
@@ -91,7 +155,7 @@
 
             ?>
 
-        </form>
+        
 
         <form action="?page=commentProcess&id=<?php echo $_GET["id"] ?>" method="post" class="rounded-2 bg-light mt-5">
 
@@ -125,7 +189,10 @@
                             <textarea class="form-control" id="comment_message" name="comment_message"></textarea>
                         </div>
                         <div class="col">
-                            <button type="submit" class="btn btn-dark d-flex justify-content-center align-items-center gap-3" name="send_comment"><div>Üzenet elküldése</div><i class="bi bi-envelope-arrow-up"></i></button>
+                            <button type="submit" class="btn btn-dark d-flex justify-content-center align-items-center gap-3" name="send_comment">
+                                <div>Üzenet elküldése</div>
+                                <i class="bi bi-envelope-arrow-up"></i>
+                            </button>
                         </div>
                     </div>
                 </article>
@@ -146,13 +213,26 @@
         $comments_display = mysqli_query($page->connectProcess(), "select * from comment where termek_id = ' " . $_GET["id"] . " ' order by created_at desc ");
 
         while ($product_comment = mysqli_fetch_assoc($comments_display)) {
-            echo '<article class="col-md-9"><h5>' . $product_comment["comment_name"] . ' (<a class="comment_mail" href="mailto: ' . $product_comment["comment_email"] . '">' . $product_comment["comment_email"] . '</a>)</h5></article>
-                <article class="col-md-3 d-flex justify-content-md-end"><span class="message_date">' . $product_comment["created_at"] . '</span></article>
-                <article class="col"><span class="message_text">' . $product_comment["comment_message"] . '</span></article>';
+            echo '
+            <article class="col-md-9">
+                <h5>' . $product_comment["comment_name"] . ' (<a class="comment_mail" href="mailto: ' . $product_comment["comment_email"] . '">' . $product_comment["comment_email"] . '</a>)</h5>
+            </article>
+            <article class="col-md-3 d-flex justify-content-md-end">
+                <span class="message_date">' . $product_comment["created_at"] . '</span>
+            </article>
+            <article class="col">
+                <span class="message_text">' . $product_comment["comment_message"] . '</span>
+            </article>';
             // új admin törlés gombja!
             // művelet még hiányzik - művelet később (form)
             if (isset($_SESSION["user"]) && $_SESSION["user"]["email"] === "admin@info.hu") {
-                echo '<article class="col"><button class="btn btn-danger d-flex justify-content-center align-items-center gap-3" name="delete_comment" value="' . $product_comment["id"] . '"><div>Üzenet törlése</div><i class="bi bi-trash3"></i></button></article>';
+                echo '
+                <article class="col">
+                    <button class="btn btn-danger d-flex justify-content-center align-items-center gap-3" name="delete_comment" value="' . $product_comment["id"] . '">
+                        <div>Üzenet törlése</div>
+                        <i class="bi bi-trash3"></i>
+                    </button>
+                </article>';
             }
             echo '<hr>';
         }
