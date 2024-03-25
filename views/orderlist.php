@@ -43,10 +43,6 @@
                 echo '</div>';
                 ?>
             </article>
-
-            <article class="col p-2">
-                teszt
-            </article>
         </section>
     </main>
 

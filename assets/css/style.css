@@ -170,7 +170,7 @@ html, body {
     transform: var(--products-card-skewY-hover);
 }
 
-.btn-dark:hover .bi, .btn-trash:hover .bi {
+.btn-dark:hover .bi, .btn-trash:hover .bi, .btn-favs:hover .bi {
     animation: animate-right var(--transition-800) var(--anim-iteration);
 }
 
