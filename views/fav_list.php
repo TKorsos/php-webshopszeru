@@ -64,9 +64,13 @@ if (isset($_SESSION["user"]) == false) {
 
                     // megjelenés kidolgozása!
                     // bootstrap + br-ek eltüntetése
+                    // törlés gombok is kellenek! plusz összes törlése?
                     $termekek = mysqli_query($page->connectProcess(), "select * from products");
                     // sorrend dátum szerint csökkenő
-                    $favlist = mysqli_query($page->connectProcess(), "select * from favlist");
+                    // problémás mert hiába van csökkenőbe a termékek szerint fog rangsorolni
+
+                    // where után userid === session user id?
+                    $favlist = mysqli_query($page->connectProcess(), "select * from favlist order by `created_at` desc ");
 
                     while ($termek = mysqli_fetch_assoc($termekek)) {
 
@@ -75,8 +79,6 @@ if (isset($_SESSION["user"]) == false) {
                             if($favs["userid"] === $_SESSION["user"]["id"]) {
  
                                 $fav_list_arr[] = $favs["productid"];
-                                    if($favs["productid"] === $termek["id"]) {
-                                }
 
                             }
                             
@@ -84,6 +86,7 @@ if (isset($_SESSION["user"]) == false) {
        
                         foreach($fav_list_arr as $fav) {
                             if($fav === $termek["id"]) {
+                                echo $termek["id"].'.) ';
                                 echo $termek["name"].'<br>';
                                 echo $termek["description"].'<br>';
                                 echo $termek["price"].'<br><br>';
@@ -111,28 +114,3 @@ if (isset($_SESSION["user"]) == false) {
 </body>
 
 </html>
-
-<?php
-
-/* alap
-// megjelenés kidolgozása!
-$page->favListCheckProcess();
-$termekek = mysqli_query($page->connectProcess(), "select * from products");
-while ($termek = mysqli_fetch_assoc($termekek)) {
-    if(isset($_SESSION["fav_success"])) {
-        foreach($_SESSION["fav_success"] as $favs) {
-            if($termek["id"] === strval($favs)) {
-                echo $termek["name"].'<br>';
-                echo $termek["description"].'<br>';
-                echo $termek["price"].'<br>';
-            }
-        }
-    }
-    
-}
-if(!isset($_SESSION["fav_success"])) {
-    echo 'Üres a kedvencek listád!';
-}
-*/
-
-?>

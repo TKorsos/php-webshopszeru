@@ -25,32 +25,48 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
--- Tábla szerkezet ehhez a táblához `payment`
+-- Tábla szerkezet ehhez a táblához `favlist`
 --
 
-CREATE TABLE `payment` (
+CREATE TABLE `favlist` (
   `id` int(11) NOT NULL,
-  `type` varchar(50) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `userid` int(11) NOT NULL,
+  `productid` int(11) NOT NULL,
   `created_at` timestamp NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- A tábla adatainak kiíratása `payment`
+-- A tábla adatainak kiíratása `favlist`
 --
 
-INSERT INTO `payment` (`id`, `type`, `created_at`) VALUES
-(1, 'Online fizetés', '2023-12-13 15:33:17'),
-(2, 'PayPal fizetés', '2023-12-13 15:33:23'),
-(3, 'Átvételkor fizetek', '2023-12-13 15:34:00');
+INSERT INTO `favlist` (`id`, `userid`, `productid`, `created_at`) VALUES
+(1, 5, 1, '2024-03-25 14:13:51'),
+(3, 28, 1, '2024-03-25 14:27:39'),
+(4, 28, 5, '2024-03-25 14:27:51'),
+(5, 2, 21, '2024-03-25 14:44:36'),
+(6, 2, 1, '2024-03-25 14:44:46'),
+(7, 28, 21, '2024-03-25 14:54:10'),
+(8, 28, 12, '2024-03-25 18:51:36'),
+(9, 2, 13, '2024-03-25 18:51:46'),
+(10, 28, 2, '2024-03-26 10:33:56'),
+(11, 28, 4, '2024-03-26 10:42:36'),
+(12, 5, 2, '2024-03-26 10:43:57'),
+(13, 10, 11, '2024-03-26 10:46:40'),
+(14, 10, 16, '2024-03-26 10:46:55'),
+(16, 28, 6, '2024-03-26 11:11:38'),
+(17, 28, 7, '2024-03-26 11:18:29'),
+(18, 24, 2, '2024-03-26 11:19:47'),
+(19, 24, 18, '2024-03-26 11:19:58'),
+(20, 24, 21, '2024-03-26 11:20:21');
 
 --
 -- Indexek a kiírt táblákhoz
 --
 
 --
--- A tábla indexei `payment`
+-- A tábla indexei `favlist`
 --
-ALTER TABLE `payment`
+ALTER TABLE `favlist`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -58,10 +74,10 @@ ALTER TABLE `payment`
 --
 
 --
--- AUTO_INCREMENT a táblához `payment`
+-- AUTO_INCREMENT a táblához `favlist`
 --
-ALTER TABLE `payment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `favlist`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

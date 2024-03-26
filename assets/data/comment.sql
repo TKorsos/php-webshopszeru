@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost
--- Létrehozás ideje: 2024. Már 05. 16:12
+-- Létrehozás ideje: 2024. Már 26. 11:25
 -- Kiszolgáló verziója: 8.0.17
 -- PHP verzió: 7.3.10
 
@@ -62,7 +62,9 @@ INSERT INTO `comment` (`id`, `termek_id`, `comment_name`, `comment_email`, `comm
 (17, 1, 'Váradi Bence', 'vbence@gmail.com', 'Teszt üzenet folytatása 2.', '2024-02-18 11:34:45', NULL),
 (18, 2, 'Pici Mici', 'pmici@gmail.com', 'Ez egy teszt üzenet Picitől!', '2024-02-18 22:40:30', NULL),
 (19, 7, 'Teszt Elek', 'tesztelek@info.hu', 'Nagyon meg vagyok vele elégedve.', '2024-02-19 14:45:55', NULL),
-(20, 3, 'Hajnal Ivett', 'hajnal@info.hu', 'Ez egy igazán kíváló termék.', '2024-03-05 16:09:09', NULL);
+(20, 3, 'Hajnal Ivett', 'hajnal@info.hu', 'Ez egy igazán kíváló termék.', '2024-03-05 16:09:09', NULL),
+(21, 4, 'Gipsz Jakab', 'gjakab@gmail.com', 'Teszt üzenet4!', '2024-03-06 17:37:16', NULL),
+(22, 4, 'Gipsz Jakab', 'gjakab@gmail.com', 'Teszt üzenet újra!', '2024-03-07 11:42:39', NULL);
 
 --
 -- Indexek a kiírt táblákhoz
@@ -82,7 +84,7 @@ ALTER TABLE `comment`
 -- AUTO_INCREMENT a táblához `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
