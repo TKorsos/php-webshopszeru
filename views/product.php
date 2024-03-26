@@ -36,12 +36,8 @@
             <article class="col-auto p-2 mx-auto">
                 <h1 class="p-2 rounded-2 bg-light"><?php echo $termek_focim["name"] ?></h1>
             </article>
-        </section>
-
-        <!-- rounded-2 bg-light -->
-        <!-- section? -->
-        
-            <?php
+        </section> 
+        <?php
 
             $termekek = mysqli_query($page->connectProcess(), "select * from products where id = '" . $_GET["id"] . "'");
             while ($termek = mysqli_fetch_array($termekek)) {
@@ -76,6 +72,7 @@
                             // input text session user id hidden?
                             if(isset($_SESSION["user"])) {
 
+                                // where userid === session user id?
                                 $favlist = mysqli_query($page->connectProcess(), "select * from favlist");
 
                                 while($favs = mysqli_fetch_assoc($favlist)) {
@@ -85,7 +82,7 @@
                                     }
                                 }
                                 
-                                if(mb_strlen($fav_success) > 0) {
+                                if(isset($fav_success) && mb_strlen($fav_success) > 0) {
                                     echo '
                                             <form action="?page=favRemoveFromListProcess&id='.$_GET["id"].'" method="post" class="d-flex flex-column gap-3 gap-lg-0">
                                                 <article class="col-lg-4 col-xl-3">
@@ -153,9 +150,7 @@
                     </section>';
             }
 
-            ?>
-
-        
+        ?>
 
         <form action="?page=commentProcess&id=<?php echo $_GET["id"] ?>" method="post" class="rounded-2 bg-light mt-5">
 

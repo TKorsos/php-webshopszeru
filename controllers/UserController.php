@@ -564,6 +564,7 @@ class UserController extends WeekOffer
     }
 
     // products.php
+    // ID-ra is figyelni kell landigURL-nél mióta több oldalra van bontva!!!
     function productCartProcess() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
@@ -711,44 +712,51 @@ class UserController extends WeekOffer
     // 2024.03.25 át kell dolgozni
     function favAddToListProcess() {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if(isset($_POST["fav-data"])) {
+            if(isset($_POST["add-fav-data"])) {
                 $add_fav_user_id = $_POST["user-id"];
-                $add_fav_termek_id = $_POST["add-fav-data"];
+                $add_fav_product_id = $_POST["add-fav-data"];
 
                 // adatbázsiba illesztés
+                mysqli_query($this->connectProcess(), "insert into favlist (`userid`, `productid`) values ('$add_fav_user_id', '$add_fav_product_id') ");
+
+                // üzenet
+                $_SESSION["success"] = "Sikeresen bekerült a kedvencek listádba!";
             }
 
-            header("location: ?page=productView&id=$add_fav_termek_id");
+            header("location: ?page=productView&id=$add_fav_product_id");
             exit;
         }
     }
 
+    // tesztelni tesztelek@info.hu-val remove 1-2 terméket
+    // tesztelni 1-2 másik userrel is
     function favRemoveFromListProcess() {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
-            if(isset($_POST["fav-data"])) {
+            if(isset($_POST["remove-fav-data"])) {
                 $remove_fav_user_id = $_POST["user-id"];
-                $remove_fav_termek_id = $_POST["remove-fav-data"];
+                $remove_fav_product_id = $_POST["remove-fav-data"];
 
-                // törlés az adatbázisból
-            }
+                $remove_from_fav_list = mysqli_query($this->connectProcess(), "select * from favlist where `userid` = '$remove_fav_user_id' ");
 
-        
-
-        header("location: ?page=productView&id=$remove_fav_termek_id");
-        exit;
-        }
-    }
-
-    // átdolgozás? egyelőre sehol sincs használva!
-    function favListCheckProcess() {
-        if(isset($_SESSION["user"]["id"]) && isset($_SESSION["fav"])) {
-            foreach($_SESSION["fav"] as $fav_key => $favs) {
-                if($fav_key === intval($_SESSION["user"]["id"]) && array_key_exists(0, $_SESSION["fav"][$fav_key])) {
-                    foreach($favs as $fav) {
-                        $_SESSION["fav_success"][] = $fav;
+                while($remove = mysqli_fetch_assoc($remove_from_fav_list)) {
+                    if($remove["productid"] === $remove_fav_product_id) {
+                        $remove_fav_id = $remove["id"];
                     }
                 }
+
+                // $_SESSION["success"] = $remove_fav_id;
+
+                // törlés az adatbázisból
+                if(mb_strlen($remove_fav_id) > 0) {
+                    mysqli_query($this->connectProcess(), "delete from favlist where `id` = '$remove_fav_id' ");
+
+                    // üzenet
+                    $_SESSION["success"] = "Sikeresen törölted a kedvencek listádból!";
+                }
             }
+
+        header("location: ?page=productView&id=$remove_fav_product_id");
+        exit;
         }
     }
 
@@ -772,8 +780,10 @@ class UserController extends WeekOffer
     function profileDeleteProcess() {
         // lehet szükségtelen és csak egy process is elég lenne (profileDeleteProcess)
         // helyette lehetne olyan mint a logout
+        // favlist-ből is törölni kell a hozzáfűződő sorokat!
 
         // tényleges törlés még nem történik
+        // visszaigazolás hogy tényleg törölni akarja-e
         unset($_SESSION["user"]);
 
         header("location: index.php");
