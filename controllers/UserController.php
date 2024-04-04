@@ -709,7 +709,6 @@ class UserController extends WeekOffer
         $this->getViewFile("fav_list");
     }
 
-    // 2024.03.25 át kell dolgozni
     function favAddToListProcess() {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             if(isset($_POST["add-fav-data"])) {
@@ -728,8 +727,6 @@ class UserController extends WeekOffer
         }
     }
 
-    // tesztelni tesztelek@info.hu-val remove 1-2 terméket
-    // tesztelni 1-2 másik userrel is
     function favRemoveFromListProcess() {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             if(isset($_POST["remove-fav-data"])) {
@@ -743,8 +740,6 @@ class UserController extends WeekOffer
                         $remove_fav_id = $remove["id"];
                     }
                 }
-
-                // $_SESSION["success"] = $remove_fav_id;
 
                 // törlés az adatbázisból
                 if(mb_strlen($remove_fav_id) > 0) {
@@ -769,24 +764,29 @@ class UserController extends WeekOffer
         $this->getViewFile("profile_edit");
     }
 
-    function profileDeleteView() {
-        // lehet szükségtelen és csak egy process is elég lenne (profileDeleteProcess)
-        // helyette lehetne olyan mint a logout
-
-        // új profile_del.php - (profileDeleteView) account törlése ekkor törlődne az adatbázisból és a session is megszünne hogy automatikusan kilépjen ill az index.php-ra kell vezetnie
-        $this->getViewFile("profile_delete");
-    }
-
     function profileDeleteProcess() {
-        // lehet szükségtelen és csak egy process is elég lenne (profileDeleteProcess)
-        // helyette lehetne olyan mint a logout
-        // favlist-ből is törölni kell a hozzáfűződő sorokat!
+        if (isset($_POST["account-delete"])) {
 
-        // tényleges törlés még nem történik
-        // visszaigazolás hogy tényleg törölni akarja-e
+            $getid = $_POST["user-del-id"];
+
+            // favlistből is törölni kell a hozzáfűződő sorokat!
+            $favlist_delete_account = mysqli_query($this->connectProcess(), "select * from favlist where `userid` = '$getid' ");
+
+            while($favs = mysqli_fetch_assoc($favlist_delete_account)) {
+                mysqli_query($this->connectProcess(), "delete from favlist where `id` = '".$favs["id"]."' ");
+            }
+
+            // felhasználói fiók törlése
+            mysqli_query($this->connectProcess(), "delete from users where `id` = '".$_SESSION["user"]["id"]."' ");
+
+            // üzenet a felhasználó felé
+            $_SESSION["success"] = "A felhasználói fiók sikeresen törlésre került!";
+        }
+        
         unset($_SESSION["user"]);
 
         header("location: index.php");
+        exit;
     }
 
     function emailsView() {

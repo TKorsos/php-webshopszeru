@@ -73,7 +73,7 @@ if (isset($_SESSION["user"]) == false) {
                     </a>
                 </article>
                 <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3 mx-auto">
-                    <a href="?page=profileDeleteView&id=<?php echo $_SESSION["user"]["id"] ?>" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                    <a href="#accountDelModal" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3" data-bs-toggle="modal">
                         <div>Felhasználói fiók törlése</div>
                         <i class="bi bi-arrow-right-circle"></i>
                     </a>
@@ -85,7 +85,6 @@ if (isset($_SESSION["user"]) == false) {
         // bejelentkezett ág vége
     }
     ?>
-
 
     <?php include("scripts.php") ?>
 </body>
