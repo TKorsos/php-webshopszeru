@@ -69,15 +69,14 @@
                             }
                             echo '</h2>';
                             // form?
-                            // input text session user id hidden?
+                            // input text session user id (88. sor) hidden legyen!!!
                             if(isset($_SESSION["user"])) {
 
-                                // where userid === session user id?
-                                $favlist = mysqli_query($page->connectProcess(), "select * from favlist");
+                                $favlist = mysqli_query($page->connectProcess(), "select * from favlist where `userid` = '".$_SESSION["user"]["id"]."' ");
 
                                 while($favs = mysqli_fetch_assoc($favlist)) {
-
-                                    if($favs["productid"] === $termek["id"] && $favs["userid"] === $_SESSION["user"]["id"]) {
+                                    if($favs["productid"] === $termek["id"]) {
+                                        // lehetne-e session? vagy nincs értelme?
                                         $fav_success = $favs["userid"].'<br>';
                                     }
                                 }
@@ -140,7 +139,7 @@
                         </article>
                     </section>
                     <hr>
-                    <section class="row row-cols-1 p-2">
+                    <section class="row row-cols-1 p-2 mx-0 rounded-2 bg-light">
                         <article class="col pb-3">
                             <h2 class="card-text text-color">Leírás</h2>
                         </article>

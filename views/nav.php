@@ -193,3 +193,27 @@ $week = new WeekOffer;
         </div>
     </div>
 </div>
+
+<!-- felhasználói fiók törlése -->
+<div class="modal fade" id="accountDelModal" tabindex="-1" aria-labelledby="accountDelModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content modal-custom modal-text-custom">
+            <form action="?page=profileDeleteProcess" method="post" class="row g-3 p-3">   
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5 text-center" id="accountDelModalLabel">Felhasználói fiók törlése</h1>
+                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col py-3">
+                        Biztosan törölni szeretné a felhasználói fiókját?
+                        <input type="hidden" name="user-del-id" value="<?php echo $_SESSION["user"]["id"] ?>">
+                    </div>
+                </div>
+                <div class="modal-footer d-flex flex-nowrap justify-content-between gap-2">
+                    <button type="button" class="btn btn-danger w-50 m-0" data-bs-dismiss="modal">Mégsem</button>
+                    <button type="submit" class="btn btn-success w-50 m-0" name="account-delete">Igen</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

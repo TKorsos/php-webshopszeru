@@ -69,19 +69,14 @@ if (isset($_SESSION["user"]) == false) {
                     // sorrend dátum szerint csökkenő
                     // problémás mert hiába van csökkenőbe a termékek szerint fog rangsorolni
 
-                    // where után userid === session user id?
-                    $favlist = mysqli_query($page->connectProcess(), "select * from favlist order by `created_at` desc ");
+                    $favlist = mysqli_query($page->connectProcess(), "select * from favlist where `userid` = '".$_SESSION["user"]["id"]."' order by `created_at` desc ");
 
                     while ($termek = mysqli_fetch_assoc($termekek)) {
 
                         while($favs = mysqli_fetch_assoc($favlist)) {
-                            
-                            if($favs["userid"] === $_SESSION["user"]["id"]) {
- 
-                                $fav_list_arr[] = $favs["productid"];
 
-                            }
-                            
+                            $fav_list_arr[] = $favs["productid"];
+
                         }
        
                         foreach($fav_list_arr as $fav) {
@@ -108,7 +103,6 @@ if (isset($_SESSION["user"]) == false) {
         // bejelentkezett ág vége
     }
     ?>
-
 
     <?php include("scripts.php") ?>
 </body>

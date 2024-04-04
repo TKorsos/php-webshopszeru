@@ -53,7 +53,7 @@ trait Utilities {
         else {
             // mikor fordulhat elő?
             // error?
-            return "?page=productsView";
+            return "page error";
         }
     }
 }
