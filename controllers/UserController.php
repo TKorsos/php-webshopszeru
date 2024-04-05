@@ -564,7 +564,6 @@ class UserController extends WeekOffer
     }
 
     // products.php
-    // ID-ra is figyelni kell landigURL-nél mióta több oldalra van bontva!!!
     function productCartProcess() {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
@@ -582,7 +581,7 @@ class UserController extends WeekOffer
             $productName = mysqli_fetch_assoc($productToCart);
             $_SESSION["success"] = $productName["name"]." bekerült a kosárba!";
         
-            header("location: ?page=productsView");
+            header("location: ".$this->landingUrl());
             exit;
         }
     }

@@ -31,7 +31,7 @@
 
             if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
 
-                echo '<thead><tr><th>Leírás</th><th>Ár</th><th>Darabszám</th><th>Eltávolítás a kosárból</th><th>Összeg (Ft)</th></tr></thead><tbody>';
+                echo '<thead><tr><th>Leírás</th><th>Ár (Ft)</th><th>Darabszám</th><th>Eltávolítás a kosárból</th><th>Összeg (Ft)</th></tr></thead><tbody>';
 
                 foreach ($_SESSION["kosar"] as $product_id => $qtty) {
 
@@ -44,27 +44,32 @@
                     $subtotal = ($qtty * $week->subTotal($termek["week_offer"], $ertek) * $termek["price"]);
                     $total += $subtotal;
 
-                    echo '<tr>';
-                    echo '<td>' . $termek["name"] . '</td>';
-                    echo '<td class="text-center text-md-start">';
+                    echo '
+                    <tr class="product-table-row">
+                        <td>
+                            <a href="?page=productView&id='.$product_id.'" class="product-name-link">'
+                                . $termek["name"] . '
+                            </a>
+                        </td>
+                        <td class="text-center text-md-start">';
                     // érdemes lenne külön fájlba rakni pl product.php
                     $weekArr = $week->offer($termek["week_offer"], $termek["price"]);
                     for($i = 0; $i < count($weekArr); $i++) {
-                    if(count($weekArr) === 1) {
-                        echo '<p>'.$weekArr[$i].' Ft</p>';
-                    }
-                    else {
-                        if($i === 0) {
-                        echo '<p class="text-decoration-line-through text-danger">'.$weekArr[$i].' Ft</p>';
+                        if(count($weekArr) === 1) {
+                            echo '<p class="mb-0">'.$weekArr[$i].'</p>';
                         }
                         else {
-                        echo '<p>'.$weekArr[$i].' Ft</p>';
+                            if($i === 0) {
+                            echo '<p class="text-decoration-line-through text-danger">'.$weekArr[$i].'</p>';
+                            }
+                            else {
+                            echo '<p>'.$weekArr[$i].'</p>';
+                            }
                         }
                     }
-                    }
-                    echo '</td>';
 
                     echo '
+                    </td>
                         <form action="?page=cartProcess" method="post">
                             <td>
                                 <article class="row gap-3 justify-content-center justify-content-md-start">
@@ -116,11 +121,8 @@
                 </section>';
             }
 
-            echo '<hr>';
-
-            // navigálás termékek és fizetés oldalak közt
-            // rendelésnél ellenőrizni kell hogy be van-e jelentkezve ha igen akkor továbblép ha nem akkor előjön a login modal
             echo '
+            <hr>
                 <section class="row justify-content-center justify-content-md-between gap-2">
                     <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
                         <a href="?page=productsView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">

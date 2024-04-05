@@ -89,7 +89,7 @@
                   <i class="bi bi-arrow-right-circle"></i>
                 </a>
               </form>
-              <form action="?page=productCartProcess" method="post">
+              <form action="?page=productCartProcess&backUrl='.$_SERVER["REQUEST_URI"].'" method="post">
                 <input type="hidden" name="id" value="' . $termek["id"] . '">
                 <button class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
                   <div>Kosárba tesz</div>
