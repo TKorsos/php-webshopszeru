@@ -51,8 +51,6 @@ trait Utilities {
             return $_GET["backUrl"];
         }
         else {
-            // mikor fordulhat elő?
-            // error?
             return "page error";
         }
     }

@@ -6,11 +6,13 @@
                 <div class="container-lg">
                     <div class="row">
                         <div class="col-sm-10 col-md-8 col-xl-6 mx-auto">
-                            <div class="alert alert-danger" role="alert">';
+                            <div class="alert alert-danger" role="alert">
+                                <strong>';
                                 foreach($_SESSION["errors"] as $error) {
                                     echo "<div>$error</div>";
                                 }
-                    echo '</div>
+                    echo '      </strong>
+                            </div>
                         </div>
                     </div>
                 </div>

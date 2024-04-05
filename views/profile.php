@@ -1,22 +1,9 @@
-<?php
-
-/*
-if (isset($_SESSION["user"]) == false) {
-  exit('Csak bejelenkezett felhasználók részére!');
-}
-*/
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <?php include("meta.php") ?>
 </head>
-
-<!--
-  fenti tíltás beállítása
--->
 
 <body>
     <?php
@@ -49,7 +36,6 @@ if (isset($_SESSION["user"]) == false) {
         </main>';
     } else {
         // bejelentkezett ág
-        // itt annyival módosul hogy bekerül 3 link ahonnan lehet továbblépni, csak az ez alatti részt kell átírni
     ?>
 
         <main class="container-lg py-5 main-custom-top">

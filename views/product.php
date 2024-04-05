@@ -52,24 +52,23 @@
                         </article>
                         <article class="col-sm-6 col-md-4 d-flex flex-column gap-3">
                             <h2 class="card-text text-color">';
-                            // érdemes lenne külön fájlba rakni
+                            // érdemes lenne külön fájlba rakni pl cart.php
                             $weekArr = $week->offer($termek["week_offer"], $termek["price"]);
                             for($i = 0; $i < count($weekArr); $i++) {
-                            if(count($weekArr) === 1) {
-                                echo '<p>'.$weekArr[$i].' Ft</p>';
-                            }
-                            else {
-                                if($i === 0) {
-                                echo '<p class="text-decoration-line-through text-danger">'.$weekArr[$i].' Ft</p>';
+                                if(count($weekArr) === 1) {
+                                    echo '<p>'.$weekArr[$i].' Ft</p>';
                                 }
                                 else {
-                                echo '<p>'.$weekArr[$i].' Ft</p>';
+                                    if($i === 0) {
+                                    echo '<p class="text-decoration-line-through text-danger">'.$weekArr[$i].' Ft</p>';
+                                    }
+                                    else {
+                                    echo '<p>'.$weekArr[$i].' Ft</p>';
+                                    }
                                 }
                             }
-                            }
                             echo '</h2>';
-                            // form?
-                            // input text session user id (88. sor) hidden legyen!!!
+                            
                             if(isset($_SESSION["user"])) {
 
                                 $favlist = mysqli_query($page->connectProcess(), "select * from favlist where `userid` = '".$_SESSION["user"]["id"]."' ");
@@ -80,14 +79,11 @@
                                         $fav_success = $favs["userid"].'<br>';
                                     }
                                 }
-                                
                                 if(isset($fav_success) && mb_strlen($fav_success) > 0) {
                                     echo '
                                             <form action="?page=favRemoveFromListProcess&id='.$_GET["id"].'" method="post" class="d-flex flex-column gap-3 gap-lg-0">
-                                                <article class="col-lg-4 col-xl-3">
-                                                    <input type="text" class="form-control" name="user-id" value="'.$_SESSION["user"]["id"].'">
-                                                </article>
                                                 <article>
+                                                    <input type="hidden" class="form-control" name="user-id" value="'.$_SESSION["user"]["id"].'">
                                                     <button type="submit" class="btn btn-danger btn-favs w-100 d-flex justify-content-center align-items-center gap-3" name="remove-fav-data" value="' . $termek["id"] . '">
                                                         <div>Törlés a kedvencekből</div>
                                                         <i class="bi bi-bookmark-dash"></i>
@@ -99,10 +95,8 @@
                                 else {
                                     echo '
                                         <form action="?page=favAddToListProcess&id='.$_GET["id"].'" method="post" class="d-flex flex-column gap-3 gap-lg-0">
-                                            <article class="col-lg-4 col-xl-3">
-                                                <input type="text" class="form-control" name="user-id" value="'.$_SESSION["user"]["id"].'">
-                                            </article>
                                             <article>
+                                                <input type="hidden" class="form-control" name="user-id" value="'.$_SESSION["user"]["id"].'">
                                                 <button type="submit" class="btn btn-success btn-favs w-100 d-flex justify-content-center align-items-center gap-3" name="add-fav-data" value="' . $termek["id"] . '">
                                                     <div>Kedvencekhez ad</div>
                                                     <i class="bi bi-bookmark-plus"></i>

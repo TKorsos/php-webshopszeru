@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost
--- Létrehozás ideje: 2024. Már 26. 11:26
+-- Létrehozás ideje: 2024. Ápr 05. 09:10
 -- Kiszolgáló verziója: 8.0.17
 -- PHP verzió: 7.3.10
 
@@ -78,10 +78,7 @@ INSERT INTO `users` (`id`, `first_name`, `last_name`, `email`, `password`, `phon
 (30, 'Havas', 'Mihály', 'hmisi@email.com', '111222333', '+36121256541', 'Havas Mihály', 'Magyarország', 1023, 'Budapest', 'Zöldellő utca', '127', '2024-02-16 18:44:20', NULL),
 (31, 'Tiszta', 'Tibor', 'titi@gmail.com', '123123123', '+36105469878', 'Tiszta Tibor', 'Magyarország', 1024, 'Budapest', 'Lánchíd utca', '12', '2024-02-16 18:50:15', NULL),
 (32, 'Minta', 'Polgár', 'mpolgar@mail.hu', '123321123', '+36104976523', 'Minta Polgár', 'Magyarország', 1022, 'Budapest', 'Kiss László utca', '1', '2024-02-16 18:52:59', NULL),
-(33, 'Tóth', 'Tamás', 'ttom@mail.com', '22112211', '+36120014510', 'Tóth Tamás', 'Magyarország', 1024, 'Budapest', 'Tóth Mike utca', '27', '2024-02-16 19:07:44', NULL),
-(34, 'Vándor', 'Lilla', 'vandorlilla@gmail.com', '123123123', '+36105557841', 'Vándor Lilla', 'Magyarország', 1172, 'Budapest', 'Bem Apó út', '99', '2024-03-04 13:51:55', NULL),
-(35, 'Hajnal', 'Ivett', 'hajnal@info.hu', '111222333', '+36124547788', 'Hajnal Ivett', 'Magyarország', 1111, 'Budapest', 'Virág út', '131', '2024-03-05 16:08:26', NULL),
-(36, 'Horváth', 'Panna', 'panna@info.hu', '321321321', '+36125557863', 'Horváth Panna', 'Magyarország', 1039, 'Budapest', 'János utca', '19', '2024-03-07 11:25:19', NULL);
+(33, 'Tóth', 'Tamás', 'ttom@mail.com', '22112211', '+36120014510', 'Tóth Tamás', 'Magyarország', 1024, 'Budapest', 'Tóth Mike utca', '27', '2024-02-16 19:07:44', NULL);
 
 --
 -- Indexek a kiírt táblákhoz
