@@ -27,7 +27,7 @@
             <article class="col p-2">
                 <?php
                 $orders = mysqli_query($page->connectprocess(), "select * from orders order by created_at desc");
-                // id, user_id, payment_json, shipping_json, products_json, total, created_at
+
                 echo '<div class="container-lg text-break">';
                 while($order = mysqli_fetch_assoc($orders)) {
                     echo '<div class="row row-cols-1 py-3 order-list-row">

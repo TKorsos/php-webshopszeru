@@ -64,7 +64,7 @@
               <hr class="border-custom-thick">
               <h6 class="name-color">Termék ára</h6>
               <div class="card-text text-color">';
-                // érdemes lenne külön fájlba rakni
+                // érdemes lenne külön fájlba rakni mint pl cart.php és product.php
                 $weekArr = $week->offer($termek["week_offer"], $termek["price"]);
                 for($i = 0; $i < count($weekArr); $i++) {
                   if(count($weekArr) === 1) {
@@ -79,15 +79,6 @@
                     }
                   }
                 }
-                /*
-                  if(count($weekArr) === 1) {
-                    echo '<p>'.$weekArr[0].' Ft</p>';
-                  }
-                  else {
-                    echo '<p class="text-decoration-line-through text-danger">'.$weekArr[0].' Ft</p>';
-                    echo '<p>'.$weekArr[1].' Ft</p>';
-                  }
-                  */
               echo '</div>
               <hr class="border-custom-thick">
             </div>

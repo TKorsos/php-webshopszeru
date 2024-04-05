@@ -1,22 +1,9 @@
-<?php
-
-/*
-if (isset($_SESSION["user"]) == false) {
-  exit('Csak bejelenkezett felhasználók részére!');
-}
-*/
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <?php include("meta.php") ?>
 </head>
-
-<!--
-  fenti tíltás beállítása
--->
 
 <body>
     <?php

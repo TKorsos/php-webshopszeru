@@ -47,7 +47,7 @@
                     echo '<tr>';
                     echo '<td>' . $termek["name"] . '</td>';
                     echo '<td class="text-center text-md-start">';
-                    // érdemes lenne külön fájlba rakni
+                    // érdemes lenne külön fájlba rakni pl product.php
                     $weekArr = $week->offer($termek["week_offer"], $termek["price"]);
                     for($i = 0; $i < count($weekArr); $i++) {
                     if(count($weekArr) === 1) {

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Gép: localhost
--- Létrehozás ideje: 2024. Már 26. 11:26
+-- Létrehozás ideje: 2024. Ápr 05. 09:10
 -- Kiszolgáló verziója: 8.0.17
 -- PHP verzió: 7.3.10
 
@@ -40,24 +40,19 @@ CREATE TABLE `favlist` (
 --
 
 INSERT INTO `favlist` (`id`, `userid`, `productid`, `created_at`) VALUES
-(1, 5, 1, '2024-03-25 14:13:51'),
-(3, 28, 1, '2024-03-25 14:27:39'),
 (4, 28, 5, '2024-03-25 14:27:51'),
 (5, 2, 21, '2024-03-25 14:44:36'),
-(6, 2, 1, '2024-03-25 14:44:46'),
 (7, 28, 21, '2024-03-25 14:54:10'),
 (8, 28, 12, '2024-03-25 18:51:36'),
 (9, 2, 13, '2024-03-25 18:51:46'),
-(10, 28, 2, '2024-03-26 10:33:56'),
 (11, 28, 4, '2024-03-26 10:42:36'),
-(12, 5, 2, '2024-03-26 10:43:57'),
 (13, 10, 11, '2024-03-26 10:46:40'),
 (14, 10, 16, '2024-03-26 10:46:55'),
 (16, 28, 6, '2024-03-26 11:11:38'),
 (17, 28, 7, '2024-03-26 11:18:29'),
-(18, 24, 2, '2024-03-26 11:19:47'),
 (19, 24, 18, '2024-03-26 11:19:58'),
-(20, 24, 21, '2024-03-26 11:20:21');
+(20, 24, 21, '2024-03-26 11:20:21'),
+(37, 28, 1, '2024-04-05 08:37:11');
 
 --
 -- Indexek a kiírt táblákhoz
@@ -77,7 +72,7 @@ ALTER TABLE `favlist`
 -- AUTO_INCREMENT a táblához `favlist`
 --
 ALTER TABLE `favlist`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=22;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

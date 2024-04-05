@@ -18,6 +18,4 @@ else {
   $page->$getpage();
 }
 
-// sendig_data
-// $_SESSION["post_user"] - regisztrációnál hiba esetén bent maradjanak az adatok
 unset($_SESSION["post_user"], $_SESSION["success"], $_SESSION["errors"], $_SESSION["clear"]);

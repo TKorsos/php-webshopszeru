@@ -39,7 +39,6 @@ if (isset($_SESSION["user"]) == false) {
             $ertek = 1;
 
             if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
-                // name, qtty, subtotal, total
                 foreach ($_SESSION["kosar"] as $id => $dbszam) {
 
                     $termek = mysqli_fetch_assoc(mysqli_query($page->connectProcess(), "select * from products where id = $id"));
@@ -47,13 +46,27 @@ if (isset($_SESSION["user"]) == false) {
                     $subtotal = ($dbszam * $week->subTotal($termek["week_offer"], $ertek) * $termek["price"]);
                     $total += $subtotal;
 
-                    echo '<section class="row p-1"><article class="col border p-3 rounded-2 bg-light">';
-                    echo '<article><h4>Termék neve: ' . $termek["name"] . '</h4></article>';
-                    echo '<article><h4>Darabszám: ' . $dbszam . '</h4></article>';
-                    echo '<article><h4>Termék ára: ' . $subtotal . ' Ft</h4></article>';
-                    echo '</article></section>';
+                    echo '
+                    <section class="row p-1">
+                        <article class="col border p-3 rounded-2 bg-light">
+                            <article>
+                                <h4>Termék neve: ' . $termek["name"] . '</h4>
+                            </article>
+                            <article>
+                                <h4>Darabszám: ' . $dbszam . '</h4>
+                            </article>
+                            <article>
+                                <h4>Termék ára: ' . $subtotal . ' Ft</h4>
+                            </article>
+                        </article>
+                    </section>';
                 }
-                echo '<section class="row p-1"><article class="col-auto rounded-2 bg-light"><h4 class="m-0 p-2">Végösszeg: ' . $total . ' Ft</h4></article></section>';
+                echo '
+                <section class="row p-1">
+                    <article class="col-auto rounded-2 bg-light">
+                        <h4 class="m-0 p-2">Végösszeg: ' . $total . ' Ft</h4>
+                    </article>
+                </section>';
             }
 
             // űrlap kiíratáshoz
@@ -99,7 +112,7 @@ if (isset($_SESSION["user"]) == false) {
                 "Házszám" => "nr"
             ];
 
-            // űrlap kiíratás ciklussal eleje
+            // űrlap kiíratás
             echo '<section class="row p-2">';
             foreach ($urlap as $ocol) {
                 echo '<article class="col-md-6 rounded-2 bg-light">';
@@ -112,7 +125,8 @@ if (isset($_SESSION["user"]) == false) {
                                 echo '<h3 class="pb-4">' . $content . '</h3>';
                                 foreach ($ocol as $key => $sor) {
                                     if ($key > 0) {
-                                        echo '<div class="form-check">
+                                        echo '
+                                        <div class="form-check">
                                             <input class="form-check-input" type="radio" name="' . ($content === 'Fizetési mód' ? "fizetes" : "atvetel") . '" id="' . ($content === 'Fizetési mód' ? "fizetes" . $key : "atvetel" . $key) . '" value="' . $sor[0][0] . '">
                                             <label class="form-check-label" for="' . ($content === 'Fizetési mód' ? "fizetes" . $key : "atvetel" . $key) . '">
                                             ' . $sor[0][0] . '
@@ -123,21 +137,26 @@ if (isset($_SESSION["user"]) == false) {
                             } elseif ($row_id === 0) {
                                 echo '<h3>' . $content . '</h3>';
                             } elseif ($content === 'Ország') {
-                                echo '<div class="form-floating mb-3">
+                                echo '
+                                <div class="form-floating mb-3">
                                     <select class="form-select" name="country" id="country" aria-label="' . $content . '">
                                         <option selected>Ország kiválasztása</option>';
                                 foreach ($coutry as $list) {
-                                    echo '<option value="' . $list . '">' . $list . '</option>';
+                                    echo '
+                                    <option value="' . $list . '">' . $list . '</option>';
                                 }
-                                echo '</select><label for="country">' . $content . '</label>
+                                echo '
+                                    </select>
+                                    <label for="country">' . $content . '</label>
                                 </div>';
                             } else {
                                 foreach ($for_ids as $id => $forname) {
                                     if ($id === $content) {
-                                        echo '<div class="form-floating mb-3">
+                                        echo '
+                                        <div class="form-floating mb-3">
                                             <input type="' . ($content === 'E-mail cím' ? 'email' : 'text') . '" class="form-control" name="' . $forname . '" id="' . $forname . '" placeholder="' . $content . '">
                                             <label for="' . $forname . '">' . $content . '</label>
-                                </div>';
+                                        </div>';
                                     }
                                 }
                             }
@@ -149,20 +168,21 @@ if (isset($_SESSION["user"]) == false) {
                 echo '</article>';
             }
             echo '</section>';
-            // űrlap kiíratás ciklussal vége
 
-            echo '<section class="row py-2 justify-content-center">
-                <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
-                    <button class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3" id="rendeles" name="rendeles">
-                        <div>Rendelés elküldése</div>
-                        <i class="bi bi-send"></i>
-                    </button>
-                </article>
-            </section>';
+            echo '
+                <section class="row py-2 justify-content-center">
+                    <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
+                        <button class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3" id="rendeles" name="rendeles">
+                            <div>Rendelés elküldése</div>
+                            <i class="bi bi-send"></i>
+                        </button>
+                    </article>
+                </section>';
 
             echo '<hr>';
 
-            echo '<section class="row justify-content-center justify-content-md-between gap-2">
+            echo '
+            <section class="row justify-content-center justify-content-md-between gap-2">
                 <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3">
                     <a href="?page=productsView" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
                         <i class="bi bi-arrow-left-circle"></i>
