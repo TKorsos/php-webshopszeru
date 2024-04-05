@@ -48,9 +48,13 @@ if (isset($_SESSION["user"]) == false) {
 
                     echo '
                     <section class="row p-1">
-                        <article class="col border p-3 rounded-2 bg-light">
+                        <article class="col border p-3 rounded-2 bg-light product-table-row">
                             <article>
-                                <h4>Termék neve: ' . $termek["name"] . '</h4>
+                                <h4>
+                                    <a href="?page=productView&id='.$id.'" class="product-name-link">
+                                        Termék neve: ' . $termek["name"] . '
+                                    </a>
+                                </h4>
                             </article>
                             <article>
                                 <h4>Darabszám: ' . $dbszam . '</h4>

@@ -23,8 +23,11 @@
     --custom-carousel-height: 500px;
     --custom-carousel-margin-top: 2.5rem;
     --contact-list-gap: .5rem;
+    --translate-x-half: .5rem;
     --cart-input-qtty: 4rem;
     --pagination-radius: 8px;
+    --product-name-link-offset: .3rem;
+    --product-name-link: underline 1px solid var(--color-5);
     --page-link-border: 1px solid #D1917A50;
     --comment-mail-hover: 1px solid var(--color-5);
     --nav-link-hover: underline 1px solid var(--color-2);
@@ -343,11 +346,32 @@ input:focus, textarea:focus, .form-select:focus, .emails:focus, .page-link:focus
 }
 
 .fav-card > div {
-    transition: all 500ms;
+    transition: all var(--transition-500);
 }
 
 .fav-card:hover > div {
-    transform: translateX(.5rem);
+    transform: translateX(var(--translate-x-half));
+}
+
+.product-name-link {
+    color: var(--color-3)!important;
+    text-decoration: none;
+    transition: all var(--transition-500);
+}
+
+.product-table-row {
+    transition: all var(--transition-500);
+}
+
+.product-table-row:hover .product-name-link {
+    transform: translateX(var(--translate-x-half));
+    color: var(--color-5)!important;
+    text-decoration: var(--product-name-link);
+    text-underline-offset: var(--product-name-link-offset);
+}
+
+.product-table-row:hover {
+    background-color: var(--color-2)!important;
 }
 
 /* új bootstrap verzió után szükséges, a táblázatok fehér háttérrel rendelkeznek enélkül */
