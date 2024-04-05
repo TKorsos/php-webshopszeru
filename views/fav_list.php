@@ -46,42 +46,57 @@
                 <article class="col-auto p-2 mx-auto">
                     <h1 class="p-2 rounded-2 bg-light">Kedvenceim listája</h1>
                 </article>
-                <article class="col-12 col-sm-8 col-md-5 col-lg-4 col-xl-3 mx-auto rounded-2 bg-light">
-                    <?php
+                <article class="col-12 col-sm-8 col-md-5 mx-auto">
+                    <div class="container">
+                        <?php
 
-                    // megjelenés kidolgozása!
-                    // bootstrap + br-ek eltüntetése
-                    // törlés gombok is kellenek! plusz összes törlése?
-                    $termekek = mysqli_query($page->connectProcess(), "select * from products");
-                    // sorrend dátum szerint csökkenő
-                    // problémás mert hiába van csökkenőbe a termékek szerint fog rangsorolni
+                        $termekek = mysqli_query($page->connectProcess(), "select * from products");
+                        // sorrend dátum szerint csökkenő
+                        // problémás mert hiába van csökkenőbe a termékek szerint fog rangsorolni
 
-                    $favlist = mysqli_query($page->connectProcess(), "select * from favlist where `userid` = '".$_SESSION["user"]["id"]."' order by `created_at` desc ");
+                        $favlist = mysqli_query($page->connectProcess(), "select * from favlist where `userid` = '".$_SESSION["user"]["id"]."' order by `created_at` desc ");
 
-                    while ($termek = mysqli_fetch_assoc($termekek)) {
+                        while ($termek = mysqli_fetch_assoc($termekek)) {
 
-                        while($favs = mysqli_fetch_assoc($favlist)) {
+                            while($favs = mysqli_fetch_assoc($favlist)) {
 
-                            $fav_list_arr[] = $favs["productid"];
+                                $fav_list_arr[] = $favs["productid"];
 
-                        }
-       
-                        foreach($fav_list_arr as $fav) {
-                            if($fav === $termek["id"]) {
-                                echo $termek["id"].'.) ';
-                                echo $termek["name"].'<br>';
-                                echo $termek["description"].'<br>';
-                                echo $termek["price"].'<br><br>';
+                            }
+
+                            foreach($fav_list_arr as $fav) {
+                                if($fav === $termek["id"]) {
+                                    echo '
+                                    <div class="row d-flex gap-3 gap-sm-0 border border-1 rounded-2 p-3 my-2 bg-light fav-card">
+                                        <div class="col-sm-3 d-flex align-items-center justify-content-center">
+                                            <div class="bg-success w-100 h-100 d-flex justify-content-center align-items-center">
+                                                Kép helye
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-9 d-flex flex-column gap-2">
+                                            <div>'.$termek["id"].'.) '.$termek["name"].'</div>
+                                            <div>'.$termek["description"].'</div>
+                                            <div>'.$termek["price"].' Ft</div>
+                                        </div>
+                                        <div class="col-12 pt-3 text-center">
+                                            <div class="text-bg-primary">törlés gomb helye</div>
+                                        </div>
+                                    </div>';
+                                }
                             }
                         }
-                     
-                    }
 
-                    if(count($fav_list_arr) === 0) {
-                        echo "Üres a kedvencek listád!";
-                    }
-                    
-                    ?>
+                        echo '
+                        <div class="mt-5">
+                            <div class="text-bg-danger">összes törlése gomb</div>
+                        </div>';
+
+                        if(count($fav_list_arr) === 0) {
+                            echo "Üres a kedvencek listád!";
+                        }
+                        
+                        ?>
+                    </div>
                 </article>
             </section>
         </main>
