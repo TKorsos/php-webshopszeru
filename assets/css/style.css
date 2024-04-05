@@ -45,8 +45,6 @@
 
 * {
     box-sizing: border-box;
-    /* tesztnek */
-    /* text-shadow: 1px 1px 1px #241611!important; */
 }
 
 html, body {
@@ -320,6 +318,9 @@ input:focus, textarea:focus, .form-select:focus, .emails:focus, .page-link:focus
 .btn-dark {
     background-color: var(--color-5);
     color: var(--color-1);
+}
+
+.btn-dark, .btn-success, .btn-danger {
     transition: all var(--transition-800);
 }
 
@@ -331,6 +332,22 @@ input:focus, textarea:focus, .form-select:focus, .emails:focus, .page-link:focus
 .btn-dark:active {
     background-color: var(--color-5)!important;
     transform: var(--btn-dark-active);
+}
+
+.btn-success:hover, .btn-danger:hover {
+    opacity: var(--btn-dark-opacity);
+}
+
+.btn-success:active, .btn-danger:active {
+    transform: var(--btn-dark-active);
+}
+
+.fav-card > div {
+    transition: all 500ms;
+}
+
+.fav-card:hover > div {
+    transform: translateX(.5rem);
 }
 
 /* új bootstrap verzió után szükséges, a táblázatok fehér háttérrel rendelkeznek enélkül */
