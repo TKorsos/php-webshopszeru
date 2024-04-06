@@ -71,22 +71,26 @@
                                     <div class="row d-flex gap-3 gap-sm-0 border border-1 rounded-2 p-3 my-2 bg-light fav-card">
                                         <div class="col-sm-3 d-flex align-items-center justify-content-center">
                                             <div class="bg-success w-100 h-100 d-flex justify-content-center align-items-center">
-                                                <div>Kép helye</div>
+                                                <a href="?page=productView&id='.$termek["id"].'" class="h-100 fav-img-link">
+                                                    <img src="https://fastly.picsum.photos/id/653/200/300.jpg?hmac=-wtNmzX9vRed_gkrBqMwx0wVWWD6uczwVxllG2txJXs" alt="'.$termek["name"].'" class="h-100">
+                                                </a>
                                             </div>
                                         </div>
                                         <div class="col-sm-9 d-flex flex-column gap-2">
-                                            <div>'.$termek["id"].'.) '.$termek["name"].'</div>
-                                            <div>'.$termek["description"].'</div>
+                                            <div>'.$termek["id"].'.) 
+                                                <a href="?page=productView&id='.$termek["id"].'" class="fav-name-link">'
+                                                    .$termek["name"].
+                                                '</a>
+                                            </div>
+                                            <div class="text-truncate">'.$termek["description"].'</div>
                                             <div>'.$termek["price"].' Ft</div>
                                         </div>
                                         <div class="col-12 pt-3 text-center">
-                                            
-                                                <input type="hidden" class="form-control" name="user-id" value="'.$_SESSION["user"]["id"].'">
-                                                <button class="btn btn-danger btn-trash w-100 d-flex justify-content-center align-items-center gap-3" name="fav_remove" value="' . $termek["id"] . '">
-                                                    <div>Kedvenc törlése</div>
-                                                    <i class="bi bi-trash3"></i>
-                                                </button>
-                                            
+                                            <input type="hidden" class="form-control" name="user-id" value="'.$_SESSION["user"]["id"].'">
+                                            <button class="btn btn-danger btn-trash w-100 d-flex justify-content-center align-items-center gap-3" name="fav_remove" value="' . $termek["id"] . '">
+                                                <div>Kedvenc törlése</div>
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
                                         </div>
                                     </div>';
                                 }
