@@ -673,6 +673,43 @@ class UserController extends WeekOffer
         exit;
     }
 
+    // fav_list.php
+    function favlistRemoveProcess() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+        
+            $fav_product_id = $_POST["fav_remove"];
+            $fav_user_id = $_POST["user-id"];
+
+            $remove_product = mysqli_query($this->connectProcess(), "select * from products where id = '".$fav_product_id."' ");
+            $remove_product_name = mysqli_fetch_assoc($remove_product);
+
+            $favlist_remove = mysqli_query($this->connectProcess(), "select * from favlist where `userid` = '".$fav_user_id."' ");
+            
+            // egy kedvenc törlése
+            if(isset($_POST["fav_remove"])) {
+                while($favlist_remove_id = mysqli_fetch_assoc($favlist_remove)) {
+                    if($favlist_remove_id["productid"] === $fav_product_id) {
+                        mysqli_query($this->connectProcess(), "delete from favlist where `id` = '".$favlist_remove_id["id"]."' ");
+
+                        $_SESSION["success"] = $remove_product_name["name"]." sikeresen el lett távolítva a kedvencek listából!";
+                    }
+                }
+            }
+
+            // összes kedvenc törlése
+            if(isset($_POST["favs_delete"])) {
+                while($favlist_remove_id = mysqli_fetch_assoc($favlist_remove)) {
+                    mysqli_query($this->connectProcess(), "delete from favlist where `id` = '".$favlist_remove_id["id"]."' ");
+
+                    $_SESSION["success"] = "A kedvencek listája sikeresen törölve!";
+                }
+            }
+        
+            header("location: ".$this->landingUrl());
+            exit;
+        }
+    }
+
     // további processek
 
     function homeView()
@@ -708,6 +745,7 @@ class UserController extends WeekOffer
         $this->getViewFile("fav_list");
     }
 
+    // product.php
     function favAddToListProcess() {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             if(isset($_POST["add-fav-data"])) {
@@ -726,6 +764,7 @@ class UserController extends WeekOffer
         }
     }
 
+    // product.php
     function favRemoveFromListProcess() {
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             if(isset($_POST["remove-fav-data"])) {
