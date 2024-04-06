@@ -54,7 +54,9 @@
         <article class="col p-2">
           <div class="card border-card h-100 products-card">
             <div class="card-header text-center border-custom">
-              <span><strong>Kép helye</strong></span>
+              <a href="?page=productView&id='.$termek["id"].'" class="h-100 fav-img-link">
+                <img src="https://fastly.picsum.photos/id/653/200/300.jpg?hmac=-wtNmzX9vRed_gkrBqMwx0wVWWD6uczwVxllG2txJXs" alt="'.$termek["name"].'" class="h-100">
+              </a>
             </div>
             <div class="card-body">
               <h5 class="card-title">' . $termek["name"] . '</h5>

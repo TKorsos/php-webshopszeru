@@ -46,8 +46,10 @@
                             <article>
                                 <h5 class="card-title">' . $termek["slug"] . '</h5>
                             </article>
-                            <article class="d-flex justify-content-center align-items-center h-100 border">
-                                <span><strong>Kép helye</strong></span>
+                            <article class="d-flex justify-content-center align-items-center h-100">
+                                <a href="?page=productView&id='.$termek["id"].'" class="h-100 fav-img-link">
+                                    <img src="https://fastly.picsum.photos/id/653/200/300.jpg?hmac=-wtNmzX9vRed_gkrBqMwx0wVWWD6uczwVxllG2txJXs" alt="'.$termek["name"].'" class="h-100">
+                                </a>
                             </article>
                         </article>
                         <article class="col-sm-6 col-md-4 d-flex flex-column gap-3">
@@ -117,8 +119,8 @@
                                     <i class="bi bi-arrow-right-circle"></i>
                                 </a>
                             </article>
-                            <article class="row">
-                                <form action="?page=productAddToCartProcess&id='.$_GET["id"].'" method="post" class="d-flex flex-column gap-3 gap-lg-0">
+                            <article>
+                                <form action="?page=productAddToCartProcess&id='.$_GET["id"].'" method="post" class="row gap-3 gap-lg-0">
                                     <article class="col-lg-4 col-xl-3">
                                         <input type="number" class="form-control" name="darabszam" value="1">
                                     </article>

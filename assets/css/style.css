@@ -26,6 +26,8 @@
     --translate-x-half: .5rem;
     --cart-input-qtty: 4rem;
     --pagination-radius: 8px;
+    --fav-name-link-offset-start: .3rem;
+    --fav-name-link-offset-end: .1rem;
     --product-name-link-offset: .3rem;
     --product-name-link: underline 1px solid var(--color-5);
     --page-link-border: 1px solid #D1917A50;
@@ -351,6 +353,34 @@ input:focus, textarea:focus, .form-select:focus, .emails:focus, .page-link:focus
 
 .fav-card:hover > div {
     transform: translateX(var(--translate-x-half));
+}
+
+/* fav_list.php a termék képe, kérdés hogy szükség van-e erre az osztályra */
+/*
+    https://picsum.photos/200/300
+
+    https://fastly.picsum.photos/id/653/200/300.jpg?hmac=-wtNmzX9vRed_gkrBqMwx0wVWWD6uczwVxllG2txJXs
+*/
+.fav-img-link {
+    overflow: hidden;
+}
+
+.fav-img-link > img {
+    width: 100%;
+    aspect-ratio: 1;
+    object-fit: cover;
+    object-position: center;
+}
+
+.fav-name-link {
+    color: var(--color-5)!important;
+    text-underline-offset: var(--fav-name-link-offset-start);
+    transition: all var(--transition-500);
+}
+
+.fav-name-link:hover {
+    color: var(--color-3)!important;
+    text-underline-offset: var(--fav-name-link-offset-end);
 }
 
 .product-name-link {
