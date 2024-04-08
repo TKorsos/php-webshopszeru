@@ -2,55 +2,7 @@
 
 namespace controllers;
 
-class WeekOffer {
-
-    use \traits\Utilities;
-   
-    // cart, product, products fájlokban van
-    // külön fájlba kidolgozni és úgy beilleszteni?
-    function offer($weekoffer, $price)
-    {
-        $val = 0.9;
-        $_SESSION["week_offer"] = $val;
-        $t = getdate();
-        // $t["wday"] -> csere vmi számra teszthez
-        $_SESSION["today"] = $t["wday"];
-
-        if ($_SESSION["today"] === 0 || $_SESSION["today"] === 6) {
-            if($weekoffer === "1") {
-                return [$price, $price * $_SESSION["week_offer"]];
-            }
-            else {
-                return [$price];
-            }
-        } else {
-            return [$price];
-        }
-    }
-
-    function navOffer() {
-        $t = getdate();
-        // $t["wday"] -> csere vmi számra teszthez
-        $_SESSION["today"] = $t["wday"];
-
-        if ($_SESSION["today"] === 0 || $_SESSION["today"] === 6) {
-            return 'Ne hagyd ki a kiváló lehetőségeket, hiszen már elindultak hétvégi akcióink!';
-        } else {
-            return 'Hétvégi különleges ajánlatainkban a kiemelt termékeink akár 10%-kal kezdvezőbb áron elérhetők!';
-        }
-    }
-
-    function subTotal($week, $ertek)
-    {
-        if ($_SESSION["today"] === 0 || $_SESSION["today"] === 6) {
-            return $week === "1" ? ($ertek *= $_SESSION["week_offer"]) : $ertek;
-        } else {
-            return $ertek = 1;
-        }
-    }
-}
-
-class UserController extends WeekOffer
+class UserController
 {
     use \traits\Utilities;
 
@@ -843,3 +795,55 @@ class UserController extends WeekOffer
     }
 }
 
+class WeekOffer {
+
+    use \traits\Utilities;
+   
+    // cart, product, products fájlokban van
+    function offer($weekoffer, $price)
+    {
+        $val = 0.9;
+        $_SESSION["week_offer"] = $val;
+        $t = getdate();
+        // $t["wday"] -> csere vmi számra teszthez
+        $_SESSION["today"] = $t["wday"];
+
+        if ($_SESSION["today"] === 0 || $_SESSION["today"] === 6) {
+            if($weekoffer === "1") {
+                return [$price, $price * $_SESSION["week_offer"]];
+            }
+            else {
+                return [$price];
+            }
+        } else {
+            return [$price];
+        }
+    }
+
+    function navOffer() {
+        $t = getdate();
+        // $t["wday"] -> csere vmi számra teszthez
+        $_SESSION["today"] = $t["wday"];
+
+        if ($_SESSION["today"] === 0 || $_SESSION["today"] === 6) {
+            return 'Ne hagyd ki a kiváló lehetőségeket, hiszen már elindultak hétvégi akcióink!';
+        } else {
+            return 'Hétvégi különleges ajánlatainkban a kiemelt termékeink akár 10%-kal kezdvezőbb áron elérhetők!';
+        }
+    }
+
+    function subTotal($week, $ertek)
+    {
+        $val = 0.9;
+        $_SESSION["week_offer"] = $val;
+        $t = getdate();
+        // $t["wday"] -> csere vmi számra teszthez
+        $_SESSION["today"] = $t["wday"];
+
+        if ($_SESSION["today"] === 0 || $_SESSION["today"] === 6) {
+            return $week === "1" ? ($ertek *= $_SESSION["week_offer"]) : $ertek;
+        } else {
+            return $ertek = 1;
+        }
+    }
+}
