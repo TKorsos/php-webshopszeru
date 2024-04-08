@@ -41,7 +41,7 @@
                     // akcióhoz tartozó szorzó
                     $ertek = 1;
 
-                    $subtotal = ($qtty * $week->subTotal($termek["week_offer"], $ertek) * $termek["price"]);
+                    $subtotal = ($qtty * $page->subTotal($termek["week_offer"], $ertek) * $termek["price"]);
                     $total += $subtotal;
 
                     echo '
@@ -53,7 +53,7 @@
                         </td>
                         <td class="text-center text-md-start">';
                     // érdemes lenne külön fájlba rakni pl product.php
-                    $weekArr = $week->offer($termek["week_offer"], $termek["price"]);
+                    $weekArr = $page->offer($termek["week_offer"], $termek["price"]);
                     for($i = 0; $i < count($weekArr); $i++) {
                         if(count($weekArr) === 1) {
                             echo '<p class="mb-0">'.$weekArr[$i].'</p>';

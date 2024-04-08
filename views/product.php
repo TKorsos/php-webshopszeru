@@ -55,7 +55,7 @@
                         <article class="col-sm-6 col-md-4 d-flex flex-column gap-3">
                             <h2 class="card-text text-color">';
                             // érdemes lenne külön fájlba rakni pl cart.php
-                            $weekArr = $week->offer($termek["week_offer"], $termek["price"]);
+                            $weekArr = $page->offer($termek["week_offer"], $termek["price"]);
                             for($i = 0; $i < count($weekArr); $i++) {
                                 if(count($weekArr) === 1) {
                                     echo '<p>'.$weekArr[$i].' Ft</p>';

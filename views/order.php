@@ -43,7 +43,7 @@ if (isset($_SESSION["user"]) == false) {
 
                     $termek = mysqli_fetch_assoc(mysqli_query($page->connectProcess(), "select * from products where id = $id"));
 
-                    $subtotal = ($dbszam * $week->subTotal($termek["week_offer"], $ertek) * $termek["price"]);
+                    $subtotal = ($dbszam * $page->subTotal($termek["week_offer"], $ertek) * $termek["price"]);
                     $total += $subtotal;
 
                     echo '
