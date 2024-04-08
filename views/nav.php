@@ -4,9 +4,11 @@ use controllers\UserController;
 
 $page = new UserController;
 
+/*
 use controllers\WeekOffer;
 
 $week = new WeekOffer;
+*/
 
 ?>
 <nav class="navbar sticky-top navbar-expand-lg nav-color">
@@ -86,7 +88,8 @@ $week = new WeekOffer;
         <div class="col py-2 d-flex justify-content-center align-items-center">
             <span class="week-offer-animation text-danger">
                 <strong>
-                    <?php echo $week->navOffer(); ?>
+                    <!-- <?php // echo $week->navOffer(); ?> -->
+                    <?php echo $page->navOffer(); ?>
                 </strong>
             </span>
         </div>
