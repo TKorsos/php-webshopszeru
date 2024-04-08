@@ -45,7 +45,8 @@
     --btn-dark-active: scale(0.9);
     --border-card: 1px transparent;
     --border-card-thick: 2px solid var(--color-5);
-    --border-card-thin: 1px solid var(--color-5);
+    /* --border-card-thin: 1px solid var(--color-5); */
+    --border-card-none: none;
 }
 
 * {
@@ -116,7 +117,6 @@ html, body {
     to { opacity: 1; };
 }
 
-/* offer-card jelenleg csak opcionális, alkalmazható */
 .order-list {
     background-color: var(--color-1)!important;
     transition: all var(--transition-800) ease-out;
@@ -155,13 +155,14 @@ html, body {
 }
 
 .border-custom {
-    border-bottom: var(--border-card-thin)!important;
+    border-bottom: var(--border-card-none)!important;
 }
 
 .border-custom-thick {
     border: var(--border-card-thick)!important;
 }
 
+/* products-card jelenleg csak opcionális */
 .products-card {
     background-color: var(--color-1)!important;
     transform: var(--products-card-skewY);
@@ -172,6 +173,57 @@ html, body {
     box-shadow: var(--products-card-hover)!important;
     transform: var(--products-card-skewY-hover);
 }
+
+/* új card anim teszt kezdete *************************************************/
+.products-card-border-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    padding: .1rem;
+    background-color: var(--color-1);
+    border-radius: .5rem;
+    transition: all var(--transition-800) ease-out;
+}
+
+.products-card-border-container:hover {
+    box-shadow: var(--products-card-hover)!important;
+}
+
+.products-card-border {
+    position: relative;
+    left: 0;
+    top: 0;
+    width: 100%;
+    padding: 1rem;
+    z-index: 2;
+}
+
+/* hover */
+.products-card-border-container:hover::before {
+    position: absolute;
+    content: '';
+    width: 60%;
+    height: 150%;
+    background-color: var(--color-4);
+    animation: border 8s linear infinite;
+    z-index: 0;
+}
+
+@keyframes border {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.products-card-border-container::after {
+    position: absolute;
+    content: '';
+    inset: .2rem;
+    background-color: var(--color-1);
+    z-index: 1;
+}
+/* új card anim teszt vége ****************************************************/
 
 .btn-dark:hover .bi, .btn-trash:hover .bi, .btn-favs:hover .bi {
     animation: animate-right var(--transition-800) var(--anim-iteration);
