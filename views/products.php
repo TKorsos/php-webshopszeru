@@ -49,55 +49,60 @@
         - season_offer
         - melyik hónap/nap legyen akciós
         */
+
+        // products-card kivéve card classnél
         while ($termek = mysqli_fetch_array($termekek)) {
           echo '
         <article class="col p-2">
-          <div class="card border-card h-100 products-card">
-            <div class="card-header text-center border-custom">
-              <a href="?page=productView&id='.$termek["id"].'" class="h-100 fav-img-link">
-                <img src="https://fastly.picsum.photos/id/653/200/300.jpg?hmac=-wtNmzX9vRed_gkrBqMwx0wVWWD6uczwVxllG2txJXs" alt="'.$termek["name"].'" class="h-100">
-              </a>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">' . $termek["name"] . '</h5>
-              <h6 class="fst-italic py-3 name-color">' . $termek["slug"] . '</h6>
-              <h6 class="name-color">Leírás</h6>
-              <p class="card-text text-color">' . $termek["description"] . '</p>
-              <hr class="border-custom-thick">
-              <h6 class="name-color">Termék ára</h6>
-              <div class="card-text text-color">';
-                // érdemes lenne külön fájlba rakni mint pl cart.php és product.php
-                $weekArr = $page->offer($termek["week_offer"], $termek["price"]);
-                for($i = 0; $i < count($weekArr); $i++) {
-                  if(count($weekArr) === 1) {
-                    echo '<p>'.$weekArr[$i].' Ft</p>';
-                  }
-                  else {
-                    if($i === 0) {
-                      echo '<p class="text-decoration-line-through text-danger">'.$weekArr[$i].' Ft</p>';
-                    }
-                    else {
+          <div class="products-card-border-container">
+            <div class="card border-card h-100 products-card-border">
+              <div class="card-header text-center border-custom">
+                <a href="?page=productView&id='.$termek["id"].'" class="h-100 fav-img-link">
+                  <img src="https://fastly.picsum.photos/id/653/200/300.jpg?hmac=-wtNmzX9vRed_gkrBqMwx0wVWWD6uczwVxllG2txJXs" alt="'.$termek["name"].'" class="h-100">
+                </a>
+              </div>
+              <div class="card-body">
+                <hr class="border-custom-thick">
+                <h5 class="card-title">' . $termek["name"] . '</h5>
+                <h6 class="fst-italic py-3 name-color">' . $termek["slug"] . '</h6>
+                <h6 class="name-color">Leírás</h6>
+                <p class="card-text text-color">' . $termek["description"] . '</p>
+                <hr class="border-custom-thick">
+                <h6 class="name-color">Termék ára</h6>
+                <div class="card-text text-color">';
+                  // érdemes lenne külön fájlba rakni mint pl cart.php és product.php
+                  $weekArr = $page->offer($termek["week_offer"], $termek["price"]);
+                  for($i = 0; $i < count($weekArr); $i++) {
+                    if(count($weekArr) === 1) {
                       echo '<p>'.$weekArr[$i].' Ft</p>';
                     }
+                    else {
+                      if($i === 0) {
+                        echo '<p class="text-decoration-line-through text-danger">'.$weekArr[$i].' Ft</p>';
+                      }
+                      else {
+                        echo '<p>'.$weekArr[$i].' Ft</p>';
+                      }
+                    }
                   }
-                }
-              echo '</div>
-              <hr class="border-custom-thick">
-            </div>
-            <div class="card-footer border-0 d-grid justify-content-center gap-2">
-              <form method="get">
-                <a href="?page=productView&id=' . $termek["id"] . '" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3" name="data" value="' . $termek["id"] . '">
-                  <div>Megnézem</div>
-                  <i class="bi bi-arrow-right-circle"></i>
-                </a>
-              </form>
-              <form action="?page=productCartProcess&backUrl='.$_SERVER["REQUEST_URI"].'" method="post">
-                <input type="hidden" name="id" value="' . $termek["id"] . '">
-                <button class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
-                  <div>Kosárba tesz</div>
-                  <i class="bi bi-cart4"></i>
-                </button>
-              </form>
+                echo '</div>
+                <hr class="border-custom-thick">
+              </div>
+              <div class="card-footer border-0 d-grid justify-content-center gap-2">
+                <form method="get">
+                  <a href="?page=productView&id=' . $termek["id"] . '" class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3" name="data" value="' . $termek["id"] . '">
+                    <div>Megnézem</div>
+                    <i class="bi bi-arrow-right-circle"></i>
+                  </a>
+                </form>
+                <form action="?page=productCartProcess&backUrl='.$_SERVER["REQUEST_URI"].'" method="post">
+                  <input type="hidden" name="id" value="' . $termek["id"] . '">
+                  <button class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                    <div>Kosárba tesz</div>
+                    <i class="bi bi-cart4"></i>
+                  </button>
+                </form>
+              </div>
             </div>
           </div>
         </article>';
