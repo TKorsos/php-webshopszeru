@@ -23,7 +23,7 @@ trait Utilities {
                     }
                 }
             }
-            elseif($getpage === "profileView") {
+            elseif($getpage === "profileView" || $getpage === "favListView" || $getpage === "profileUpdateView") {
                 if (isset($_SESSION["user"])) {
                     $user_update = mysqli_query($this->connectProcess(), "select * from users where id = '" . $_SESSION["user"]["id"] . "' ");
                     $getId = $_GET["id"];
@@ -32,9 +32,6 @@ trait Utilities {
                             return "PC Shop -".$user["first_name"]." ".$user["last_name"]."";
                         }
                     }
-                }
-                else {
-                    return "PC Shop - Profil";
                 }
             }
             elseif(!isset($getpage)) {
