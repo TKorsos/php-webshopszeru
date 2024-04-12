@@ -54,7 +54,7 @@
         while ($termek = mysqli_fetch_array($termekek)) {
           echo '
         <article class="col p-2">
-          <div class="products-card-border-container">
+          <div class="products-card-border-container h-100">
             <div class="card border-card h-100 products-card-border">
               <div class="card-header text-center border-custom">
                 <a href="?page=productView&id='.$termek["id"].'" class="h-100 fav-img-link">
