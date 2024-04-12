@@ -287,6 +287,7 @@ class UserController
     // product.php
     function commentProcess()
     {
+       
         if (isset($_POST["send_comment"])) {
             // comment kezdet
 
@@ -321,6 +322,20 @@ class UserController
             }
 
             // comment vége
+            header("location: ?page=productView&id=$termek_id");
+            exit;
+        }
+        
+    }
+
+    // product.php
+    function commentRemoveProcess() {
+        if(isset($_POST["delete_comment"])) {
+            $termek_id = $_GET["id"];
+
+            mysqli_query($this->connectProcess(), "delete from comment where `id` = '".$_POST["del_comment_id"]."' ");
+
+            $_SESSION["success"] = "Az üzenetet sikeresen töröltük!";
 
             header("location: ?page=productView&id=$termek_id");
             exit;
