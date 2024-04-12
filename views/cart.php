@@ -29,9 +29,9 @@
             <article class="col p-2">
                 <div class="container-lg rounded-2 bg-light">';
 
-            $total = 0;
+                $total = 0;
 
-            if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
+                if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
 
                 echo '
                     <div class="row gap-3">';
@@ -51,69 +51,69 @@
                         <div class="col-12 product-table-row">
                             <div class="container-fluid">
                                 <div class="row py-2">
+                                    <div class="col-12 col-md-3 d-flex align-items-center">
+                                        <a href="?page=productView&id='.$product_id.'" class="product-name-link">'
+                                            . $termek["name"] . '
+                                        </a>
+                                    </div>
+                                    <div class="col-12 col-md-2 col-xl-3 d-flex align-items-center">';
+                                        // érdemes lenne külön fájlba rakni pl product.php
+                                        $weekArr = $page->offer($termek["week_offer"], $termek["price"]);
+                                        for($i = 0; $i < count($weekArr); $i++) {
+                                            if(count($weekArr) === 1) {
+                                                echo '<p class="mb-0">'.$weekArr[$i].' Ft</p>';
+                                            }
+                                            else {
+                                                if($i === 0) {
+                                                echo '<p class="text-decoration-line-through text-danger">'.$weekArr[$i].' Ft</p>';
+                                                }
+                                                else {
+                                                echo '<p>'.$weekArr[$i].' Ft</p>';
+                                                }
+                                            }
+                                        }
 
-                            <div class="col-12 col-md-3 d-flex align-items-center">
-                                <a href="?page=productView&id='.$product_id.'" class="product-name-link">'
-                                    . $termek["name"] . '
-                                </a>
-                            </div>
-                            <div class="col-12 col-md-2 col-xl-3 d-flex align-items-center">';
-                        // érdemes lenne külön fájlba rakni pl product.php
-                        $weekArr = $page->offer($termek["week_offer"], $termek["price"]);
-                        for($i = 0; $i < count($weekArr); $i++) {
-                            if(count($weekArr) === 1) {
-                                echo '<p class="mb-0">'.$weekArr[$i].' Ft</p>';
-                            }
-                            else {
-                                if($i === 0) {
-                                echo '<p class="text-decoration-line-through text-danger">'.$weekArr[$i].' Ft</p>';
-                                }
-                                else {
-                                echo '<p>'.$weekArr[$i].' Ft</p>';
-                                }
-                            }
-                        }
-
+                                        echo '
+                                    </div>
+                                    <form action="?page=cartProcess" method="post" class="col-12 col-md-5 col-xl-3 d-flex flex-column flex-md-row gap-2">
+                                        <div class="d-flex flex-column flex-md-row gap-2">
+                                            <div>
+                                                <input type="number" class="form-control input-qtty w-100" max="99" value="' . $qtty . '" name="qtty">
+                                                <input type="hidden" name="id" value="' . $product_id . '">
+                                            </div>
+                                            <div>
+                                                <button class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
+                                                    <div>Módosít</div>
+                                                    <i class="bi bi-pencil-square"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div>
+                                            <button class="btn btn-danger d-flex justify-content-center align-items-center gap-3" name="torol" value="' . $product_id . '">
+                                                <i class="bi bi-trash3"></i>
+                                            </button>
+                                        </div>
+                                    </form>
+                                    <div class="col-12 col-md-2 col-xl-3 d-flex align-items-center justify-content-start justify-content-md-end">' 
+                                        . $subtotal . ' Ft
+                                    </div>';
                         echo '
+                                </div>
                             </div>
-                            <form action="?page=cartProcess" method="post" class="col-12 col-md-5 col-xl-3 d-flex flex-column flex-md-row gap-2">
-                                <div class="d-flex flex-column flex-md-row gap-2">
-                                    <div>
-                                        <input type="number" class="form-control input-qtty w-100" max="99" value="' . $qtty . '" name="qtty">
-                                        <input type="hidden" name="id" value="' . $product_id . '">
-                                    </div>
-                                    <div>
-                                        <button class="btn btn-dark w-100 d-flex justify-content-center align-items-center gap-3">
-                                            <div>Módosít</div>
-                                            <i class="bi bi-pencil-square"></i>
-                                        </button>
-                                    </div>
-                                </div>
-                                <div>
-                                    <button class="btn btn-danger d-flex justify-content-center align-items-center gap-3" name="torol" value="' . $product_id . '">
-                                        <i class="bi bi-trash3"></i>
-                                    </button>
-                                </div>
-                            </form>';
-
-                        echo '<div class="col-12 col-md-2 col-xl-3 d-flex align-items-center justify-content-start justify-content-md-end">' . $subtotal . ' Ft</div>';
-                echo '
-                        </div>
-                    </div>
-                </div>';
+                        </div>';
                     }
-            } else {
-                echo '
-                    <h4 class="p-2 rounded-2 bg-light">Nincs termék a kosárban</h4>';
-            }
+                } else {
+                    echo '
+                        <h4 class="p-2 rounded-2 bg-light">Nincs termék a kosárban</h4>';
+                }
             
                 echo '</div>
                 </div>
-                </article>
-                <article class="col-auto p-2">
-                    <h3 class="p-2 rounded-2 bg-light">Összesen: ' . $total . ' Ft</h3>
-                </article>
-            </section>';
+            </article>
+            <article class="col-auto p-2">
+                <h3 class="p-2 rounded-2 bg-light">Összesen: ' . $total . ' Ft</h3>
+            </article>
+        </section>';
 
             // kosár kiürítése
             if (isset($_SESSION["kosar"]) && count($_SESSION["kosar"]) > 0) {
