@@ -218,10 +218,13 @@
             if (isset($_SESSION["user"]) && $_SESSION["user"]["email"] === "admin@info.hu") {
                 echo '
                 <article class="col">
-                    <button class="btn btn-danger d-flex justify-content-center align-items-center gap-3" name="delete_comment" value="' . $product_comment["id"] . '">
-                        <div>Üzenet törlése</div>
-                        <i class="bi bi-trash3"></i>
-                    </button>
+                    <form action="?page=commentRemoveProcess&id='.$_GET["id"].'" method="post">
+                        <input type="hidden" name="del_comment_id" value="' . $product_comment["id"] . '">
+                        <button type="submit" class="btn btn-danger d-flex justify-content-center align-items-center gap-3" name="delete_comment">
+                            <div>Üzenet törlése</div>
+                            <i class="bi bi-trash3"></i>
+                        </button>
+                    </form>
                 </article>';
             }
             echo '<hr>';
